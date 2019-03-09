@@ -19,7 +19,7 @@
     "test": "npx jest"
   },
   "files": [
-    "build/"
+    "build/dist/"
   ],
-  "main": "build/index.js"
+  "main": "build/dist/index.js"
 }
