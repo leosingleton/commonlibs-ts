@@ -9,7 +9,7 @@ export class Stopwatch {
   private _isRunning = false;
 
   /** If running, time at which the stopwatch was started */
-  private _startTime: number;
+  private _startTime = 0;
 
   /** Gets the total elapsed time measured by the current instance, in milliseconds. */
   public getElapsedMilliseconds(): number {

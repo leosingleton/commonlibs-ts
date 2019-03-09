@@ -1,4 +1,4 @@
-import { AsyncTimerEvent } from './AsyncTimerEvent';
+import { AsyncTimerEvent } from '../AsyncTimerEvent';
 
 describe("AsyncTimerEvent", () => {
 

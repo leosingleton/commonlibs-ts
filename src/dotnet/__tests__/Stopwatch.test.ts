@@ -1,5 +1,5 @@
-import { AsyncTimerEvent } from './coordination/AsyncTimerEvent';
-import { Stopwatch } from './Stopwatch';
+import { AsyncTimerEvent } from '../../coordination/AsyncTimerEvent';
+import { Stopwatch } from '../Stopwatch';
 
 describe("Stopwatch", () => {
 

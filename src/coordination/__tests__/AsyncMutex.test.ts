@@ -1,6 +1,6 @@
-import { AsyncManualResetEvent } from './AsyncManualResetEvent';
-import { AsyncMutex } from './AsyncMutex';
-import { AsyncTimerEvent } from './AsyncTimerEvent';
+import { AsyncManualResetEvent } from '../AsyncManualResetEvent';
+import { AsyncMutex } from '../AsyncMutex';
+import { AsyncTimerEvent } from '../AsyncTimerEvent';
 
 describe("AsyncMutex", () => {
 

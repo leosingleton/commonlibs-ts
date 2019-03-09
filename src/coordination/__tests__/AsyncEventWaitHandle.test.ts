@@ -1,7 +1,7 @@
-import { AsyncEventWaitHandle } from './AsyncEventWaitHandle';
-import { AsyncManualResetEvent } from './AsyncManualResetEvent';
-import { AsyncTimerEvent } from './AsyncTimerEvent';
-import { AsyncAutoResetEvent } from './AsyncAutoResetEvent';
+import { AsyncEventWaitHandle } from '../AsyncEventWaitHandle';
+import { AsyncManualResetEvent } from '../AsyncManualResetEvent';
+import { AsyncTimerEvent } from '../AsyncTimerEvent';
+import { AsyncAutoResetEvent } from '../AsyncAutoResetEvent';
 
 let _wokenCount = 0;
 

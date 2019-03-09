@@ -4,6 +4,8 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./build",
-    "strict": true
+    "noImplicitAny": true,
+    "sourceMap": true,
+//    "strict": true
   }
 }
