@@ -1,9 +1,9 @@
 import { Stopwatch } from '../Stopwatch';
 import { Task } from '../Task';
 
-describe("Stopwatch", () => {
+describe('Stopwatch', () => {
 
-  it("Tests basic timing", async () => {
+  it('Tests basic timing', async () => {
     let stopwatch = new Stopwatch();
     stopwatch.start();
     await Task.delay(500);
@@ -12,7 +12,7 @@ describe("Stopwatch", () => {
     expect(time).toBeLessThanOrEqual(700);
   });
 
-  it("Tests stop", async () => {
+  it('Tests stop', async () => {
     let stopwatch = Stopwatch.startNew();
     await Task.delay(500);
     stopwatch.stop();
@@ -35,7 +35,7 @@ describe("Stopwatch", () => {
     expect(time3).toBeLessThanOrEqual(1200);
   });
 
-  it("Tests restart", async () => {
+  it('Tests restart', async () => {
     let stopwatch = Stopwatch.startNew();
     await Task.delay(500);
     stopwatch.restart();
@@ -45,7 +45,7 @@ describe("Stopwatch", () => {
     expect(time).toBeLessThanOrEqual(700);
   });
 
-  it("Tests reset", async () => {
+  it('Tests reset', async () => {
     let stopwatch = Stopwatch.startNew();
     await Task.delay(500);
     stopwatch.reset();

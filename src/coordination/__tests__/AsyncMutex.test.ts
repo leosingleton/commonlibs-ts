@@ -2,9 +2,9 @@ import { AsyncManualResetEvent } from '../AsyncManualResetEvent';
 import { AsyncMutex } from '../AsyncMutex';
 import { Task } from '../../dotnet/Task';
 
-describe("AsyncMutex", () => {
+describe('AsyncMutex', () => {
 
-  it("Performs mutual exclusion", async () => {
+  it('Performs mutual exclusion', async () => {
     let sharedValue = 0;
     let mutex = new AsyncMutex();
     let hundredEvent = new AsyncManualResetEvent();

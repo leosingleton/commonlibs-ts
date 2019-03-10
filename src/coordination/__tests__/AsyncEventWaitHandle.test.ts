@@ -12,9 +12,9 @@ function createWaitTask(e: AsyncEventWaitHandle) {
   });
 }
 
-describe("AsyncEventWaitHandle", () => {
+describe('AsyncEventWaitHandle', () => {
 
-  it("Ensures an AsyncManualResetEvent sets and resets", async () => {
+  it('Ensures an AsyncManualResetEvent sets and resets', async () => {
     _wokenCount = 0;
     let e = new AsyncManualResetEvent(false);
 
@@ -33,7 +33,7 @@ describe("AsyncEventWaitHandle", () => {
     expect(_wokenCount).toEqual(2);
   });
 
-  it("Ensures an AsyncAutoResetEvent sets and resets", async () => {
+  it('Ensures an AsyncAutoResetEvent sets and resets', async () => {
     _wokenCount = 0;
     let e = new AsyncAutoResetEvent(false);
 
