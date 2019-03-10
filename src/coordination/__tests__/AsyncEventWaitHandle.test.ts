@@ -1,7 +1,7 @@
 import { AsyncEventWaitHandle } from '../AsyncEventWaitHandle';
 import { AsyncManualResetEvent } from '../AsyncManualResetEvent';
-import { AsyncTimerEvent } from '../AsyncTimerEvent';
 import { AsyncAutoResetEvent } from '../AsyncAutoResetEvent';
+import { Task } from '../../dotnet/Task';
 
 let _wokenCount = 0;
 
@@ -19,17 +19,17 @@ describe("AsyncEventWaitHandle", () => {
     let e = new AsyncManualResetEvent(false);
 
     createWaitTask(e);
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(0);
 
     e.set();
     createWaitTask(e);
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(2);
 
     e.reset();
     createWaitTask(e);
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(2);
   });
 
@@ -38,16 +38,16 @@ describe("AsyncEventWaitHandle", () => {
     let e = new AsyncAutoResetEvent(false);
 
     createWaitTask(e);
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(0);
 
     e.set();
     createWaitTask(e);
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(1);
 
     e.set();
-    await AsyncTimerEvent.delay(10);
+    await Task.delay(10);
     expect(_wokenCount).toEqual(2);
   });
 });

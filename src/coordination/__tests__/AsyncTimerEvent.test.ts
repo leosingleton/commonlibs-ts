@@ -1,4 +1,5 @@
 import { AsyncTimerEvent } from '../AsyncTimerEvent';
+import { Task } from '../../dotnet/Task';
 
 describe("AsyncTimerEvent", () => {
 
@@ -10,10 +11,10 @@ describe("AsyncTimerEvent", () => {
       hasFired = true;
     });
 
-    await AsyncTimerEvent.delay(900);
+    await Task.delay(900);
     expect(hasFired).toBeFalsy();
 
-    await AsyncTimerEvent.delay(200);
+    await Task.delay(200);
     expect(hasFired).toBeTruthy();
   });
 
@@ -27,9 +28,9 @@ describe("AsyncTimerEvent", () => {
       }
     });
 
-    await AsyncTimerEvent.delay(1000);
+    await Task.delay(1000);
     expect(fireCount).toBeGreaterThanOrEqual(8);
     expect(fireCount).toBeLessThanOrEqual(12);
-    await AsyncTimerEvent.delay(500);
+    await Task.delay(500);
   });
 });

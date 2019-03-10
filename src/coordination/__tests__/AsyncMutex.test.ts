@@ -1,6 +1,6 @@
 import { AsyncManualResetEvent } from '../AsyncManualResetEvent';
 import { AsyncMutex } from '../AsyncMutex';
-import { AsyncTimerEvent } from '../AsyncTimerEvent';
+import { Task } from '../../dotnet/Task';
 
 describe("AsyncMutex", () => {
 
@@ -26,7 +26,7 @@ describe("AsyncMutex", () => {
           }
 
           // Yield the CPU to give other "threads" a chance to run
-          await AsyncTimerEvent.delay(0);
+          await Task.delay(0);
         }
 
         mutex.unlock();
