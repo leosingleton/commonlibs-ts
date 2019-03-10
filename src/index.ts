@@ -9,8 +9,10 @@ import {
 } from './coordination';
 
 import {
+  IDisposable,
   Stopwatch,
-  Task
+  Task,
+  using
 } from './dotnet';
 
 import {
@@ -28,9 +30,11 @@ export {
   AsyncManualResetEvent,
   AsyncMutex,
   AsyncTimerEvent,
+  IDisposable,
   Stopwatch,
   Task,
   VersionComparer,
   deepCopy,
+  using,
   parseQueryString
 };
