@@ -1,4 +1,5 @@
 import { Queue } from '../dotnet/Queue';
+import { Task } from '../dotnet/Task';
 
 /**
  * Async version of .NET's System.Threading.EventWaitHandle
@@ -112,7 +113,7 @@ class Waiter {
     }
 
     this._isComplete = true;
-    setTimeout(() => this._resolve());
+    Task.run(() => this._resolve());
     return true;
   }
 
@@ -122,7 +123,7 @@ class Waiter {
     }
 
     this._isComplete = true;
-    setTimeout(() => this._reject('Operation cancelled'));
+    Task.run(() => this._reject('Operation cancelled'));
     return true;
   }
 
