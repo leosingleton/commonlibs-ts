@@ -12,8 +12,12 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    npm run build test
-  displayName: 'Compile and Execute Unit Tests'
+    npm run build
+  displayName: 'Compile Output'
+
+- script: |
+    npm run test
+  displayName: 'Execute Unit Tests'
 
 - task: PublishTestResults@2
   inputs:
