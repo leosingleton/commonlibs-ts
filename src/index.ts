@@ -1,6 +1,10 @@
 // src/index.ts
 
 import {
+  DisposableSet
+} from './collections';
+
+import {
   AsyncAutoResetEvent,
   AsyncEventWaitHandle,
   AsyncManualResetEvent,
@@ -30,6 +34,7 @@ export {
   AsyncManualResetEvent,
   AsyncMutex,
   AsyncTimerEvent,
+  DisposableSet,
   IDisposable,
   Stopwatch,
   Task,
