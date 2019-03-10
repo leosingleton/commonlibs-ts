@@ -1,3 +1,8 @@
+import { Queue } from './Queue';
+
+/**
+ * Useful functions for Promises that mirror C#'s Task class
+ */
 export class Task {
   /**
    * Blocks the current execution for the specified number of milliseconds. Equivalent to Task.Delay() in C#.
@@ -26,20 +31,20 @@ export class Task {
    */
   public static run(lambda: Lambda): void {
     // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
-    readyTasks.push(lambda);
+    readyTasks.enqueue(lambda);
     window.postMessage(eventData, '*');
   }
 }
 
 type Lambda = () => void;
 const eventData = '@ls/cl/T.r'; // Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/Task.run"
-let readyTasks: Lambda[] = [];
+let readyTasks = new Queue<Lambda>();
 
 window.addEventListener('message', event => {
   if (event.data === eventData) {
     event.stopPropagation();
-    while (readyTasks.length > 0) {
-      let lambda = readyTasks.shift();
+    while (!readyTasks.isEmpty()) {
+      let lambda = readyTasks.dequeue();
       try {
         lambda();
       } catch (err) {

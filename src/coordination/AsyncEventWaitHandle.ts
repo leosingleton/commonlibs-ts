@@ -1,3 +1,5 @@
+import { Queue } from '../dotnet/Queue';
+
 /**
  * Async version of .NET's System.Threading.EventWaitHandle
  */
@@ -5,7 +7,7 @@ export abstract class AsyncEventWaitHandle {
   protected constructor(autoReset: boolean, initialState: boolean) {
     this._autoReset = autoReset;
     this._isSet = initialState;
-    this._waiters = [];
+    this._waiters = new Queue<Waiter>();
   }
 
   public getIsSet(): boolean {
@@ -14,7 +16,7 @@ export abstract class AsyncEventWaitHandle {
 
   public set(): void {
     let waiter: Waiter;
-    while (waiter = this._waiters.shift()) {
+    while (waiter = this._waiters.dequeue()) {
       // For auto-reset, abort after the first Task is released. For manual-reset, release all Tasks.
       if (waiter.trySetComplete() && this._autoReset) {
         return;
@@ -44,12 +46,12 @@ export abstract class AsyncEventWaitHandle {
 
     if (createWaiter) {
       let w = new Waiter();
-      this._waiters.push(w);
+      this._waiters.enqueue(w);
       return w.getPromise();
     }
 
     if (waiter) {
-      this._waiters.push(waiter);
+      this._waiters.enqueue(waiter);
     }
 
     return undefined;
@@ -85,7 +87,7 @@ export abstract class AsyncEventWaitHandle {
 
   private _autoReset: boolean;
   private _isSet: boolean;
-  private _waiters: Waiter[];
+  private _waiters: Queue<Waiter>;
 }
 
 /**
