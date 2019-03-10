@@ -26,6 +26,7 @@ import {
 } from './js';
 
 import {
+  BinaryConverter,
   VersionComparer,
   deepCopy
 } from './logic';
@@ -36,6 +37,7 @@ export {
   AsyncManualResetEvent,
   AsyncMutex,
   AsyncTimerEvent,
+  BinaryConverter,
   DisposableSet,
   IDisposable,
   MovingAverage,
