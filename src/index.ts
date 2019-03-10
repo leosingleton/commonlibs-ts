@@ -17,6 +17,11 @@ import {
   parseQueryString
 } from './js';
 
+import {
+  VersionComparer,
+  deepCopy
+} from './logic';
+
 export {
   AsyncAutoResetEvent,
   AsyncEventWaitHandle,
@@ -25,5 +30,7 @@ export {
   AsyncTimerEvent,
   Stopwatch,
   Task,
+  VersionComparer,
+  deepCopy,
   parseQueryString
 };
