@@ -1,2 +1,3 @@
 import { DisposableSet } from './DisposableSet';
-export { DisposableSet };
+import { MovingAverage } from './MovingAverage';
+export { DisposableSet, MovingAverage };

@@ -1,7 +1,8 @@
 // src/index.ts
 
 import {
-  DisposableSet
+  DisposableSet,
+  MovingAverage
 } from './collections';
 
 import {
@@ -14,6 +15,7 @@ import {
 
 import {
   IDisposable,
+  Queue,
   Stopwatch,
   Task,
   using
@@ -36,6 +38,8 @@ export {
   AsyncTimerEvent,
   DisposableSet,
   IDisposable,
+  MovingAverage,
+  Queue,
   Stopwatch,
   Task,
   VersionComparer,
