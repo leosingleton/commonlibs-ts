@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -15,10 +15,13 @@
     "jest": "^24.3.1",
     "jest-junit": "^6.3.0",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.3.3333"
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx webpack --mode=none",
     "test": "npx jest"
   },
   "files": [
