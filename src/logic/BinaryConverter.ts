@@ -1,3 +1,7 @@
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
+
 /** 
  * .NET's built-in BinaryReader/BinaryWriter doesn't support network byte order, nor does the BitConverter class. So we
  * build our own...

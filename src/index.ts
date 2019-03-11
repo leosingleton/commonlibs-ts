@@ -1,4 +1,8 @@
-// src/index.ts
+/*!
+ * @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+ * Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+ * Released under the MIT license
+ */
 
 import { DisposableSet } from './collections/DisposableSet';
 import { MovingAverage } from './collections/MovingAverage';

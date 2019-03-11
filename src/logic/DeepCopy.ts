@@ -1,5 +1,6 @@
-// src/common/DeepCopy.ts
-// Copyright 2016-2018 Leo C. Singleton IV <leo@leosingleton.com>
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
 /**
  * Performs a deep copy of an object
