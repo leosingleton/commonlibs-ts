@@ -36,7 +36,7 @@ export class Task {
   public static run(lambda: Lambda): void {
     // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
     readyTasks.enqueue(lambda);
-    window.postMessage(eventData, '*');
+    self.postMessage(eventData, '*');
   }
 }
 
@@ -44,7 +44,7 @@ type Lambda = () => void;
 const eventData = '@ls/cl/T.r'; // Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/Task.run"
 let readyTasks = new Queue<Lambda>();
 
-window.addEventListener('message', event => {
+self.addEventListener('message', event => {
   if (event.data === eventData) {
     event.stopPropagation();
     while (!readyTasks.isEmpty()) {
