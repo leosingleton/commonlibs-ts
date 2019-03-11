@@ -21,7 +21,8 @@ var config = {
     filename: 'index.js',
     library: 'library',
     libraryTarget: 'umd',
-    umdNamedDefine: true
+    umdNamedDefine: true,
+    globalObject: '(self || this)'
   }
 };
 
