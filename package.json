@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -24,5 +24,6 @@
   "files": [
     "build/dist/"
   ],
-  "main": "build/dist/index.js"
+  "main": "build/dist/index.js",
+  "types": "build/dist/index.d.ts"
 }
