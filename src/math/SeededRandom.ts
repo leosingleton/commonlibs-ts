@@ -1,6 +1,6 @@
-// src/fim/SeededRandom.ts
-// Fast Image Manipulation Library
-// Copyright 2016-2018 Leo C. Singleton IV <leo@leosingleton.com>
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
 /**
  * Seeded random number generator based on code from:

@@ -9,3 +9,4 @@ export * from './coordination';
 export * from './dotnet';
 export * from './js';
 export * from './logic';
+export * from './math';
