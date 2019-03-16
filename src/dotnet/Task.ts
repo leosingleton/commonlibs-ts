@@ -2,7 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { Queue } from './Queue';
+import { TaskScheduler } from '../js';
 
 /**
  * Useful functions for Promises that mirror C#'s Task class
@@ -33,27 +33,9 @@ export class Task {
    * function in JavaScript.
    * @param lambda Lambda function to execute
    */
-  public static run(lambda: Lambda): void {
-    // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
-    readyTasks.enqueue(lambda);
-    self.postMessage(eventData, '*');
+  public static run(lambda: () => void): void {
+    // The functionality has been replaced with TaskScheduler. This function just exists as a simple wrapper for
+    // backwards-compatibility.
+    TaskScheduler.schedule(lambda);
   }
 }
-
-type Lambda = () => void;
-const eventData = '@ls/cl/T.r'; // Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/Task.run"
-let readyTasks = new Queue<Lambda>();
-
-self.addEventListener('message', event => {
-  if (event.data === eventData) {
-    event.stopPropagation();
-    while (!readyTasks.isEmpty()) {
-      let lambda = readyTasks.dequeue();
-      try {
-        lambda();
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }
-}, true);
