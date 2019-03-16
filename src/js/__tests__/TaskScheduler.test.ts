@@ -11,14 +11,10 @@ describe('Task', () => {
     let n = 100;
 
     // Enqueue a low priority task
-    TaskScheduler.schedule(() => {
-      n *= 2;
-    }, 1);
+    TaskScheduler.schedule(() => n *= 2, 1);
 
     // Enqueue a high priority task
-    TaskScheduler.schedule(() => {
-      n++;
-    }, 0);
+    TaskScheduler.schedule(() => n++, 0);
 
     // Give the tasks time to execute
     await Task.delay(100);
@@ -31,14 +27,10 @@ describe('Task', () => {
     let n = 100;
 
     // Enqueue a low priority task
-    TaskScheduler.schedule(() => {
-      n *= 2;
-    }, 1);
+    TaskScheduler.schedule(() => n *= 2, 1);
 
     // Enqueue a high priority task
-    TaskScheduler.schedule(() => {
-      n++;
-    }, 0);
+    TaskScheduler.schedule(() => n++, 0);
 
     // Execute ourselves at the lowest priority
     await TaskScheduler.yield(2);
