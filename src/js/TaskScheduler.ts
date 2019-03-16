@@ -16,6 +16,22 @@ export class TaskScheduler {
     readyTasks.enqueue(lambda, priority);
     self.postMessage(eventData, '*');
   }
+
+  /**
+   * Yields the CPU to allow new events and higher-priority tasks a chance to execute
+   * @param priority Priority of the current thread. Execution will resume once all tasks higher-priority than this
+   *    have completed.
+   */
+  public static yield(priority = 0): Promise<void> {
+    // Create a Promise and schedule a task to resume it
+    let onResolve: (value?: void) => void;
+
+    this.schedule(() => onResolve(), priority);
+
+    return new Promise<void>((resolve, reject) => {
+      onResolve = resolve;
+    });
+  }
 }
 
 type Lambda = () => void;
