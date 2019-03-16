@@ -12,16 +12,28 @@ describe('PriorityQueue', () => {
     queue.enqueue(2, 2); // 2 is higher-priority than 4
 
     // 2 should be returned first, as it is higher priority
-    let result1 = queue.getNext();
+    let result1 = queue.dequeue();
     expect(result1).toEqual(2);
 
     // 1 should be returned next
-    let result2 = queue.getNext();
+    let result2 = queue.dequeue();
     expect(result2).toEqual(1);
 
     // null should be returned, as there are no more messages
-    let result3 = queue.getNext();
+    let result3 = queue.dequeue();
     expect(result3).toBeNull();
   });
 
+  it('Detects when the queue is empty', () => {
+    let queue = new PriorityQueue<number>();
+    expect(queue.isEmpty()).toBeTruthy();
+
+    // Add a value
+    queue.enqueue(1, 1);
+    expect(queue.isEmpty()).toBeFalsy();
+
+    // Remove a value
+    queue.dequeue();
+    expect(queue.isEmpty()).toBeTruthy();
+  });
 });
