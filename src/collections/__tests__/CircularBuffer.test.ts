@@ -1,11 +1,11 @@
-// src/fim/CircularBuffer.spec.ts
-// Fast Image Manipulation Library
-// Copyright 2016-2018 Leo C. Singleton IV <leo@leosingleton.com>
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
 import { CircularBuffer } from '../CircularBuffer';
 
-describe("CircularBuffer", () => {
-  it("calculates min/mean/max", () => {
+describe('CircularBuffer', () => {
+  it('calculates min/mean/max', () => {
     let c = new CircularBuffer(5);
 
     c.push(1);
