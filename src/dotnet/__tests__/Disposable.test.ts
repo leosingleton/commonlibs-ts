@@ -25,7 +25,7 @@ describe('Disposable', () => {
     expect(c2.isDisposed).toBeTruthy();
   });
 
-  it('using() handles execeptions correctly', () => {
+  it('using() handles exceptions correctly', () => {
     let c2: MyClass;
 
     expect(() => {
@@ -36,6 +36,26 @@ describe('Disposable', () => {
       });
     }).toThrow();
     
+    expect(c2.isDisposed).toBeTruthy();
+  });
+
+  it('Nesed using() works correctly', () => {
+    let c1 = new MyClass();
+    let c2 = new MyClass();
+    expect(c1.isDisposed).toBeFalsy();
+    expect(c2.isDisposed).toBeFalsy();
+
+    using (c1, c1x => {
+      using (c2, c2x => {
+        expect(c1.isDisposed).toBeFalsy();
+        expect(c2.isDisposed).toBeFalsy();
+      });
+
+      expect(c1.isDisposed).toBeFalsy();
+      expect(c2.isDisposed).toBeTruthy();
+    });
+
+    expect(c1.isDisposed).toBeTruthy();
     expect(c2.isDisposed).toBeTruthy();
   });
 
