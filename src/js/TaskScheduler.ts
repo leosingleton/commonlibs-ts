@@ -39,7 +39,7 @@ let executeTasksEvents = 0;
 /** Queues a task on the event loop to call executeTasks() */
 function executeTasksOnEventLoop(): void {
   executeTasksEvents++;
-  if (self) {
+  if (typeof self !== 'undefined') {
     // Implementation for web pages and web workers...
     // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
     // Use self. instead of window. to be compatible with web workers.
@@ -52,7 +52,7 @@ function executeTasksOnEventLoop(): void {
 
 /** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
 const eventData = '@ls/cl/TS';
-if (self) {
+if (typeof self !== 'undefined') {
   self.addEventListener('message', event => {
     if (event.data === eventData) {
       event.stopPropagation();

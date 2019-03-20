@@ -18,7 +18,7 @@ export class Stopwatch {
   /** Gets the total elapsed time measured by the current instance, in milliseconds. */
   public getElapsedMilliseconds(): number {
     if (this._isRunning) {
-      return this._elapsedMilliseconds + (performance.now() - this._startTime);
+      return this._elapsedMilliseconds + (now() - this._startTime);
     } else {
       return this._elapsedMilliseconds;
     }
@@ -46,7 +46,7 @@ export class Stopwatch {
   public start(): void {
     // According to the MSDN docs, Start() while running does nothing
     if (!this._isRunning) {
-      this._startTime = performance.now();
+      this._startTime = now();
       this._isRunning = true;
     }
   }
@@ -64,8 +64,28 @@ export class Stopwatch {
   public stop(): void {
     // According to MSDN docs, Stop() while not running does nothing
     if (this._isRunning) {
-      this._elapsedMilliseconds += performance.now() - this._startTime;
+      this._elapsedMilliseconds += now() - this._startTime;
       this._isRunning = false;
     }
   }
+}
+
+/**
+ * performance.now() wrapper. May point to a polyfill on NodeJS or older browsers without support for the Performance
+ * Timing API.
+ */
+let now: () => number;
+
+/** Last value of the now() function. Used to prevent the counter from going backwards if the system clock changes. */
+let _lastNow = 0;
+
+if (typeof performance === 'undefined') {
+  // Polyfill for performance.now()
+  now = () => {
+    _lastNow = Math.max(Date.now(), _lastNow);
+    return _lastNow;
+  };
+} else {
+  // Browser supports Performance Timing API
+  now = () => performance.now();
 }
