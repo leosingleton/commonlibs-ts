@@ -40,4 +40,23 @@ describe('Task', () => {
     expect(n).toEqual(202 * 202);
   });
 
+  it('Executes tasks in priority with yield - case #2', async () => {
+    let n = 100;
+
+    // Enqueue a really low priority task
+    TaskScheduler.schedule(() => n *= 2, 2);
+
+    // Enqueue a high priority task
+    TaskScheduler.schedule(() => n++, 0);
+
+    // Execute ourselves at the middle priority
+    await TaskScheduler.yield(1);
+    n = n * n;
+
+    // Following priority, increment then square then multiply
+    expect(n).toEqual(101 * 101);
+    await Task.delay(100);
+    expect(n).toEqual(101 * 101 * 2);
+  });
+
 });

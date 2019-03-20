@@ -24,16 +24,19 @@ describe('PriorityQueue', () => {
     expect(result3).toBeNull();
   });
 
-  it('Detects when the queue is empty', () => {
+  it('Detects the number of elements in the queue', () => {
     let queue = new PriorityQueue<number>();
+    expect(queue.getCount()).toEqual(0);
     expect(queue.isEmpty()).toBeTruthy();
 
     // Add a value
     queue.enqueue(1, 1);
+    expect(queue.getCount()).toEqual(1);
     expect(queue.isEmpty()).toBeFalsy();
 
     // Remove a value
     queue.dequeue();
+    expect(queue.getCount()).toEqual(0);
     expect(queue.isEmpty()).toBeTruthy();
   });
 });

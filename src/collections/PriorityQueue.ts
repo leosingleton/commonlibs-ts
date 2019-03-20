@@ -55,6 +55,13 @@ export class PriorityQueue<T> {
   }
 
   /**
+   * Returns the number of elements in the queue
+   */
+  public getCount(): number {
+    return this._count;
+  }
+
+  /**
    * Returns true if the queue is empty
    */
   public isEmpty(): boolean {
