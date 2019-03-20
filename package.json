@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npx webpack --mode=none",
-    "test": "npx jest --env=node && npx jest"
+    "test": "npx jest --env=node --detectOpenHandles && npx jest"
   },
   "files": [
     "build/dist/"
