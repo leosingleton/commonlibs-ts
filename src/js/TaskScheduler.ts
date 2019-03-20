@@ -23,13 +23,8 @@ export class TaskScheduler {
    *    have completed.
    */
   public static yield(priority = 0): Promise<void> {
-    // Create a Promise and schedule a task to resume it
-    let onResolve: (value?: void) => void;
-
-    this.schedule(() => onResolve(), priority);
-
     return new Promise<void>((resolve, reject) => {
-      onResolve = resolve;
+      this.schedule(() => resolve(), priority);
     });
   }
 }
@@ -41,13 +36,17 @@ let readyTasks = new PriorityQueue<Lambda>();
 self.addEventListener('message', event => {
   if (event.data === eventData) {
     event.stopPropagation();
+    console.log('Tasks', readyTasks);
+
     while (!readyTasks.isEmpty()) {
       let lambda = readyTasks.dequeue();
       try {
+        console.log('Executing', lambda);
         lambda();
       } catch (err) {
         console.log(err);
       }
     }
+    console.log('Done');
   }
 }, true);

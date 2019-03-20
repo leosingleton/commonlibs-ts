@@ -15,12 +15,8 @@ export class Task {
   public static delay(millisecondsDelay: number): Promise<void> {
     if (millisecondsDelay > 0) {
       // Create a Promise and use setTimeout() to call resolve after the right delay
-      let onResolve: (value?: void) => void;
-
-      setTimeout(() => onResolve(), millisecondsDelay);
-  
       return new Promise<void>((resolve, reject) => {
-        onResolve = resolve;
+        setTimeout(() => resolve(), millisecondsDelay);
       });  
     } else {
       // Skip setTimeout() as it has a minimum delay of 4-10 ms
