@@ -1,6 +1,9 @@
 pool:
   vmImage: 'Ubuntu-16.04'
 
+timeoutInMinutes: 10
+cancelTimeoutInMinutes: 2
+
 steps:
 - task: NodeTool@0
   inputs:
