@@ -1,6 +1,6 @@
 pool:
   vmImage: 'Ubuntu-16.04'
-  timeoutInMinutes: 10
+  timeoutInMinutes: 3
   cancelTimeoutInMinutes: 2
 
 steps:
