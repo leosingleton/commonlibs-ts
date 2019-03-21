@@ -7,7 +7,7 @@ import { Task } from '../../dotnet/Task';
 
 describe('Task', () => {
 
-  it('Executes tasks in priority order', async () => {
+  it('Executes tasks in priority order', async (done) => {
     let n = 100;
 
     // Enqueue a low priority task
@@ -21,9 +21,11 @@ describe('Task', () => {
 
     // Following priority, increment before multiply
     expect(n).toEqual(202);
+
+    done();
   });
 
-  it('Executes tasks in priority with yield', async () => {
+  it('Executes tasks in priority with yield', async (done) => {
     let n = 100;
 
     // Enqueue a low priority task
@@ -38,9 +40,11 @@ describe('Task', () => {
 
     // Following priority, increment then multiply then square
     expect(n).toEqual(202 * 202);
+
+    done();
   });
 
-  /*it('Executes tasks in priority with yield - case #2', async () => {
+  it('Executes tasks in priority with yield - case #2', async (done) => {
     let n = 100;
 
     // Enqueue a really low priority task
@@ -57,6 +61,8 @@ describe('Task', () => {
     expect(n).toEqual(101 * 101);
     await Task.delay(100);
     expect(n).toEqual(101 * 101 * 2);
-  });*/
+
+    done();
+  });
 
 });

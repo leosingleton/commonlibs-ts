@@ -8,7 +8,7 @@ import { Task } from '../../dotnet/Task';
 
 describe('AsyncMutex', () => {
 
-  it('Performs mutual exclusion', async () => {
+  it('Performs mutual exclusion', async (done) => {
     let sharedValue = 0;
     let mutex = new AsyncMutex();
     let hundredEvent = new AsyncManualResetEvent();
@@ -39,6 +39,8 @@ describe('AsyncMutex', () => {
 
     await hundredEvent.waitAsync();
     expect(sharedValue).toEqual(100);
+
+    done();
   });
 
 });
