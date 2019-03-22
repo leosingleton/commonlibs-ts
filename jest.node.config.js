@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  roots: ['<rootDir>/src/collections', '<rootDir>/src/dotnet', '<rootDir>/src/logic', '<rootDir>/src/math'],
+  roots: ['<rootDir>/src/math'],
   reporters: [
     'default',
     ['jest-junit', {
