@@ -9,6 +9,6 @@ module.exports = {
       outputName: './results-node.xml',
     }]
   ],
-  collectCoverage: true,
+  //collectCoverage: true,
   coverageDirectory: 'build/coverage/node/'
 };
