@@ -28,9 +28,9 @@ export class PriorityQueue<T> {
 
   /**
    * Gets the next item from the queue
-   * @returns Next item in the queue or null if none remain
+   * @returns Next item in the queue or undefined if none remain
    */
-  public dequeue(): T {
+  public dequeue(): T | undefined {
     let priority = this._highestPriority;
 
     while (priority < this._queues.length) {
@@ -51,7 +51,7 @@ export class PriorityQueue<T> {
     }
 
     // No items remaining
-    return null;
+    return undefined;
   }
 
   /**

@@ -19,9 +19,9 @@ describe('PriorityQueue', () => {
     let result2 = queue.dequeue();
     expect(result2).toEqual(1);
 
-    // null should be returned, as there are no more messages
+    // undefined should be returned, as there are no more messages
     let result3 = queue.dequeue();
-    expect(result3).toBeNull();
+    expect(result3).toBeUndefined();
   });
 
   it('Detects the number of elements in the queue', () => {
