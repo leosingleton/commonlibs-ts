@@ -7,7 +7,7 @@ import { Task } from '../../dotnet/Task';
 
 describe('AsyncTimerEvent', () => {
 
-  it('Tests the timer without repeat enabled', async (done) => {
+  it('Tests the timer without repeat enabled', async () => {
     let timer = new AsyncTimerEvent(1000);
     let hasFired = false;
     setTimeout(async () => {
@@ -20,11 +20,9 @@ describe('AsyncTimerEvent', () => {
 
     await Task.delay(200);
     expect(hasFired).toBeTruthy();
-
-    done();
   });
 
-  it('Tests the timer with repeat enabled', async (done) => {
+  it('Tests the timer with repeat enabled', async () => {
     let timer = new AsyncTimerEvent(100, true);
     let fireCount = 0;
     setTimeout(async () => {
@@ -38,7 +36,5 @@ describe('AsyncTimerEvent', () => {
     expect(fireCount).toBeGreaterThanOrEqual(8);
     expect(fireCount).toBeLessThanOrEqual(12);
     await Task.delay(500);
-
-    done();
   });
 });

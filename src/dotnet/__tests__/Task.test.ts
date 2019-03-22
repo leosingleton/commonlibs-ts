@@ -6,7 +6,7 @@ import { Task } from '../Task';
 
 describe('Task', () => {
 
-  it('Task.run() executes asynchronously', async (done) => {
+  it('Task.run() executes asynchronously', async () => {
     let n = 1;
 
     function f() {
@@ -28,8 +28,6 @@ describe('Task', () => {
 
     // All 100 iterations should complete in a few milliseconds
     expect(n).toEqual(100);
-
-    done();
   });
 
 });
