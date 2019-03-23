@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { DisposableSet } from '../DisposableSet';
-import { IDisposable, using } from '../../dotnet/Disposable';
+import { IDisposable } from '../../dotnet/Disposable';
 
 let disposeCount = 0;
 
@@ -22,11 +22,11 @@ class MyClass2 {
 describe('DisposableSet', () => {
 
   it('disposes all objects', () => {
-    using(new DisposableSet(), set => {
-      set.addObject(new MyClass());
-      set.addObject(new MyClass());
+    DisposableSet.using(set => {
+      set.addDisposable(new MyClass());
+      set.addDisposable(new MyClass());
       set.addNonDisposable(new MyClass2(), obj => obj.close());      
-      let obj = set.addObject(new MyClass());
+      let obj = set.addDisposable(new MyClass());
 
       // Nothing has been disposed yet
       expect(disposeCount).toEqual(0);
