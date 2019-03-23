@@ -21,3 +21,17 @@ export function using<T extends IDisposable>(obj: T, lambda: (obj: T) => void): 
     obj.dispose();
   }
 }
+
+/**
+ * Helper function for C#-like using blocks when using async code
+ * @param obj Object to dispose at the end of the lambda execution
+ * @param lambda Async lambda function to execute. The object is passed as a parameter to allow new objects to be
+ *    created in a single line of code, i.e. await usingAsync(new MyObject(), async obj => { /* Use obj *\/ });
+ */
+export async function usingAsync<T extends IDisposable>(obj: T, lambda: (obj: T) => Promise<void>): Promise<void> {
+  try {
+    await lambda(obj);
+  } finally {
+    obj.dispose();
+  }
+}
