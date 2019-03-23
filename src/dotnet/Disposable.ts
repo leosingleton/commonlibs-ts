@@ -40,8 +40,8 @@ export async function usingAsync<T extends IDisposable>(obj: T, lambda: (obj: T)
  * Many objects in JavaScript have a disposable-like pattern, but there is no standard dispose() method nor IDisposable
  * interface. Some use .close(), while others use .restore(). This wrapper makes it easy to convert existing objects,
  * e.g. makeDisposable(imageBitmap, obj => obj.close())
- * @param obj 
- * @param dispose 
+ * @param obj Object to make IDisposable
+ * @param dispose Lambda to execute to dispose the object
  */
 export function makeDisposable<T>(obj: T, dispose: (obj: T) => void): T & IDisposable {
   let result = <T & IDisposable>obj;

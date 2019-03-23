@@ -13,12 +13,19 @@ class MyClass implements IDisposable {
   }
 }
 
+class MyClass2 {
+  public close(): void {
+    disposeCount++;
+  }
+}
+
 describe('DisposableSet', () => {
 
   it('disposes all objects', () => {
     using(new DisposableSet(), set => {
       set.addObject(new MyClass());
       set.addObject(new MyClass());
+      set.addNonDisposable(new MyClass2(), obj => obj.close());      
       let obj = set.addObject(new MyClass());
 
       // Nothing has been disposed yet
@@ -30,7 +37,7 @@ describe('DisposableSet', () => {
     });
 
     // At the end of the using block, all objects are disposed
-    expect(disposeCount).toEqual(3);
+    expect(disposeCount).toEqual(4);
   });
 
 });
