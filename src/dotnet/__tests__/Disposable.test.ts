@@ -2,7 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { IDisposable, using, usingAsync } from '../Disposable';
+import { IDisposable, using, usingAsync, makeDisposable } from '../Disposable';
 import { Task } from '../Task';
 
 class MyClass implements IDisposable {
@@ -60,7 +60,7 @@ describe('Disposable', () => {
     expect(c2.isDisposed).toBeTruthy();
   });
 
-  it('using() works with async', async () => {
+  it('usingAsync() calls dispose()', async () => {
     let c = new MyClass();
     expect(c.isDisposed).toBeFalsy();
 
@@ -73,4 +73,19 @@ describe('Disposable', () => {
     expect(c.isDisposed).toBeTruthy();
   });
 
+  it('makeDisposable() converts an existing object to IDisposable', () => {
+    class MyNonDisposableClass {
+      public close(): void {
+        this.isClosed = true;
+      }
+    
+      public isClosed = false;
+    }
+
+    let c = makeDisposable(new MyNonDisposableClass(), obj => obj.close());
+    expect(c.isClosed).toBeFalsy();
+    c.dispose();
+    expect(c.isClosed).toBeTruthy();
+  });
+  
 });
