@@ -87,5 +87,21 @@ describe('Disposable', () => {
     c.dispose();
     expect(c.isClosed).toBeTruthy();
   });
-  
+
+  it('Ignores null and undefined', () => {
+    using(null, () => {
+      using(undefined, () => {
+        expect(true).toBeTruthy();
+      });
+    });
+  });
+
+  it('Async ignores null and undefined', async() => {
+    await usingAsync(null, async () => {
+      await usingAsync (undefined, async () => {
+        expect(true).toBeTruthy();
+      });
+    });
+  });
+
 });
