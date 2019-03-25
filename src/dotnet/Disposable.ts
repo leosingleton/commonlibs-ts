@@ -18,7 +18,9 @@ export function using<T extends IDisposable>(obj: T, lambda: (obj: T) => void): 
   try {
     lambda(obj);
   } finally {
-    obj.dispose();
+    if (obj) {
+      obj.dispose();
+    }
   }
 }
 
@@ -32,7 +34,9 @@ export async function usingAsync<T extends IDisposable>(obj: T, lambda: (obj: T)
   try {
     await lambda(obj);
   } finally {
-    obj.dispose();
+    if (obj) {
+      obj.dispose();
+    }
   }
 }
 
@@ -46,7 +50,9 @@ export async function usingAsync<T extends IDisposable>(obj: T, lambda: (obj: T)
 export function makeDisposable<T>(obj: T, dispose: (obj: T) => void): T & IDisposable {
   let result = <T & IDisposable>obj;
   result.dispose = function(): void {
-    dispose(obj);
+    if (obj) {
+      dispose(obj);
+    }
   }
   return result;
 }

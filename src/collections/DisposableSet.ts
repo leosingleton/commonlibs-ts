@@ -20,7 +20,9 @@ export class DisposableSet implements IDisposable {
    * @param obj Object to add
    */
   public addDisposable<T extends IDisposable>(obj: T): T {
-    this.members.push(obj);
+    if (obj) {
+      this.members.push(obj);
+    }
     return obj;
   }
 
@@ -30,12 +32,14 @@ export class DisposableSet implements IDisposable {
    * @param obj Object to remove and dispose
    */
   public disposeObject(obj: IDisposable): void {
-    let index = this.members.indexOf(obj);
-    if (index > -1) {
-      this.members.splice(index, 1);
-    }
+    if (obj) {
+      let index = this.members.indexOf(obj);
+      if (index > -1) {
+        this.members.splice(index, 1);
+      }
 
-    obj.dispose();
+      obj.dispose();
+    }
   }
 
   /**
