@@ -3,7 +3,8 @@
 // See LICENSE in the project root for license information.
 
 import { TaskScheduler } from '../TaskScheduler';
-import { Task } from '../../dotnet/Task';
+import { Stopwatch, Task } from '../../dotnet';
+import { AsyncManualResetEvent } from '../../coordination';
 
 describe('Task', () => {
 
@@ -67,6 +68,34 @@ describe('Task', () => {
       count++;
     }
 
+    expect(count).toEqual(100);
+  });
+
+  it('Executes lower priority than event handlers', async () => {
+    let count = 0;
+    let done = new AsyncManualResetEvent();
+
+    let exec = (typeof requestAnimationFrame !== 'undefined') ? requestAnimationFrame : setTimeout;
+    let event = async () => {
+      if (++count === 100) {
+        done.set();
+      } else {
+        // Launch another event
+        exec(event);
+      }
+
+      while (!done.getIsSet()) {
+        // Busy wait 10ms to tie up the CPU
+        let timer = Stopwatch.startNew();
+        while (timer.getElapsedMilliseconds() < 10);
+
+        // Yield to let the event handlers execute
+        await TaskScheduler.yield();
+      }
+    };
+    exec(event);
+
+    await done.waitAsync();
     expect(count).toEqual(100);
   });
 
