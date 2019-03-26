@@ -4,6 +4,14 @@
 
 import { PriorityQueue } from '../collections/PriorityQueue';
 
+/** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */
+let isNode = (typeof self === 'undefined');
+
+type Lambda = () => void;
+
+/** The global task queue. Initialized below. */
+let readyTasks: PriorityQueue<Lambda>;
+
 export class TaskScheduler {
   /**
    * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
@@ -30,35 +38,49 @@ export class TaskScheduler {
   }
 }
 
-type Lambda = () => void;
-let readyTasks = new PriorityQueue<Lambda>();
-
 /** Number of executeTasks() events queued on the event loop */
 let executeTasksEvents = 0;
 
 /** Queues a task on the event loop to call executeTasks() */
 function executeTasksOnEventLoop(): void {
   executeTasksEvents++;
-  if (typeof self !== 'undefined') {
+  if (isNode) {
+    // NodeJS has a setImmediate() which avoids the hacky postMessage() call
+    setImmediate(() => executeTasks());
+  } else {
     // Implementation for web pages and web workers...
     // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
     // Use self. instead of window. to be compatible with web workers.
     self.postMessage(eventData, '*');
-  } else {
-    // NodeJS has a setImmediate() which avoids the hacky postMessage() call
-    setImmediate(() => executeTasks());
   }
 }
 
 /** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
 const eventData = '@ls/cl/TS';
-if (typeof self !== 'undefined') {
-  self.addEventListener('message', event => {
-    if (event.data === eventData) {
-      event.stopPropagation();
-      executeTasks();
-    }
-  }, true);
+
+// Initialize the task queue and message handlers
+let g = isNode ? this : self;
+if (typeof g[eventData] === 'undefined') {
+  // We are the first instance of TaskScheduler to be initialized
+  readyTasks = g[eventData] = new PriorityQueue<Lambda>();
+
+  // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register the
+  // event handler from one (the first) instance of TaskScheduler.
+  if (!isNode) {
+    self.addEventListener('message', event => {
+      if (event.data === eventData) {
+        event.stopPropagation();
+        executeTasks();
+      }
+    }, true);  
+  }
+} else {
+  // If we get here, there are two separate instances of TaskScheduler running in the same environment. This is not a
+  // serious problem, as we will handle this case by ensuring the task queue is global. However, it generally indicates
+  // a bundler like Webpack embedded the TaskScheduler multiple times, which is inefficient. Check for mismatched
+  // versions of @leosingleton/commonlibs or other build configuration errors.
+  console.log('Warning: Multiple TaskScheduler instances');
+  readyTasks = g[eventData];
 }
 
 /** Handler invoked on the event loop to execute tasks in the readyTasks queue */
