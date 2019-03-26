@@ -90,14 +90,12 @@ function executeTasks(): void {
   try {
     let lambda = readyTasks.dequeue();
     lambda();
-  } catch (err) {
-    console.log(err);
-  }
-
-  // If more tasks remain in the queue, execute them. We could do so with a while loop, however, this would give
-  // priority to tasks in the readyTasks queue over DOM events which may have been recently queued. Instead, dispatch
-  // the next task at the back of the event loop.
-  if (!readyTasks.isEmpty() && executeTasksEvents === 0) {
-    executeTasksOnEventLoop();
+  } finally {
+    // If more tasks remain in the queue, execute them. We could do so with a while loop, however, this would give
+    // priority to tasks in the readyTasks queue over DOM events which may have been recently queued. Instead, dispatch
+    // the next task at the back of the event loop.
+    if (!readyTasks.isEmpty() && executeTasksEvents === 0) {
+      executeTasksOnEventLoop();
+    }
   }
 }
