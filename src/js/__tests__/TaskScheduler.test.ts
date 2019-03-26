@@ -59,4 +59,15 @@ describe('Task', () => {
     expect(n).toEqual(101 * 101 * 2);
   });
 
+  it('Yield works in a loop', async () => {
+    let count = 0;
+
+    for (let n = 0; n < 100; n++) {
+      await TaskScheduler.yield();
+      count++;
+    }
+
+    expect(count).toEqual(100);
+  });
+
 });
