@@ -38,8 +38,8 @@ jobs:
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'cobertura'
-      summaryFileLocation: 'build/coverage/**/cobertura-coverage.xml'
-      reportDirectory: 'build/coverage/**/'
+      summaryFileLocation: 'build/coverage/node/cobertura-coverage.xml'
+      reportDirectory: 'build/coverage/node/'
 
   - task: CopyFiles@2
     inputs:
