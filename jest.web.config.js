@@ -10,5 +10,6 @@ module.exports = {
     }]
   ],
   collectCoverage: true,
-  coverageDirectory: 'build/coverage/web/'
+  coverageDirectory: 'build/coverage/web/',
+  coverageReporters: ['html', 'text', 'cobertura']
 };
