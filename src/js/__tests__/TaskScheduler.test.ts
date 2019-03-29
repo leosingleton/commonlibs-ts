@@ -96,7 +96,7 @@ describe('Task', () => {
     exec(event);
 
     await done.waitAsync();
-    expect(count).toEqual(101);
+    expect(count).toEqual(100);
   });
 
 });
