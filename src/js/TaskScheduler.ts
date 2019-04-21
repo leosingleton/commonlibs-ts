@@ -2,6 +2,8 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
+import 'setimmediate';
+
 import { PriorityQueue } from '../collections/PriorityQueue';
 
 /** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */
@@ -9,11 +11,6 @@ let isNode = (typeof self === 'undefined');
 
 /** globalThis isn't widely supported yet and breaks the Jest tests. Use this instead... */
 let g = (isNode ? this : self) as any;
-
-/** Boolean used to special case behavior when running inside a WebWorker */
-// This check comes from emscripten:
-// https://github.com/kripken/emscripten/blob/54b0f19d9e8130de16053b0915d114c346c99f17/src/shell.js
-let isWebWorker = (typeof g.importScripts === 'function');
 
 type Lambda = () => void;
 
@@ -52,19 +49,9 @@ let executeTasksEvents = 0;
 /** Queues a task on the event loop to call executeTasks() */
 function executeTasksOnEventLoop(): void {
   executeTasksEvents++;
-  if (isNode) {
-    // NodeJS has a setImmediate() which avoids the hacky postMessage() call
-    setImmediate(() => executeTasks());
-  } else {
-    // Implementation for web pages and web workers...
-    // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
-    // Note that Window and Worker have different postMessage() operations...
-    if (isWebWorker) {
-      g.postMessage(eventData);
-    } else {
-      window.postMessage(eventData, '*');
-    }    
-  }
+  // setImmediate() only exists in NodeJS. However the setimmediate NPM package includes a polyfill for web browsers
+  // and web workers using postMessage().
+  setImmediate(() => executeTasks());
 }
 
 /** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
@@ -74,17 +61,6 @@ const eventData = '@ls/cl/TS';
 if (typeof g[eventData] === 'undefined') {
   // We are the first instance of TaskScheduler to be initialized
   readyTasks = g[eventData] = new PriorityQueue<Lambda>();
-
-  // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register the
-  // event handler from one (the first) instance of TaskScheduler.
-  if (!isNode) {
-    self.addEventListener('message', event => {
-      if (event.data === eventData) {
-        event.stopPropagation();
-        executeTasks();
-      }
-    }, true);  
-  }
 } else {
   // If we get here, there are two separate instances of TaskScheduler running in the same environment. This is not a
   // serious problem, as we will handle this case by ensuring the task queue is global. However, it generally indicates
