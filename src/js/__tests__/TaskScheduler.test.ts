@@ -6,7 +6,7 @@ import { TaskScheduler } from '../TaskScheduler';
 import { Stopwatch, Task } from '../../dotnet';
 import { AsyncManualResetEvent } from '../../coordination';
 
-describe('Task', () => {
+describe('TaskScheduler', () => {
 
   it('Executes tasks in priority order', async () => {
     let n = 100;

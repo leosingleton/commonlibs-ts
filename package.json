@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.0.0-alpha.16",
+  "version": "1.0.0-alpha.17",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -11,21 +11,31 @@
     "url": "https://github.com/leosingleton/commonlibs-ts.git"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.5.52",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.6",
+    "jasmine-core": "^3.4.0",
     "jest": "^24.7.1",
     "jest-junit": "^6.3.0",
+    "karma": "^3.1.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-junit-reporter": "^1.2.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^5.3.3",
     "typescript": "^3.4.4",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
   },
+  "dependencies": {
+    "setimmediate": "^1.0.5"
+  },
   "scripts": {
     "build": "npx webpack --mode=none",
     "test": "npm run test:node && npm run test:web",
     "test:node": "npx jest --config=jest.node.config.js --maxWorkers=2 --coverage",
-    "test:web": "npx jest --config=jest.web.config.js"
+    "test:web": "npx webpack --mode=development --config=webpack.test.js && npx karma start",
+    "test:web:debug": "npx webpack --mode=development --config=webpack.test.js && npx karma start --single-run=false --browsers Chrome"
   },
   "files": [
     "build/dist/"
