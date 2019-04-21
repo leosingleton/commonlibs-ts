@@ -20,7 +20,7 @@ var config = {
     path: path.resolve(__dirname, 'build/dist'),
     filename: 'index.js',
     library: 'library',
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs2',
     umdNamedDefine: true,
     globalObject: '(typeof self !== "undefined" ? self : this)'
   }
