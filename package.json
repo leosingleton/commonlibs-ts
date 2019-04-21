@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -12,16 +12,17 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
-    "jest": "^24.5.0",
+    "jest": "^24.7.1",
     "jest-junit": "^6.3.0",
-    "ts-jest": "^24.0.0",
+    "ts-jest": "^24.0.2",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.3.4000",
-    "webpack": "4.28.4",
-    "webpack-cli": "^3.3.0"
+    "typescript": "^3.4.4"
+  },
+  "dependencies": {
+    "@types/node": "^11.13.6"
   },
   "scripts": {
-    "build": "npx webpack --mode=none",
+    "build": "npx tsc",
     "test": "npm run test:node && npm run test:web",
     "test:node": "npx jest --config=jest.node.config.js --maxWorkers=2 --coverage",
     "test:web": "npx jest --config=jest.web.config.js"

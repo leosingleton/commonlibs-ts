@@ -19,7 +19,7 @@ export class TaskScheduler {
    * @param lambda Lambda function to execute
    * @param priority Priority, expressed as an integer where 0 is highest
    */
-  public static schedule(lambda: Lambda, priority = 0): void {
+  public static schedule(lambda: () => void, priority = 0): void {
     readyTasks.enqueue(lambda, priority);
     if (readyTasks.getCount() === 1) {
       executeTasksOnEventLoop();
@@ -58,8 +58,10 @@ function executeTasksOnEventLoop(): void {
 /** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
 const eventData = '@ls/cl/TS';
 
+// globalThis isn't widely supported yet and breaks the Jest tests. Use this instead...
+let g = (isNode ? this : self) as any;
+
 // Initialize the task queue and message handlers
-let g = isNode ? this : self;
 if (typeof g[eventData] === 'undefined') {
   // We are the first instance of TaskScheduler to be initialized
   readyTasks = g[eventData] = new PriorityQueue<Lambda>();

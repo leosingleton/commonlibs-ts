@@ -2,7 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-type ParsedQueryString = { [key: string]: string };
+export type ParsedQueryString = { [key: string]: string };
 
 /**
  * Parses the current page's query string
