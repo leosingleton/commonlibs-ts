@@ -13,13 +13,18 @@ describe('TaskScheduler', () => {
     let result: number;
     let done = new AsyncManualResetEvent();
     worker.onmessage = e => {
-      result = e.data;
-      done.set();
+      if (e.data.command === 'UnitTest') {
+        result = e.data.value;
+        done.set();  
+      }
     };
 
     // Invoke the 'TaskScheduler' event. This is a copy of the "Execute tasks in priority order" unit test, which
     // expects a value of 202.
-    worker.postMessage('TaskScheduler');
+    worker.postMessage({
+      command: 'UnitTest',
+      testCase: 'TaskScheduler'
+    });
     await done.waitAsync();
     expect(result).toEqual(202);
   });

@@ -7,6 +7,14 @@ import { PriorityQueue } from '../collections/PriorityQueue';
 /** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */
 let isNode = (typeof self === 'undefined');
 
+/** globalThis isn't widely supported yet and breaks the Jest tests. Use this instead... */
+let g = (isNode ? this : self) as any;
+
+/** Boolean used to special case behavior when running inside a WebWorker */
+// This check comes from emscripten:
+// https://github.com/kripken/emscripten/blob/54b0f19d9e8130de16053b0915d114c346c99f17/src/shell.js
+let isWebWorker = (typeof g.importScripts === 'function');
+
 type Lambda = () => void;
 
 /** The global task queue. Initialized below. */
@@ -50,16 +58,17 @@ function executeTasksOnEventLoop(): void {
   } else {
     // Implementation for web pages and web workers...
     // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
-    // Use self. instead of window. to be compatible with web workers.
-    self.postMessage(eventData, '*');
+    // Note that Window and Worker have different postMessage() operations...
+    if (isWebWorker) {
+      g.postMessage(eventData);
+    } else {
+      window.postMessage(eventData, '*');
+    }    
   }
 }
 
 /** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
 const eventData = '@ls/cl/TS';
-
-// globalThis isn't widely supported yet and breaks the Jest tests. Use this instead...
-let g = (isNode ? this : self) as any;
 
 // Initialize the task queue and message handlers
 if (typeof g[eventData] === 'undefined') {
