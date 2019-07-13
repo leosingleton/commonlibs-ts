@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.20",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -16,14 +16,14 @@
     "jasmine-core": "^3.4.0",
     "jest": "^24.8.0",
     "jest-junit": "^6.4.0",
-    "karma": "^4.1.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma": "^4.2.0",
+    "karma-chrome-launcher": "^3.0.0",
     "karma-jasmine": "^2.0.1",
     "karma-junit-reporter": "^1.2.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
-    "typescript": "^3.5.2",
-    "webpack": "^4.35.2",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5"
   },
   "scripts": {
