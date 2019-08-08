@@ -2,18 +2,8 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
+import { Runtime } from './Runtime';
 import { PriorityQueue } from '../collections/PriorityQueue';
-
-/** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */
-let isNode = (typeof self === 'undefined');
-
-/** globalThis isn't widely supported yet and breaks the Jest tests. Use this instead... */
-let g = (isNode ? this : self) as any;
-
-/** Boolean used to special case behavior when running inside a WebWorker */	
-// This check comes from emscripten:	
-// https://github.com/kripken/emscripten/blob/54b0f19d9e8130de16053b0915d114c346c99f17/src/shell.js	
-let isWebWorker = (typeof g.importScripts === 'function');
 
 type Lambda = () => void;
 
@@ -53,7 +43,7 @@ let executeTasksEvents = 0;
 function executeTasksOnEventLoop(): void {
   executeTasksEvents++;
 
-  if (isNode || isWebWorker) {
+  if (Runtime.isNode || Runtime.isWebWorker) {
     // NodeJS has a setImmediate() which avoids the hacky postMessage() call, but if we as much as reference it,
     // Webpack loads a polyfill which breaks web workers.
     //
@@ -71,13 +61,13 @@ function executeTasksOnEventLoop(): void {
 const eventData = '@ls/cl/TS';
 
 // Initialize the task queue and message handlers
-if (typeof g[eventData] === 'undefined') {
+if (typeof Runtime.global[eventData] === 'undefined') {
   // We are the first instance of TaskScheduler to be initialized
-  readyTasks = g[eventData] = new PriorityQueue<Lambda>();
+  readyTasks = Runtime.global[eventData] = new PriorityQueue<Lambda>();
 
   // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register the
   // event handler from one (the first) instance of TaskScheduler.
-  if (!isNode && !isWebWorker) {
+  if (!Runtime.isNode && !Runtime.isWebWorker) {
     self.addEventListener('message', event => {
       if (event.data === eventData) {
         event.stopPropagation();
@@ -91,7 +81,7 @@ if (typeof g[eventData] === 'undefined') {
   // a bundler like Webpack embedded the TaskScheduler multiple times, which is inefficient. Check for mismatched
   // versions of @leosingleton/commonlibs or other build configuration errors.
   console.log('Warning: Multiple TaskScheduler instances');
-  readyTasks = g[eventData];
+  readyTasks = Runtime.global[eventData];
 }
 
 /** Handler invoked on the event loop to execute tasks in the readyTasks queue */
