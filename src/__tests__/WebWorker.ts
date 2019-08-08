@@ -3,11 +3,18 @@
 // See LICENSE in the project root for license information.
 
 import { Task } from '../dotnet';
-import { TaskScheduler } from '../js';
+import { TaskScheduler, Runtime } from '../js';
 
 self.onmessage = async ev => {
   if (ev.data.command === 'UnitTest') {
     switch (ev.data.testCase) {
+      case 'Runtime':
+        (self as any).postMessage({
+          command: 'RuntimeUnitTest',
+          value: [ Runtime.isNode, Runtime.isWebWorker, Runtime.isWindow ]
+        });
+        break;
+
       case 'TaskScheduler':
         // Based on the "Execute tasks in priority order" unit test in /src/js/__tests__/TaskScheduler.test.ts
         let n = 100;
@@ -25,13 +32,12 @@ self.onmessage = async ev => {
         //
         // Keep TypeScript happy by casting the global scope to any. Unfortunately, TypeScript doesn't support this
         // dual-mode of the same code running as a web worker and the client itself.
-        let g = self as any;
-        g.postMessage({
+        (self as any).postMessage({
           command: 'UnitTest',
           value: n
         });
         break;
-  
+
       default:
         console.log('Unknown test case', ev.data.testCase);
     }
