@@ -137,7 +137,9 @@ export abstract class ConfigurationOptions {
       // Query string has highest priority, if enabled
       if (type !== StorageType.LocalOnly && type !== StorageType.SessionOnly) {
         val = ConfigurationOptions.qs[name];
-        fromQueryString = true;
+        if (val) {
+          fromQueryString = true;
+        }
       }
 
       // Local / session storage has lower priority
