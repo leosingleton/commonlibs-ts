@@ -47,4 +47,9 @@ describe('ConfigurationOptions', () => {
     expect(() => config.writeToStorage({ foo: true })).toThrowError();
   });
 
+  it('Pre-populates session storage defaults', () => {
+    let config = new SampleConfig();
+    expect(sessionStorage.getItem('test_num')).toBe('42'); // Stored as a string in session storage
+  });
+
 });
