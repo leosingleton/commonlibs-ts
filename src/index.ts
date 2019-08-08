@@ -5,6 +5,7 @@
  */
 
 export * from './collections';
+export * from './config';
 export * from './coordination';
 export * from './dotnet';
 export * from './js';
