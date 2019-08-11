@@ -45,4 +45,29 @@ describe('ResourcePool', () => {
     expect(o2.value).toBe(-1);
   });
 
+  it('Implements the always keep strategy', () => {
+    let pool = new ResourcePool<SampleObject>(RetentionStrategy.AlwaysKeep, 0, 3);
+
+    let o1 = pool.get('a', () => new SampleObject(1));
+    expect(o1.value).toBe(1);
+    o1.dispose();
+    expect(o1.value).toBe(1); // Returned to pool; not yet disposed
+
+    let o2 = pool.get('a', () => new SampleObject(2));
+    expect(o1).toEqual(o2);   // Reused object from pool
+
+    let o3 = pool.get('a', () => new SampleObject(3));
+    expect(o3.value).toBe(3); // Pool was empty; allocated new
+    o3.dispose();
+    expect(o3.value).toBe(3); // Returned to pool; not yet disposed
+
+    pool.dispose();
+    expect(o1.value).toBe(1);
+    expect(o2.value).toBe(1);
+    expect(o3.value).toBe(-1);
+    o2.dispose();
+    expect(o1.value).toBe(-1);
+    expect(o2.value).toBe(-1);
+  });
+
 });
