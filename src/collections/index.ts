@@ -6,3 +6,4 @@ export * from './CircularBuffer';
 export * from './DisposableSet';
 export * from './MovingAverage';
 export * from './PriorityQueue';
+export * from './ResourcePool';
