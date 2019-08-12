@@ -3,7 +3,6 @@
 // See LICENSE in the project root for license information.
 
 import { CircularBuffer } from './CircularBuffer';
-import { DisposableSet } from './DisposableSet';
 import { IDisposable } from '../dotnet';
 
 export const enum RetentionStrategy {
@@ -56,7 +55,7 @@ class Pool<T extends IDisposable> implements IDisposable {
   public getTargetObjectCount(): number {
     switch (this.strategy) {
       case RetentionStrategy.AlwaysDispose: return 0;
-      case RetentionStrategy.KeepMinimum:   return this.inUseHistorical.min();
+      case RetentionStrategy.KeepMinimum:   return Math.max(this.inUseHistorical.min(), this.inUseMaximum);
       case RetentionStrategy.KeepMaximum:   return Math.max(this.inUseHistorical.max(), this.inUseMaximum);
       case RetentionStrategy.AlwaysKeep:    return Number.MAX_SAFE_INTEGER;
     }
@@ -66,7 +65,7 @@ class Pool<T extends IDisposable> implements IDisposable {
     let objs = this.objects;
     if (objs.length > 0) {
       // Track the number of objects in use, along with the maximum number of objects used this period
-      let current = this.inUseCurrent++;
+      let current = ++this.inUseCurrent;
       this.inUseMaximum = Math.max(this.inUseMaximum, current);
 
       return objs.pop();
@@ -75,7 +74,7 @@ class Pool<T extends IDisposable> implements IDisposable {
 
   public onObjectCreated(obj: T): void {
     // Track the number of objects in use, along with the maximum number of objects used this period
-    let current = this.inUseCurrent++;
+    let current = ++this.inUseCurrent;
     this.inUseMaximum = Math.max(this.inUseMaximum, current);
   }
 
@@ -84,11 +83,13 @@ class Pool<T extends IDisposable> implements IDisposable {
     let objs = this.objects;
     let target = this.getTargetObjectCount();
 
-    if (this.isDisposed || --this.inUseCurrent + objs.length >= target) {
+    if (this.isDisposed || this.inUseCurrent + objs.length > target) {
       o.realDispose();
     } else {
       objs.push(o);
     }
+
+    --this.inUseCurrent;
   }
 
   public groom(): void {
@@ -97,7 +98,7 @@ class Pool<T extends IDisposable> implements IDisposable {
 
     let objs = this.objects;
     let target = this.getTargetObjectCount();    
-    while (this.inUseCurrent + objs.length >= target) {
+    while (objs.length > 0 && this.inUseCurrent + objs.length > target) {
       let obj = objs.pop();
       obj.realDispose();
     }
