@@ -28,8 +28,8 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
     super(strategy, 0, 3);
   }
 
-  public getObject(value: number): SampleObject {
-    return this.getOrCreate('', () => new SampleObject(value));
+  public getObject(value: number, id = ''): SampleObject {
+    return this.getOrCreate(id, () => new SampleObject(value));
   }
 
   public simulateGroomingInterval(): void {
@@ -149,6 +149,24 @@ describe('ResourcePool', () => {
     expect(o2.value).toBe(1); // Returned to pool; not yet disposed
 
     pool.dispose();
+    expect(o2.value).toBe(-1);
+  });
+
+  it('Separates objects by ID', () => {
+    let pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
+
+    let o1 = pool.getObject(1, 'a');
+    expect(o1.value).toBe(1);
+    o1.dispose();
+    expect(o1.value).toBe(1); // Returned to pool for 'a'
+
+    let o2 = pool.getObject(2, 'b');
+    expect(o2.value).toBe(2); // Created new. ID of 'b' was requested, not 'a'
+    o2.dispose();
+    expect(o2.value).toBe(2); // Returned to pool for 'b'
+
+    pool.dispose();
+    expect(o1.value).toBe(-1);
     expect(o2.value).toBe(-1);
   });
 
