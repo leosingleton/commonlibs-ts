@@ -119,4 +119,37 @@ describe('ResourcePool', () => {
     expect(o2.value).toBe(-1);
   });
 
+  it('Implements the keep maximum dispose strategy', () => {
+    let pool = new SampleResourcePool(RetentionStrategy.KeepMaximum);
+
+    let o1 = pool.getObject(1);
+    expect(o1.value).toBe(1);
+    o1.dispose();
+    expect(o1.value).toBe(1); // Returned to pool; not yet disposed
+
+    let o2 = pool.getObject(2);
+    expect(o1).toEqual(o2);   // Reused object from pool
+
+    let o3 = pool.getObject(3);
+    expect(o3.value).toBe(3); // Pool was empty; allocated new
+    o3.dispose();
+    expect(o3.value).toBe(3); // Returned to pool; not yet disposed
+
+    pool.simulateGroomingInterval();
+    expect(o3.value).toBe(3); // In the previous period, 2 objects were used at the same time. So maximum === 2.
+
+    pool.simulateGroomingInterval();
+    expect(o3.value).toBe(3); // Only 1 object was used last period, but the maximum of the last 3 period is still 2.
+    pool.simulateGroomingInterval();
+    expect(o3.value).toBe(3); // Same
+    pool.simulateGroomingInterval();
+    expect(o3.value).toBe(-1);// The maximum of the last 3 periods is now 1. The extra is disposed.
+
+    o2.dispose();
+    expect(o2.value).toBe(1); // Returned to pool; not yet disposed
+
+    pool.dispose();
+    expect(o2.value).toBe(-1);
+  });
+
 });
