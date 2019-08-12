@@ -29,7 +29,7 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
   }
 
   public getObject(value: number): SampleObject {
-    return this.get('', () => new SampleObject(value));
+    return this.getOrCreate('', () => new SampleObject(value));
   }
 
   public simulateGroomingInterval(): void {

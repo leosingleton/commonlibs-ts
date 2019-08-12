@@ -129,7 +129,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
     this.pools = {};
   }
 
-  protected get(id: string, create: () => T): T {
+  protected getOrCreate(id: string, create: () => T): T {
     let pool = this.pools[id];
     if (!pool) {
       pool = this.pools[id] = new Pool(this.strategy, this.groomingPeriods);
