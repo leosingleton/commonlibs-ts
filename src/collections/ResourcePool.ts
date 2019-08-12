@@ -105,8 +105,8 @@ class Pool<T extends IDisposable> implements IDisposable {
   }
 }
 
-export class ResourcePool<T extends IDisposable> implements IDisposable {
-  public constructor(strategy = RetentionStrategy.KeepMinimum, groomingInterval = 5000, groomingPeriods = 6) {
+export abstract class ResourcePool<T extends IDisposable> implements IDisposable {
+  protected constructor(strategy = RetentionStrategy.KeepMinimum, groomingInterval = 5000, groomingPeriods = 6) {
     this.strategy = strategy;
     this.groomingInterval = groomingInterval;
     this.groomingPeriods = groomingPeriods;
@@ -117,9 +117,9 @@ export class ResourcePool<T extends IDisposable> implements IDisposable {
     }
   }
 
-  private strategy: RetentionStrategy;
-  private groomingInterval: number;
-  private groomingPeriods: number;
+  protected readonly strategy: RetentionStrategy;
+  protected readonly groomingInterval: number;
+  protected readonly groomingPeriods: number;
 
   public dispose(): void {
     let ids = Object.keys(this.pools);
@@ -129,7 +129,7 @@ export class ResourcePool<T extends IDisposable> implements IDisposable {
     this.pools = {};
   }
 
-  public get(id: string, create: () => T): T {
+  protected get(id: string, create: () => T): T {
     let pool = this.pools[id];
     if (!pool) {
       pool = this.pools[id] = new Pool(this.strategy, this.groomingPeriods);
