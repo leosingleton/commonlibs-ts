@@ -5,10 +5,24 @@
 import { CircularBuffer } from './CircularBuffer';
 import { IDisposable } from '../dotnet';
 
+/** Retention strategies for ResourcePool */
 export const enum RetentionStrategy {
+  /** Disables resource pooling. Always disposes objects and never saves them for reuse. */
   AlwaysDispose,
+
+  /**
+   * Ensures enough objects are kept in the pool to fulfill the peak concurrent use of each type. If the previous
+   * periods had varying usage, then the lowest peak of the previous periods is used.
+   */
   KeepMinimum,
+
+  /**
+   * Ensures enough objects are kept in the pool to fulfill the peak concurrent use of each type. If the previous
+   * periods had varying usage, then the highest peak of the previous periods is used.
+   */
   KeepMaximum,
+
+  /** Keeps all unused objects in the pool until the pool itself is disposed. */
   AlwaysKeep
 }
 
@@ -105,7 +119,20 @@ class Pool<T extends IDisposable> implements IDisposable {
   }
 }
 
+/**
+ * Resource pools are used for objects that are expensive to create and destroy and aims to reuse as many objects as
+ * possible. This base class provides functionality for creating a resource pool for a specific object type.
+ */
 export abstract class ResourcePool<T extends IDisposable> implements IDisposable {
+  /**
+   * Constructor
+   * @param strategy Retention strategy. See the details on the values of the RetentionStrategy enum.
+   * @param groomingInterval Grooming interval, in milliseconds. Note that objects are always disposed as soon as the
+   *    upper limit is hit--this interval simply controls how often the limit is recalculated, which if lower, will
+   *    result in objects being groomed. This value only applies to the KeepMinimum and KeepMaximum strategies.
+   * @param groomingPeriods The number of grooming periods to track for historical purposes. This value only applies to
+   *    the KeepMinimum and KeepMaximum strategies.
+   */
   protected constructor(strategy = RetentionStrategy.KeepMinimum, groomingInterval = 5000, groomingPeriods = 6) {
     this.strategy = strategy;
     this.groomingInterval = groomingInterval;
@@ -117,8 +144,20 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
     }
   }
 
+  /** Retention strategy. See the details on the values of the RetentionStrategy enum. */
   protected readonly strategy: RetentionStrategy;
+
+  /**
+   * Grooming interval, in milliseconds. Note that objects are always disposed as soon as the upper limit is hit--this
+   * interval simply controls how often the limit is recalculated, which if lower, will result in objects being
+   * groomed. This value only applies to the KeepMinimum and KeepMaximum strategies.
+   */
   protected readonly groomingInterval: number;
+
+  /**
+   * The number of grooming periods to track for historical purposes. This value only applies to the KeepMinimum and
+   * KeepMaximum strategies.
+   */
   protected readonly groomingPeriods: number;
 
   public dispose(): void {
@@ -127,9 +166,20 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
       this.pools[id].dispose();
     });
     this.pools = {};
+
+    // Stop the grooming thread
+    this.isDisposed = true;
   }
 
-  protected getOrCreate(id: string, create: () => T): T {
+  /**
+   * Gets an object from the pool or creates a new one if there are none available
+   * @param id Unique string describing the object creation parameters--only objects with matching IDs will be shared.
+   *    The ID format is specific to the object type. For example, an image might have resolution and color depth as
+   *    parameters which make up the ID, whereas a socket might have hostname and port.
+   * @param create Lambda function to create a new object. This is only invoked if no unused objects in the pool match
+   *    the requested ID.
+   */
+  protected getOrCreateObject(id: string, create: () => T): T {
     let pool = this.pools[id];
     if (!pool) {
       pool = this.pools[id] = new Pool(this.strategy, this.groomingPeriods);
@@ -145,16 +195,22 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
     return makePooledDisposable(obj, o2 => pool.returnObject(o2));
   }
 
+  /**
+   * Executes grooming. Normally this function is invoked automatically based on the grooming interval specified in the
+   * constructor. However, if the grooming interval is set to 0 in the constructor, derived classes may explicitly
+   * invoke it to have full control over when grooming runs.
+   */
   protected groom(): void {
     let ids = Object.keys(this.pools);
     ids.forEach(id => {
       this.pools[id].groom();
     });
 
-    if (this.groomingInterval > 0) {
+    if (!this.isDisposed && this.groomingInterval > 0) {
       setTimeout(() => this.groom(), this.groomingInterval);
     }
   }
 
   private pools: { [id: string]: Pool<T> } = {};
+  private isDisposed = false;
 }

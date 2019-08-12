@@ -28,8 +28,8 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
     super(strategy, 0, 3);
   }
 
-  public getObject(value: number, id = ''): SampleObject {
-    return this.getOrCreate(id, () => new SampleObject(value));
+  public getSampleObject(value: number, id = ''): SampleObject {
+    return this.getOrCreateObject(id, () => new SampleObject(value));
   }
 
   public simulateGroomingInterval(): void {
@@ -42,15 +42,15 @@ describe('ResourcePool', () => {
   it('Implements the always dispose strategy', () => {
     let pool = new SampleResourcePool(RetentionStrategy.AlwaysDispose);
 
-    let o1 = pool.getObject(1);
+    let o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(-1);
 
-    let o2 = pool.getObject(2);
+    let o2 = pool.getSampleObject(2);
     expect(o2.value).toBe(2); // New object is created every time
 
-    let o3 = pool.getObject(3);
+    let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // New object is created every time
     o3.dispose();
     expect(o3.value).toBe(-1);
@@ -64,15 +64,15 @@ describe('ResourcePool', () => {
   it('Implements the always keep strategy', () => {
     let pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
 
-    let o1 = pool.getObject(1);
+    let o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
 
-    let o2 = pool.getObject(2);
+    let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
 
-    let o3 = pool.getObject(3);
+    let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -89,15 +89,15 @@ describe('ResourcePool', () => {
   it('Implements the keep minimum dispose strategy', () => {
     let pool = new SampleResourcePool(RetentionStrategy.KeepMinimum);
 
-    let o1 = pool.getObject(1);
+    let o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
 
-    let o2 = pool.getObject(2);
+    let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
 
-    let o3 = pool.getObject(3);
+    let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -122,15 +122,15 @@ describe('ResourcePool', () => {
   it('Implements the keep maximum dispose strategy', () => {
     let pool = new SampleResourcePool(RetentionStrategy.KeepMaximum);
 
-    let o1 = pool.getObject(1);
+    let o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
 
-    let o2 = pool.getObject(2);
+    let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
 
-    let o3 = pool.getObject(3);
+    let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -155,12 +155,12 @@ describe('ResourcePool', () => {
   it('Separates objects by ID', () => {
     let pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
 
-    let o1 = pool.getObject(1, 'a');
+    let o1 = pool.getSampleObject(1, 'a');
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool for 'a'
 
-    let o2 = pool.getObject(2, 'b');
+    let o2 = pool.getSampleObject(2, 'b');
     expect(o2.value).toBe(2); // Created new. ID of 'b' was requested, not 'a'
     o2.dispose();
     expect(o2.value).toBe(2); // Returned to pool for 'b'
