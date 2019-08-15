@@ -23,17 +23,17 @@ describe('AsyncEventWaitHandle', () => {
     let e = new AsyncManualResetEvent(false);
 
     createWaitTask(e);
-    await Task.delay(10);
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(0);
 
-    e.set();
+    e.setEvent();
     createWaitTask(e);
-    await Task.delay(10);
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(2);
 
-    e.reset();
+    e.resetEvent();
     createWaitTask(e);
-    await Task.delay(10);
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(2);
   });
 
@@ -42,16 +42,16 @@ describe('AsyncEventWaitHandle', () => {
     let e = new AsyncAutoResetEvent(false);
 
     createWaitTask(e);
-    await Task.delay(10);
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(0);
 
-    e.set();
+    e.setEvent();
     createWaitTask(e);
-    await Task.delay(10);
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(1);
 
-    e.set();
-    await Task.delay(10);
+    e.setEvent();
+    await Task.delayAsync(10);
     expect(_wokenCount).toEqual(2);
   });
 });

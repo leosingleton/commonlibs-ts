@@ -15,7 +15,7 @@ export class AsyncMutex {
   private unlockedEvent = new AsyncAutoResetEvent();
 
   /** Acquires the mutex. Blocks until the lock is acquired. */
-  async lock(): Promise<void> {
+  public async lockMutexAsync(): Promise<void> {
     while (this.isLocked) {
       await this.unlockedEvent.waitAsync();
     }
@@ -23,8 +23,8 @@ export class AsyncMutex {
     this.isLocked = true;
   }
 
-  unlock(): void {
+  public unlockMutex(): void {
     this.isLocked = false;
-    this.unlockedEvent.set();
+    this.unlockedEvent.setEvent();
   }
 }

@@ -18,7 +18,7 @@ describe('TaskScheduler', () => {
     TaskScheduler.schedule(() => n++, 0);
 
     // Give the tasks time to execute
-    await Task.delay(100);
+    await Task.delayAsync(100);
 
     // Following priority, increment before multiply
     expect(n).toEqual(202);
@@ -34,7 +34,7 @@ describe('TaskScheduler', () => {
     TaskScheduler.schedule(() => n++, 0);
 
     // Execute ourselves at the lowest priority
-    await TaskScheduler.yield(2);
+    await TaskScheduler.yieldAsync(2);
     n = n * n;
 
     // Following priority, increment then multiply then square
@@ -51,12 +51,12 @@ describe('TaskScheduler', () => {
     TaskScheduler.schedule(() => n++, 0);
 
     // Execute ourselves at the middle priority
-    await TaskScheduler.yield(1);
+    await TaskScheduler.yieldAsync(1);
     n = n * n;
 
     // Following priority, increment then square then multiply
     expect(n).toEqual(101 * 101);
-    await Task.delay(100);
+    await Task.delayAsync(100);
     expect(n).toEqual(101 * 101 * 2);
   });
 
@@ -64,7 +64,7 @@ describe('TaskScheduler', () => {
     let count = 0;
 
     for (let n = 0; n < 100; n++) {
-      await TaskScheduler.yield();
+      await TaskScheduler.yieldAsync();
       count++;
     }
 
@@ -78,7 +78,7 @@ describe('TaskScheduler', () => {
     let exec = (typeof requestAnimationFrame !== 'undefined') ? requestAnimationFrame : setTimeout;
     let event = async () => {
       if (++count === 100) {
-        done.set();
+        done.setEvent();
       } else {
         // Launch another event
         exec(event);
@@ -90,7 +90,7 @@ describe('TaskScheduler', () => {
         while (timer.getElapsedMilliseconds() < 10);
 
         // Yield to let the event handlers execute
-        await TaskScheduler.yield();
+        await TaskScheduler.yieldAsync();
       }
     };
     exec(event);

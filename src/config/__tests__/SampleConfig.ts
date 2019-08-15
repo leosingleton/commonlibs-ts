@@ -8,7 +8,7 @@ import { ConfigurationOptions, ConfigurationFlags, StorageType } from '../Config
 export class SampleConfig extends ConfigurationOptions {
   public constructor() {
     super('test_', ConfigurationFlags.AllowNonBrowsers);
-    this.initialize();
+    this.initializeValues();
   }
 
   /** A string setting persisted in local storage */

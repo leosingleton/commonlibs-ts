@@ -8,9 +8,9 @@ import { AsyncManualResetEvent } from '../../coordination';
 describe('Runtime', () => {
 
   it('Detects a web browser', () => {
-    expect(Runtime.isNode).toBeFalsy();
-    expect(Runtime.isWebWorker).toBeFalsy();
-    expect(Runtime.isWindow).toBeTruthy();
+    expect(Runtime.isInNode).toBeFalsy();
+    expect(Runtime.isInWebWorker).toBeFalsy();
+    expect(Runtime.isInWindow).toBeTruthy();
   });
 
   it('Detects a Web Worker', async () => {
@@ -22,7 +22,7 @@ describe('Runtime', () => {
     worker.onmessage = e => {
       if (e.data.command === 'RuntimeUnitTest') {
         result = e.data.value;
-        done.set();  
+        done.setEvent();
       }
     };
 

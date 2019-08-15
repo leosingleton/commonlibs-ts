@@ -69,8 +69,8 @@ class Pool<T extends IDisposable> implements IDisposable {
   public getTargetObjectCount(): number {
     switch (this.strategy) {
       case RetentionStrategy.AlwaysDispose: return 0;
-      case RetentionStrategy.KeepMinimum:   return Math.max(this.inUseHistorical.min(), this.inUseMaximum);
-      case RetentionStrategy.KeepMaximum:   return Math.max(this.inUseHistorical.max(), this.inUseMaximum);
+      case RetentionStrategy.KeepMinimum:   return Math.max(this.inUseHistorical.minValue(), this.inUseMaximum);
+      case RetentionStrategy.KeepMaximum:   return Math.max(this.inUseHistorical.maxValue(), this.inUseMaximum);
       case RetentionStrategy.AlwaysKeep:    return Number.MAX_SAFE_INTEGER;
     }
   }
@@ -107,7 +107,7 @@ class Pool<T extends IDisposable> implements IDisposable {
   }
 
   public groom(): void {
-    this.inUseHistorical.push(this.inUseMaximum);
+    this.inUseHistorical.pushValue(this.inUseMaximum);
     this.inUseMaximum = this.inUseCurrent;
 
     let objs = this.objects;

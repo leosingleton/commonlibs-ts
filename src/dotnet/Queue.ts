@@ -40,7 +40,7 @@ export class Queue<T> {
   /**
    * Returns the queue as an array
    */
-  public toArray(): T[] {
+  public toValueArray(): T[] {
     return this._values;
   }
 

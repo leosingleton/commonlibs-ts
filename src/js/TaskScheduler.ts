@@ -29,7 +29,7 @@ export class TaskScheduler {
    * @param priority Priority of the current thread. Execution will resume once all tasks higher-priority than this
    *    have completed.
    */
-  public static yield(priority = 0): Promise<void> {
+  public static yieldAsync(priority = 0): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.schedule(() => resolve(), priority);
     });
@@ -43,7 +43,7 @@ let executeTasksEvents = 0;
 function executeTasksOnEventLoop(): void {
   executeTasksEvents++;
 
-  if (Runtime.isNode || Runtime.isWebWorker) {
+  if (Runtime.isInNode || Runtime.isInWebWorker) {
     // NodeJS has a setImmediate() which avoids the hacky postMessage() call, but if we as much as reference it,
     // Webpack loads a polyfill which breaks web workers.
     //
@@ -61,13 +61,13 @@ function executeTasksOnEventLoop(): void {
 const eventData = '@ls/cl/TS';
 
 // Initialize the task queue and message handlers
-if (typeof Runtime.global[eventData] === 'undefined') {
+if (typeof Runtime.globalObject[eventData] === 'undefined') {
   // We are the first instance of TaskScheduler to be initialized
-  readyTasks = Runtime.global[eventData] = new PriorityQueue<Lambda>();
+  readyTasks = Runtime.globalObject[eventData] = new PriorityQueue<Lambda>();
 
   // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register the
   // event handler from one (the first) instance of TaskScheduler.
-  if (!Runtime.isNode && !Runtime.isWebWorker) {
+  if (!Runtime.isInNode && !Runtime.isInWebWorker) {
     self.addEventListener('message', event => {
       if (event.data === eventData) {
         event.stopPropagation();
@@ -81,7 +81,7 @@ if (typeof Runtime.global[eventData] === 'undefined') {
   // a bundler like Webpack embedded the TaskScheduler multiple times, which is inefficient. Check for mismatched
   // versions of @leosingleton/commonlibs or other build configuration errors.
   console.log('Warning: Multiple TaskScheduler instances');
-  readyTasks = Runtime.global[eventData];
+  readyTasks = Runtime.globalObject[eventData];
 }
 
 /** Handler invoked on the event loop to execute tasks in the readyTasks queue */

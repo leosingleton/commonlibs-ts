@@ -7,9 +7,9 @@ import { Runtime } from '../Runtime';
 describe('Runtime', () => {
 
   it('Detects NodeJS', () => {
-    expect(Runtime.isNode).toBeTruthy();
-    expect(Runtime.isWebWorker).toBeFalsy();
-    expect(Runtime.isWindow).toBeFalsy();
+    expect(Runtime.isInNode).toBeTruthy();
+    expect(Runtime.isInWebWorker).toBeFalsy();
+    expect(Runtime.isInWindow).toBeFalsy();
   });
 
 });

@@ -15,10 +15,10 @@ describe('AsyncTimerEvent', () => {
       hasFired = true;
     });
 
-    await Task.delay(900);
+    await Task.delayAsync(900);
     expect(hasFired).toBeFalsy();
 
-    await Task.delay(200);
+    await Task.delayAsync(200);
     expect(hasFired).toBeTruthy();
   });
 
@@ -32,9 +32,9 @@ describe('AsyncTimerEvent', () => {
       }
     });
 
-    await Task.delay(1000);
+    await Task.delayAsync(1000);
     expect(fireCount).toBeGreaterThanOrEqual(8);
     expect(fireCount).toBeLessThanOrEqual(12);
-    await Task.delay(500);
+    await Task.delayAsync(500);
   });
 });

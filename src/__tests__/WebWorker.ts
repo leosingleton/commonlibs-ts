@@ -11,7 +11,7 @@ self.onmessage = async ev => {
       case 'Runtime':
         (self as any).postMessage({
           command: 'RuntimeUnitTest',
-          value: [ Runtime.isNode, Runtime.isWebWorker, Runtime.isWindow ]
+          value: [ Runtime.isInNode, Runtime.isInWebWorker, Runtime.isInWindow ]
         });
         break;
 
@@ -26,7 +26,7 @@ self.onmessage = async ev => {
         TaskScheduler.schedule(() => n++, 0);
   
         // Give the tasks time to execute
-        await Task.delay(100);
+        await Task.delayAsync(100);
   
         // Following priority, increment before multiply. Should yield 202.
         //

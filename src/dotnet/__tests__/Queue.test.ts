@@ -15,7 +15,7 @@ describe('Queue', () => {
 
     expect(q.getCount()).toEqual(3);
     expect(q.isEmpty()).toBeFalsy();
-    expect(q.toArray()).toEqual([1, 2, 3]);
+    expect(q.toValueArray()).toEqual([1, 2, 3]);
 
     expect(q.tryPeek()).toEqual(1);
     expect(q.dequeue()).toEqual(1);

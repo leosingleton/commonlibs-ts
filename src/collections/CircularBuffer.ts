@@ -7,26 +7,26 @@
  */
 export class CircularBuffer {
   constructor(size: number) {
-    this.resize(size);
+    this.resizeBuffer(size);
   }
 
-  getLength(): number {
+  public getLength(): number {
     return this.vals.length;
   }
 
-  resize(size: number) {
+  public resizeBuffer(size: number) {
     this.vals = new Array<number>(size);
-    this.next = 0;
+    this.nextValue = 0;
   }
 
-  push(value: number): void {
+  public pushValue(value: number): void {
     // Insert the value into the array. Store the previous value for the optimizations below.
-    let prevValue = this.vals[this.next];
-    this.vals[this.next] = value;
+    let prevValue = this.vals[this.nextValue];
+    this.vals[this.nextValue] = value;
 
     // When we reach the end of the circular buffer, wrap around to the beginning.
-    if (++this.next >= this.vals.length) {
-      this.next = 0;
+    if (++this.nextValue >= this.vals.length) {
+      this.nextValue = 0;
     }
 
     // The rest of this function is just performance optimizations for min/max/mean...
@@ -57,7 +57,7 @@ export class CircularBuffer {
     }
   }
 
-  min(): number {
+  public minValue(): number {
     if (!this.cachedMin) {
       let min = this.vals[0];
     
@@ -74,7 +74,7 @@ export class CircularBuffer {
     return this.cachedMin;
   }
 
-  max(): number {
+  public maxValue(): number {
     if (!this.cachedMax) {
       let max = this.vals[0];
       
@@ -91,7 +91,7 @@ export class CircularBuffer {
     return this.cachedMax;
   }
 
-  mean(): number {
+  public meanValue(): number {
     if (!this.cachedSum) {
       let sum = 0;
 
@@ -106,7 +106,7 @@ export class CircularBuffer {
   }
 
   private vals: number[];
-  private next: number;
+  private nextValue: number;
 
   // The following cached values are used to optimize the min/max/mean functions. They are left undefined until the
   // corresponding function is called. Once set, it is assumed the function will be called again soon, so the running
