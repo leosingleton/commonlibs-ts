@@ -8,36 +8,36 @@ describe('CircularBuffer', () => {
   it('calculates min/mean/max', () => {
     let c = new CircularBuffer(5);
 
-    c.push(1);
-    c.push(2);
-    c.push(3);
-    c.push(4);
-    c.push(5);
+    c.pushValue(1);
+    c.pushValue(2);
+    c.pushValue(3);
+    c.pushValue(4);
+    c.pushValue(5);
 
-    expect(c.min()).toEqual(1);
-    expect(c.mean()).toEqual(3);
-    expect(c.max()).toEqual(5);
+    expect(c.minValue()).toEqual(1);
+    expect(c.meanValue()).toEqual(3);
+    expect(c.maxValue()).toEqual(5);
 
-    c.push(6); // Replaces 1
-    c.push(7); // Replaces 2
+    c.pushValue(6); // Replaces 1
+    c.pushValue(7); // Replaces 2
     
-    expect(c.min()).toEqual(3);
-    expect(c.mean()).toEqual(5);
-    expect(c.max()).toEqual(7);
+    expect(c.minValue()).toEqual(3);
+    expect(c.meanValue()).toEqual(5);
+    expect(c.maxValue()).toEqual(7);
 
-    c.push(3); // Replaces 3
-    c.push(5); // Replaces 4
-    c.push(5); // Replaces 5
-    c.push(5); // Replaces 6
+    c.pushValue(3); // Replaces 3
+    c.pushValue(5); // Replaces 4
+    c.pushValue(5); // Replaces 5
+    c.pushValue(5); // Replaces 6
     
-    expect(c.min()).toEqual(3);
-    expect(c.mean()).toEqual(5);
-    expect(c.max()).toEqual(7);
+    expect(c.minValue()).toEqual(3);
+    expect(c.meanValue()).toEqual(5);
+    expect(c.maxValue()).toEqual(7);
 
-    c.push(2); // Replaces 7
+    c.pushValue(2); // Replaces 7
 
-    expect(c.min()).toEqual(2);
-    expect(c.mean()).toEqual(4);
-    expect(c.max()).toEqual(5);
+    expect(c.minValue()).toEqual(2);
+    expect(c.meanValue()).toEqual(4);
+    expect(c.maxValue()).toEqual(5);
   });
 });

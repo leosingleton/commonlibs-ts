@@ -82,10 +82,10 @@ export abstract class ConfigurationOptions {
    * _IMPORTANT_: The constructor does not fully initialize the object. Derived classes create a constructor which does
    * the following:
    *  1. Calls super() to invoke the parent constructor with the desired prefix and flags
-   *  2. Calls initialize() to complete the initialization
+   *  2. Calls initializeValues() to complete the initialization
    * 
    * This is due to the order of initialization described here: https://github.com/microsoft/TypeScript/issues/1617
-   * The initialize() method first requires the derived class's defaults property to be initialized.
+   * The initializeValues() method first requires the derived class's defaults property to be initialized.
    * 
    * @param prefix Optional prefix to apply to each option's name
    * @param flags See ConfigurationFlags
@@ -98,8 +98,8 @@ export abstract class ConfigurationOptions {
   }
 
   /** Must be called by derived classes after they initialize the defaults property */
-  protected initialize(): void {
-    if (Runtime.isWindow) {
+  protected initializeValues(): void {
+    if (Runtime.isInWindow) {
       // Web Browser: Begin syncing from local/session storage
       this.readFromStorage(true);
     } else {
@@ -172,7 +172,7 @@ export abstract class ConfigurationOptions {
       me[property] = value;
 
       // On the first iteration, perform write back
-      if (firstRun && !Runtime.isWebWorker) {
+      if (firstRun && !Runtime.isInWebWorker) {
         if (!fromQueryString || (flags & ConfigurationFlags.WriteQueryStringValuesToStorage) !== 0) {
           let shouldWrite = false;
           if (type === StorageType.Local || type === StorageType.LocalOnly) {
@@ -199,7 +199,7 @@ export abstract class ConfigurationOptions {
    *    class.
    */
   public writeToStorage(values: {[id: string]: string | number | boolean}): void {
-    if (Runtime.isWebWorker) {
+    if (Runtime.isInWebWorker) {
       throw new Error('Cannot write from web worker');
     }
 

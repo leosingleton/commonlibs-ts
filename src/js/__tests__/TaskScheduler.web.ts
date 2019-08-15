@@ -15,7 +15,7 @@ describe('TaskScheduler', () => {
     worker.onmessage = e => {
       if (e.data.command === 'UnitTest') {
         result = e.data.value;
-        done.set();  
+        done.setEvent();  
       }
     };
 

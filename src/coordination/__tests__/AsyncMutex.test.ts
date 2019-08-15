@@ -16,7 +16,7 @@ describe('AsyncMutex', () => {
     // Create 10 "threads" that increment a value 10 times each
     for (let n = 0; n < 10; n++) {
       setTimeout(async () => {
-        await mutex.lock();
+        await mutex.lockMutexAsync();
 
         let privateValue = sharedValue;
         for (let m = 0; m < 10; m++) {
@@ -26,14 +26,14 @@ describe('AsyncMutex', () => {
           expect(sharedValue).toEqual(privateValue);
 
           if (sharedValue === 100) {
-            hundredEvent.set(); // The test case is complete
+            hundredEvent.setEvent(); // The test case is complete
           }
 
           // Yield the CPU to give other "threads" a chance to run
-          await Task.delay(0);
+          await Task.delayAsync(0);
         }
 
-        mutex.unlock();
+        mutex.unlockMutex();
       });
     }
 

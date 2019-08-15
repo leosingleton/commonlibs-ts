@@ -18,7 +18,7 @@ export class AsyncTimerEvent extends AsyncEventWaitHandle {
   }
 
   private _timerLoop(): void {
-    this.set();
+    this.setEvent();
 
     if (this._repeat) {
       setTimeout(() => this._timerLoop(), this._millisecondsDelay);

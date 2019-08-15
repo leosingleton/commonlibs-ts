@@ -66,7 +66,7 @@ describe('Disposable', () => {
 
     await usingAsync(c, async cx => {
       expect(c.isDisposed).toBeFalsy();
-      await Task.delay(100);
+      await Task.delayAsync(100);
       expect(c.isDisposed).toBeFalsy();
     });
 

@@ -12,7 +12,7 @@ export class Task {
    * Blocks the current execution for the specified number of milliseconds. Equivalent to Task.Delay() in C#.
    * @param millisecondsDelay Number of milliseconds to delay
    */
-  public static delay(millisecondsDelay: number): Promise<void> {
+  public static delayAsync(millisecondsDelay: number): Promise<void> {
     if (millisecondsDelay > 0) {
       // Create a Promise and use setTimeout() to call resolve after the right delay
       return new Promise<void>((resolve, reject) => {

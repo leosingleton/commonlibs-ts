@@ -19,7 +19,7 @@ export abstract class AsyncEventWaitHandle {
     return this._isSet;
   }
 
-  public set(): void {
+  public setEvent(): void {
     let waiter: Waiter;
     while (waiter = this._waiters.dequeue()) {
       // For auto-reset, abort after the first Task is released. For manual-reset, release all Tasks.
@@ -31,7 +31,7 @@ export abstract class AsyncEventWaitHandle {
     this._isSet = true;
   }
 
-  public reset(): void {
+  public resetEvent(): void {
     this._isSet = false;
   }
 
