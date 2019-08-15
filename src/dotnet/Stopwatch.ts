@@ -30,20 +30,20 @@ export class Stopwatch {
   }
 
   /** Stops time interval measurement and resets the elapsed time to zero. */
-  public reset(): void {
+  public resetTimer(): void {
     this._elapsedMilliseconds = 0;
     this._isRunning = false;
   }
 
   /** Stops time interval measurement, resets the elapsed time to zero, and starts measuring elapsed time. */
-  public restart(): void {
-    this.stop();
+  public restartTimer(): void {
+    this.stopTimer();
     this._elapsedMilliseconds = 0;
-    this.start();
+    this.startTimer();
   }
 
   /** Starts, or resumes, measuring elapsed time for an interval. */
-  public start(): void {
+  public startTimer(): void {
     // According to the MSDN docs, Start() while running does nothing
     if (!this._isRunning) {
       this._startTime = now();
@@ -56,12 +56,12 @@ export class Stopwatch {
    */
   public static startNew(): Stopwatch {
     let result = new Stopwatch();
-    result.start();
+    result.startTimer();
     return result;
   }
 
   /** Stops measuring elapsed time for an interval. */
-  public stop(): void {
+  public stopTimer(): void {
     // According to MSDN docs, Stop() while not running does nothing
     if (this._isRunning) {
       this._elapsedMilliseconds += now() - this._startTime;
