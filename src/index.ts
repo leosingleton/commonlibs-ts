@@ -23,6 +23,7 @@ export { DocumentReady } from './js/DocumentReady';
 export { ParsedQueryString, parseQueryString } from './js/QueryString';
 export { Runtime } from './js/Runtime';
 export { TaskScheduler } from './js/TaskScheduler';
+export { ErrorType, UnhandledError } from './js/UnhandledError';
 export { BinaryConverter } from './logic/BinaryConverter';
 export { deepCopy } from './logic/DeepCopy';
 export { VersionComparer } from './logic/VersionComparer';
