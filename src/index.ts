@@ -19,6 +19,7 @@ export { IDisposable, using, usingAsync, makeDisposable } from './dotnet/Disposa
 export { Queue } from './dotnet/Queue';
 export { Stopwatch } from './dotnet/Stopwatch';
 export { Task } from './dotnet/Task';
+export { DocumentReady } from './js/DocumentReady';
 export { ParsedQueryString, parseQueryString } from './js/QueryString';
 export { Runtime } from './js/Runtime';
 export { TaskScheduler } from './js/TaskScheduler';
