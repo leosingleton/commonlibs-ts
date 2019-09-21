@@ -9,7 +9,7 @@ export { DisposableSet } from './collections/DisposableSet';
 export { MovingAverage } from './collections/MovingAverage';
 export { PriorityQueue } from './collections/PriorityQueue';
 export { ResourcePool } from './collections/ResourcePool';
-export { ConfigurationOptions, StorageType } from './config/ConfigurationOptions';
+export { ConfigurationOptions, StorageType, ConfigurationFlags } from './config/ConfigurationOptions';
 export { AsyncAutoResetEvent } from './coordination/AsyncAutoResetEvent';
 export { AsyncEventWaitHandle } from './coordination/AsyncEventWaitHandle';
 export { AsyncManualResetEvent } from './coordination/AsyncManualResetEvent';
