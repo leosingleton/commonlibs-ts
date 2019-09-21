@@ -2,8 +2,9 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { Task } from '../dotnet';
-import { TaskScheduler, Runtime } from '../js';
+import { Task } from '../dotnet/Task';
+import { Runtime } from '../js/Runtime';
+import { TaskScheduler } from '../js/TaskScheduler';
 
 self.onmessage = async ev => {
   if (ev.data.command === 'UnitTest') {

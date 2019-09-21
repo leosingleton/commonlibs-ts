@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { Runtime } from '../Runtime';
-import { AsyncManualResetEvent } from '../../coordination';
+import { AsyncManualResetEvent } from '../../coordination/AsyncManualResetEvent';
 
 describe('Runtime', () => {
 
