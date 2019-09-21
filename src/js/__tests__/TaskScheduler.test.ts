@@ -3,8 +3,9 @@
 // See LICENSE in the project root for license information.
 
 import { TaskScheduler } from '../TaskScheduler';
-import { Stopwatch, Task } from '../../dotnet';
-import { AsyncManualResetEvent } from '../../coordination';
+import { Stopwatch } from '../../dotnet/Stopwatch';
+import { Task } from '../../dotnet/Task';
+import { AsyncManualResetEvent } from '../../coordination/AsyncManualResetEvent';
 
 describe('TaskScheduler', () => {
 

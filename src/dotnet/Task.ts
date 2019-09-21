@@ -2,7 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { TaskScheduler } from '../js';
+import { TaskScheduler } from '../js/TaskScheduler';
 
 /**
  * Useful functions for Promises that mirror C#'s Task class

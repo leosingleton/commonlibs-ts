@@ -2,7 +2,8 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { Runtime, parseQueryString, ParsedQueryString } from '../js';
+import { ParsedQueryString, parseQueryString } from '../js/QueryString';
+import { Runtime } from '../js/Runtime';
 
 /** Storage type for each configuration option */
 export const enum StorageType {

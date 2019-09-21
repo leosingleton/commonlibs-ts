@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { ResourcePool, RetentionStrategy } from '../ResourcePool';
-import { IDisposable } from '../../dotnet';
+import { IDisposable } from '../../dotnet/Disposable';
 
 /** Sample object for unit tests */
 class SampleObject implements IDisposable {

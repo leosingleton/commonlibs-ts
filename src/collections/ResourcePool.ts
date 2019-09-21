@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { CircularBuffer } from './CircularBuffer';
-import { IDisposable } from '../dotnet';
+import { IDisposable } from '../dotnet/Disposable';
 
 /** Retention strategies for ResourcePool */
 export const enum RetentionStrategy {
