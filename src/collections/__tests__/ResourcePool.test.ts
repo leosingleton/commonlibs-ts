@@ -209,3 +209,82 @@ describe('ResourcePool', () => {
   });
 
 });
+
+
+/** Special object for testing freeze/defrost */
+class FDObject implements IDisposable {
+  public isDisposed = false;
+  public shouldFreeze = true;
+  public shouldDefrost = true;
+
+  public dispose(): void {
+    this.isDisposed = true;
+  }
+}
+
+/** Special pool */
+class FDResourcePool extends ResourcePool<FDObject> {
+  public constructor() {
+    super(RetentionStrategy.AlwaysKeep);
+  }
+
+  public getFDObject(): FDObject {
+    return this.getOrCreateObject('', () => new FDObject());
+  }
+
+  protected freeze(obj: FDObject): boolean {
+    return obj.shouldFreeze;
+  }
+
+  protected defrost(obj: FDObject): boolean {
+    return obj.shouldDefrost;
+  }
+}
+
+// This is a set of test cases to repro a race condition which created an infinite loop when defrost() returned false,
+// which caused the fake dispose() that added it back to the pool, which immediately called defrost() on it again, ...
+describe('ResourcePool', () => {
+
+  it('Accepts freezing', () => {
+    let pool = new FDResourcePool();
+
+    let obj = pool.getFDObject();
+    obj.dispose();
+    expect(obj.isDisposed).toBeFalsy();
+  });
+
+  it('Rejects freezing', () => {
+    let pool = new FDResourcePool();
+
+    let obj1 = pool.getFDObject();
+    obj1.shouldFreeze = false;
+    obj1.dispose();
+    expect(obj1.isDisposed).toBeTruthy();
+
+    let obj2 = pool.getFDObject();
+    expect(obj2.isDisposed).toBeFalsy();
+  });
+
+  it('Accepts defrosting', () => {
+    let pool = new FDResourcePool();
+
+    let obj1 = pool.getFDObject();
+    obj1.dispose();
+
+    let obj2 = pool.getFDObject();
+    expect(obj1).toBe(obj2);
+  });
+
+  it('Rejects defrosting', () => {
+    let pool = new FDResourcePool();
+
+    let obj1 = pool.getFDObject();
+    obj1.dispose();
+
+    obj1.shouldDefrost = false;
+    let obj2 = pool.getFDObject();
+    expect(obj1.isDisposed).toBeTruthy();
+    expect(obj2.shouldDefrost).toBeTruthy();
+  });
+
+});
