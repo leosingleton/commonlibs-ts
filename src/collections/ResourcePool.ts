@@ -189,8 +189,12 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
     do {
       obj = pool.getObject();
       if (obj) {
+        // Execute any steps after removing the object from the pool. Ensure the result indicates the object is good to
+        // use (true), otherwise dispose it and pick another from the pool.
         if (this.defrost(obj)) {
           return obj;
+        } else {
+          obj.dispose();
         }
       }
     } while (obj);
@@ -198,6 +202,8 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
     obj = create();
     pool.onObjectCreated(obj);
     return makePooledDisposable(obj, o2 => {
+      // Execute any steps prior to inserting the object back into the pool. Ensure the result indicates the object is
+      // good to reuse (true), otherwise simply dispose it immediately.
       if (this.freeze(o2)) {
         pool.returnObject(o2);
       } else {
