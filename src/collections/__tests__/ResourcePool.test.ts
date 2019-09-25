@@ -20,6 +20,9 @@ class SampleObject implements IDisposable {
       this.value = -1;
     }
   }
+
+  public freezeCount = 0;
+  public defrostCount = 0;
 }
 
 /** Just for unit tests. Exposes the grooming timer so we can call it without waiting. */
@@ -35,6 +38,19 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
   public simulateGroomingInterval(): void {
     this.groom();
   }
+
+  protected freeze(obj: SampleObject) {
+    obj.freezeCount++;
+    this.freezeCount++;
+  }
+
+  protected defrost(obj: SampleObject) {
+    obj.defrostCount++;
+    this.defrostCount++;
+  }
+
+  public freezeCount = 0;
+  public defrostCount = 0;
 }
 
 describe('ResourcePool', () => {
@@ -59,6 +75,9 @@ describe('ResourcePool', () => {
     expect(o2.value).toBe(2);
     o2.dispose();
     expect(o2.value).toBe(-1);
+
+    expect(pool.freezeCount).toBe(3);
+    expect(pool.defrostCount).toBe(0);
   });
 
   it('Implements the always keep strategy', () => {
@@ -68,14 +87,19 @@ describe('ResourcePool', () => {
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
+    expect(o1.freezeCount).toBe(1);
 
     let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
+    expect(o1.defrostCount).toBe(1);
 
     let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
+
+    expect(pool.freezeCount).toBe(2);
+    expect(pool.defrostCount).toBe(1);
 
     pool.dispose();
     expect(o1.value).toBe(1);
@@ -93,14 +117,17 @@ describe('ResourcePool', () => {
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
+    expect(o1.freezeCount).toBe(1);
 
     let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
+    expect(o1.defrostCount).toBe(1);
 
     let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
+    expect(o3.freezeCount).toBe(1);
 
     pool.simulateGroomingInterval();
     expect(o3.value).toBe(3); // In the previous period, 2 objects were used at the same time. So minimum === 2.
@@ -115,6 +142,9 @@ describe('ResourcePool', () => {
     o2.dispose();
     expect(o2.value).toBe(1); // Returned to pool; not yet disposed
 
+    expect(pool.freezeCount).toBe(3);
+    expect(pool.defrostCount).toBe(1);
+
     pool.dispose();
     expect(o2.value).toBe(-1);
   });
@@ -126,14 +156,17 @@ describe('ResourcePool', () => {
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
+    expect(o1.freezeCount).toBe(1);
 
     let o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
+    expect(o1.defrostCount).toBe(1);
 
     let o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
+    expect(o3.freezeCount).toBe(1);
 
     pool.simulateGroomingInterval();
     expect(o3.value).toBe(3); // In the previous period, 2 objects were used at the same time. So maximum === 2.
@@ -147,6 +180,9 @@ describe('ResourcePool', () => {
 
     o2.dispose();
     expect(o2.value).toBe(1); // Returned to pool; not yet disposed
+
+    expect(pool.freezeCount).toBe(3);
+    expect(pool.defrostCount).toBe(1);
 
     pool.dispose();
     expect(o2.value).toBe(-1);

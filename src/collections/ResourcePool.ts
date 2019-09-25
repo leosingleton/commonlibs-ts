@@ -187,12 +187,16 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
 
     let obj = pool.getObject();
     if (obj) {
+      this.defrost(obj);
       return obj;
     }
 
     obj = create();
     pool.onObjectCreated(obj);
-    return makePooledDisposable(obj, o2 => pool.returnObject(o2));
+    return makePooledDisposable(obj, o2 => {
+      this.freeze(o2);
+      pool.returnObject(o2);
+    });
   }
 
   /**
@@ -210,6 +214,20 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
       setTimeout(() => this.groom(), this.groomingInterval);
     }
   }
+
+  /**
+   * Method invoked before an object is added to the pool. Derived classes can override this method and perform any
+   * actions on the object to prepare it for long-term storage in the pool.
+   * @param obj Object that will be added to a pool
+   */
+  protected freeze(obj: T): void { }
+
+  /**
+   * Method invoked immediately after an objetc is removed from the pool. Derived classes can override this method and
+   * perform any actions on the object to get it ready to be reused.
+   * @param obj Object that has been removed from a pool
+   */
+  protected defrost(obj: T): void { }
 
   private pools: { [id: string]: Pool<T> } = {};
   private isDisposed = false;
