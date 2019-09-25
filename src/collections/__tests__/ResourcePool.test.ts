@@ -39,14 +39,16 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
     this.groom();
   }
 
-  protected freeze(obj: SampleObject) {
+  protected freeze(obj: SampleObject): boolean {
     obj.freezeCount++;
     this.freezeCount++;
+    return true;
   }
 
-  protected defrost(obj: SampleObject) {
+  protected defrost(obj: SampleObject): boolean {
     obj.defrostCount++;
     this.defrostCount++;
+    return true;
   }
 
   public freezeCount = 0;
