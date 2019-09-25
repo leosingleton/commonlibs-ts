@@ -194,7 +194,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
         if (this.defrost(obj)) {
           return obj;
         } else {
-          obj.dispose();
+          (obj as any as IPooledDisposable).realDispose();
         }
       }
     } while (obj);
