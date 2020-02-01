@@ -34,4 +34,19 @@ export class Task {
     // backwards-compatibility.
     TaskScheduler.schedule(lambda);
   }
+
+  /**
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * function in JavaScript.
+   *
+   * This variation of run() supports async functions which return a Promise and returns exceptions via the
+   * UnhandledError class.
+   *
+   * @param lambda Lambda function to execute
+   */
+  public static runAsyncVoid(lambda: () => Promise<void>): void {
+    // The functionality has been replaced with TaskScheduler. This function just exists as a simple wrapper for
+    // backwards-compatibility.
+    TaskScheduler.scheduleAsyncVoid(lambda);
+  }
 }
