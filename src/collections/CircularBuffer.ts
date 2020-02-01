@@ -6,7 +6,7 @@
  * Holds a circular buffer of numbers
  */
 export class CircularBuffer {
-  constructor(size: number) {
+  public constructor(size: number) {
     this.resizeBuffer(size);
   }
 
@@ -21,7 +21,7 @@ export class CircularBuffer {
 
   public pushValue(value: number): void {
     // Insert the value into the array. Store the previous value for the optimizations below.
-    let prevValue = this.vals[this.nextValue];
+    const prevValue = this.vals[this.nextValue];
     this.vals[this.nextValue] = value;
 
     // When we reach the end of the circular buffer, wrap around to the beginning.
@@ -60,9 +60,9 @@ export class CircularBuffer {
   public minValue(): number {
     if (!this.cachedMin) {
       let min = this.vals[0];
-    
+
       for (let n = 1; n < this.vals.length; n++) {
-        let value = this.vals[n];
+        const value = this.vals[n];
         if (value < min) {
           min = value;
         }
@@ -77,9 +77,9 @@ export class CircularBuffer {
   public maxValue(): number {
     if (!this.cachedMax) {
       let max = this.vals[0];
-      
+
       for (let n = 1; n < this.vals.length; n++) {
-        let value = this.vals[n];
+        const value = this.vals[n];
         if (value > max) {
           max = value;
         }
@@ -95,8 +95,8 @@ export class CircularBuffer {
     if (!this.cachedSum) {
       let sum = 0;
 
-      for (let n = 0; n < this.vals.length; n++) {
-        sum += this.vals[n];
+      for (const value of this.vals) {
+        sum += value;
       }
 
       this.cachedSum = sum;

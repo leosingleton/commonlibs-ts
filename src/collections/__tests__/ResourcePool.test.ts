@@ -15,7 +15,7 @@ class SampleObject implements IDisposable {
 
   public dispose(): void {
     if (this.value === -1) {
-      throw new Error('Double dispose')
+      throw new Error('Double dispose');
     } else {
       this.value = -1;
     }
@@ -58,17 +58,17 @@ class SampleResourcePool extends ResourcePool<SampleObject> {
 describe('ResourcePool', () => {
 
   it('Implements the always dispose strategy', () => {
-    let pool = new SampleResourcePool(RetentionStrategy.AlwaysDispose);
+    const pool = new SampleResourcePool(RetentionStrategy.AlwaysDispose);
 
-    let o1 = pool.getSampleObject(1);
+    const o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(-1);
 
-    let o2 = pool.getSampleObject(2);
+    const o2 = pool.getSampleObject(2);
     expect(o2.value).toBe(2); // New object is created every time
 
-    let o3 = pool.getSampleObject(3);
+    const o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // New object is created every time
     o3.dispose();
     expect(o3.value).toBe(-1);
@@ -83,19 +83,19 @@ describe('ResourcePool', () => {
   });
 
   it('Implements the always keep strategy', () => {
-    let pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
+    const pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
 
-    let o1 = pool.getSampleObject(1);
+    const o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
     expect(o1.freezeCount).toBe(1);
 
-    let o2 = pool.getSampleObject(2);
+    const o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
     expect(o1.defrostCount).toBe(1);
 
-    let o3 = pool.getSampleObject(3);
+    const o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -113,19 +113,19 @@ describe('ResourcePool', () => {
   });
 
   it('Implements the keep minimum dispose strategy', () => {
-    let pool = new SampleResourcePool(RetentionStrategy.KeepMinimum);
+    const pool = new SampleResourcePool(RetentionStrategy.KeepMinimum);
 
-    let o1 = pool.getSampleObject(1);
+    const o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
     expect(o1.freezeCount).toBe(1);
 
-    let o2 = pool.getSampleObject(2);
+    const o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
     expect(o1.defrostCount).toBe(1);
 
-    let o3 = pool.getSampleObject(3);
+    const o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -152,19 +152,19 @@ describe('ResourcePool', () => {
   });
 
   it('Implements the keep maximum dispose strategy', () => {
-    let pool = new SampleResourcePool(RetentionStrategy.KeepMaximum);
+    const pool = new SampleResourcePool(RetentionStrategy.KeepMaximum);
 
-    let o1 = pool.getSampleObject(1);
+    const o1 = pool.getSampleObject(1);
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool; not yet disposed
     expect(o1.freezeCount).toBe(1);
 
-    let o2 = pool.getSampleObject(2);
+    const o2 = pool.getSampleObject(2);
     expect(o1).toEqual(o2);   // Reused object from pool
     expect(o1.defrostCount).toBe(1);
 
-    let o3 = pool.getSampleObject(3);
+    const o3 = pool.getSampleObject(3);
     expect(o3.value).toBe(3); // Pool was empty; allocated new
     o3.dispose();
     expect(o3.value).toBe(3); // Returned to pool; not yet disposed
@@ -191,14 +191,14 @@ describe('ResourcePool', () => {
   });
 
   it('Separates objects by ID', () => {
-    let pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
+    const pool = new SampleResourcePool(RetentionStrategy.AlwaysKeep);
 
-    let o1 = pool.getSampleObject(1, 'a');
+    const o1 = pool.getSampleObject(1, 'a');
     expect(o1.value).toBe(1);
     o1.dispose();
     expect(o1.value).toBe(1); // Returned to pool for 'a'
 
-    let o2 = pool.getSampleObject(2, 'b');
+    const o2 = pool.getSampleObject(2, 'b');
     expect(o2.value).toBe(2); // Created new. ID of 'b' was requested, not 'a'
     o2.dispose();
     expect(o2.value).toBe(2); // Returned to pool for 'b'
@@ -246,43 +246,43 @@ class FDResourcePool extends ResourcePool<FDObject> {
 describe('ResourcePool', () => {
 
   it('Accepts freezing', () => {
-    let pool = new FDResourcePool();
+    const pool = new FDResourcePool();
 
-    let obj = pool.getFDObject();
+    const obj = pool.getFDObject();
     obj.dispose();
     expect(obj.isDisposed).toBeFalsy();
   });
 
   it('Rejects freezing', () => {
-    let pool = new FDResourcePool();
+    const pool = new FDResourcePool();
 
-    let obj1 = pool.getFDObject();
+    const obj1 = pool.getFDObject();
     obj1.shouldFreeze = false;
     obj1.dispose();
     expect(obj1.isDisposed).toBeTruthy();
 
-    let obj2 = pool.getFDObject();
+    const obj2 = pool.getFDObject();
     expect(obj2.isDisposed).toBeFalsy();
   });
 
   it('Accepts defrosting', () => {
-    let pool = new FDResourcePool();
+    const pool = new FDResourcePool();
 
-    let obj1 = pool.getFDObject();
+    const obj1 = pool.getFDObject();
     obj1.dispose();
 
-    let obj2 = pool.getFDObject();
+    const obj2 = pool.getFDObject();
     expect(obj1).toBe(obj2);
   });
 
   it('Rejects defrosting', () => {
-    let pool = new FDResourcePool();
+    const pool = new FDResourcePool();
 
-    let obj1 = pool.getFDObject();
+    const obj1 = pool.getFDObject();
     obj1.dispose();
 
     obj1.shouldDefrost = false;
-    let obj2 = pool.getFDObject();
+    const obj2 = pool.getFDObject();
     expect(obj1.isDisposed).toBeTruthy();
     expect(obj2.shouldDefrost).toBeTruthy();
   });

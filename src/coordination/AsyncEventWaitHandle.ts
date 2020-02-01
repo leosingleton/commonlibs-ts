@@ -21,7 +21,7 @@ export abstract class AsyncEventWaitHandle {
 
   public setEvent(): void {
     let waiter: Waiter;
-    while (waiter = this._waiters.dequeue()) {
+    while ((waiter = this._waiters.dequeue())) {
       // For auto-reset, abort after the first Task is released. For manual-reset, release all Tasks.
       if (waiter.trySetComplete() && this._autoReset) {
         return;
@@ -50,7 +50,7 @@ export abstract class AsyncEventWaitHandle {
     }
 
     if (createWaiter) {
-      let w = new Waiter();
+      const w = new Waiter();
       this._waiters.enqueue(w);
       return w.getPromise();
     }
@@ -63,25 +63,23 @@ export abstract class AsyncEventWaitHandle {
   }
 
   public waitAsync() {
-    return this._waitInternal(null, true);
+    return this._waitInternal(undefined, true);
   }
 
   public static whenAny(events: AsyncEventWaitHandle[]): Promise<void> {
     // Before creating a Task and enqueing it, which results in unnecessary heap allocations and garbage collection,
     // make a quick pass through all events to check if any are already set
-    for (var n = 0; n < events.length; n++) {
-      let e = events[n];
-      let promise = e._waitInternal(null);
+    for (const e of events) {
+      const promise = e._waitInternal(undefined);
       if (promise) {
         return promise;
       }
     }
 
-    let waiter = new Waiter();
+    const waiter = new Waiter();
 
-    for (var n = 0; n < events.length; n++) {
-      let e = events[n];
-      let promise = e._waitInternal(waiter);
+    for (const e of events) {
+      const promise = e._waitInternal(waiter);
       if (promise) {
         return promise;
       }
@@ -134,5 +132,5 @@ class Waiter {
   private _isComplete: boolean;
   private _resolve: (value?: void) => void;
   private _reject: (reason?: any) => void;
-  private _promise: Promise<void>; 
+  private _promise: Promise<void>;
 }

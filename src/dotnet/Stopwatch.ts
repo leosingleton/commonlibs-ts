@@ -55,7 +55,7 @@ export class Stopwatch {
    * Initializes a new Stopwatch instance, sets the elapsed time property to zero, and starts measuring elapsed time.
    */
   public static startNew(): Stopwatch {
-    let result = new Stopwatch();
+    const result = new Stopwatch();
     result.startTimer();
     return result;
   }

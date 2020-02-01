@@ -30,7 +30,7 @@ export class TaskScheduler {
    *    have completed.
    */
   public static yieldAsync(priority = 0): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, _reject) => {
       this.schedule(() => resolve(), priority);
     });
   }
@@ -89,7 +89,7 @@ function executeTasks(): void {
   executeTasksEvents--;
 
   try {
-    let lambda = readyTasks.dequeue();
+    const lambda = readyTasks.dequeue();
     lambda();
   } finally {
     // If more tasks remain in the queue, execute them. We could do so with a while loop, however, this would give

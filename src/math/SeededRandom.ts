@@ -7,7 +7,7 @@
  * https://gist.github.com/blixt/f17b47c62508be59987b
  */
 export class SeededRandom {
-  constructor(initialSeed: number) {
+  public constructor(initialSeed: number) {
     this.nextSeed = initialSeed % 2147483647;
     if (this.nextSeed <= 0) {
       this.nextSeed += 2147483646;
@@ -15,12 +15,12 @@ export class SeededRandom {
   }
 
   /** Returns a pseudo-random value between 1 and 2^32 - 2 */
-  nextInt(): number {
+  public nextInt(): number {
     return this.nextSeed = this.nextSeed * 16807 % 2147483647;
   }
 
   /** Returns a pseudo-random floating point number in range [0, 1) */
-  nextFloat(): number {
+  public nextFloat(): number {
     return (this.nextInt() - 1) / 2147483646;
   }
 

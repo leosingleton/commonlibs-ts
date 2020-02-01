@@ -7,7 +7,7 @@ import { Queue } from '../Queue';
 describe('Queue', () => {
 
   it('Enqueues and dequeues values', () => {
-    let q = new Queue<number>();
+    const q = new Queue<number>();
 
     q.enqueue(1);
     q.enqueue(2);

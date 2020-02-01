@@ -4,7 +4,7 @@
 
 import { AsyncEventWaitHandle } from './AsyncEventWaitHandle';
 
-/** 
+/**
  * Timer that behaves line an EventWaitHandle. Useful for the AsyncEventWaitHandle.WhenAny() method.
  */
 export class AsyncTimerEvent extends AsyncEventWaitHandle {

@@ -20,7 +20,7 @@ describe('AsyncEventWaitHandle', () => {
 
   it('Ensures an AsyncManualResetEvent sets and resets', async () => {
     _wokenCount = 0;
-    let e = new AsyncManualResetEvent(false);
+    const e = new AsyncManualResetEvent(false);
 
     createWaitTask(e);
     await Task.delayAsync(10);
@@ -39,7 +39,7 @@ describe('AsyncEventWaitHandle', () => {
 
   it('Ensures an AsyncAutoResetEvent sets and resets', async () => {
     _wokenCount = 0;
-    let e = new AsyncAutoResetEvent(false);
+    const e = new AsyncAutoResetEvent(false);
 
     createWaitTask(e);
     await Task.delayAsync(10);

@@ -33,7 +33,7 @@ export class DisposableSet implements IDisposable {
    */
   public disposeObject(obj: IDisposable): void {
     if (obj) {
-      let index = this.members.indexOf(obj);
+      const index = this.members.indexOf(obj);
       if (index > -1) {
         this.members.splice(index, 1);
       }
@@ -43,9 +43,9 @@ export class DisposableSet implements IDisposable {
   }
 
   /**
-   * Many objects in JavaScript have a disposable-like pattern, but there is no standard dispose() method nor IDisposable
-   * interface. Some use .close(), while others use .restore(). This wrapper makes it easy to convert existing objects,
-   * e.g. let obj = set.addNonDisposable(imageBitmap, obj => obj.close())
+   * Many objects in JavaScript have a disposable-like pattern, but there is no standard dispose() method nor
+   * IDisposable interface. Some use .close(), while others use .restore(). This wrapper makes it easy to convert
+   * existing objects, e.g. let obj = set.addNonDisposable(imageBitmap, obj => obj.close())
    * @param obj Object to make IDisposable
    * @param dispose Lambda to execute to dispose the object
    * @returns A reference to the object provided, to allow for one-line declarations

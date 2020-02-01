@@ -20,7 +20,7 @@ export class MovingAverage {
     this._sum += value;
 
     if (this._values.getCount() > this._maxValues) {
-      let oldValue = this._values.dequeue();
+      const oldValue = this._values.dequeue();
       this._sum -= oldValue;
     }
 

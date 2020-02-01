@@ -34,10 +34,10 @@ export class PriorityQueue<T> {
     let priority = this._highestPriority;
 
     while (priority < this._queues.length) {
-      let queue = this._queues[priority];
+      const queue = this._queues[priority];
       if (queue) {
         let item: T;
-        if (item = queue.dequeue()) {
+        if ((item = queue.dequeue())) {
           this._count--;
           return item;
         } else {

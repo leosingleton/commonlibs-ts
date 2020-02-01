@@ -6,7 +6,7 @@ import { CircularBuffer } from '../CircularBuffer';
 
 describe('CircularBuffer', () => {
   it('calculates min/mean/max', () => {
-    let c = new CircularBuffer(5);
+    const c = new CircularBuffer(5);
 
     c.pushValue(1);
     c.pushValue(2);
@@ -20,7 +20,7 @@ describe('CircularBuffer', () => {
 
     c.pushValue(6); // Replaces 1
     c.pushValue(7); // Replaces 2
-    
+
     expect(c.minValue()).toEqual(3);
     expect(c.meanValue()).toEqual(5);
     expect(c.maxValue()).toEqual(7);
@@ -29,7 +29,7 @@ describe('CircularBuffer', () => {
     c.pushValue(5); // Replaces 4
     c.pushValue(5); // Replaces 5
     c.pushValue(5); // Replaces 6
-    
+
     expect(c.minValue()).toEqual(3);
     expect(c.meanValue()).toEqual(5);
     expect(c.maxValue()).toEqual(7);

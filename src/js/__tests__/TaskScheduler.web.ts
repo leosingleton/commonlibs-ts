@@ -8,14 +8,14 @@ describe('TaskScheduler', () => {
 
   it('Executes in a WebWorker', async () => {
     // WebWorker code is located in /src/__tests__/WebWorker.ts
-    let worker = new Worker('base/test-worker.js');
-    
+    const worker = new Worker('base/test-worker.js');
+
     let result: number;
-    let done = new AsyncManualResetEvent();
+    const done = new AsyncManualResetEvent();
     worker.onmessage = e => {
       if (e.data.command === 'UnitTest') {
         result = e.data.value;
-        done.setEvent();  
+        done.setEvent();
       }
     };
 

@@ -8,7 +8,7 @@ import { AsyncManualResetEvent } from '../../coordination/AsyncManualResetEvent'
 describe('UnhandledError', () => {
 
   it('Registers and invokes a handler', async () => {
-    let received = new AsyncManualResetEvent();
+    const received = new AsyncManualResetEvent();
     let err: UnhandledError;
 
     // Register a handler

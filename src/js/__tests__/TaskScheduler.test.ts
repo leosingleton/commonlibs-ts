@@ -74,10 +74,10 @@ describe('TaskScheduler', () => {
 
   it('Executes lower priority than event handlers', async () => {
     let count = 0;
-    let done = new AsyncManualResetEvent();
+    const done = new AsyncManualResetEvent();
 
-    let exec = (typeof requestAnimationFrame !== 'undefined') ? requestAnimationFrame : setTimeout;
-    let event = async () => {
+    const exec = (typeof requestAnimationFrame !== 'undefined') ? requestAnimationFrame : setTimeout;
+    const event = async () => {
       if (++count === 100) {
         done.setEvent();
       } else {
@@ -87,7 +87,7 @@ describe('TaskScheduler', () => {
 
       while (!done.getIsSet()) {
         // Busy wait 10ms to tie up the CPU
-        let timer = Stopwatch.startNew();
+        const timer = Stopwatch.startNew();
         while (timer.getElapsedMilliseconds() < 10);
 
         // Yield to let the event handlers execute

@@ -6,29 +6,30 @@ import { Task } from '../dotnet/Task';
 import { Runtime } from '../js/Runtime';
 import { TaskScheduler } from '../js/TaskScheduler';
 
-self.onmessage = async ev => {
+self.onmessage = async (ev: MessageEvent) => {
   if (ev.data.command === 'UnitTest') {
     switch (ev.data.testCase) {
-      case 'Runtime':
+      case 'Runtime': {
         (self as any).postMessage({
           command: 'RuntimeUnitTest',
           value: [ Runtime.isInNode, Runtime.isInWebWorker, Runtime.isInWindow ]
         });
         break;
+      }
 
-      case 'TaskScheduler':
+      case 'TaskScheduler': {
         // Based on the "Execute tasks in priority order" unit test in /src/js/__tests__/TaskScheduler.test.ts
         let n = 100;
-  
+
         // Enqueue a low priority task
         TaskScheduler.schedule(() => n *= 2, 1);
-  
+
         // Enqueue a high priority task
         TaskScheduler.schedule(() => n++, 0);
-  
+
         // Give the tasks time to execute
         await Task.delayAsync(100);
-  
+
         // Following priority, increment before multiply. Should yield 202.
         //
         // Keep TypeScript happy by casting the global scope to any. Unfortunately, TypeScript doesn't support this
@@ -38,9 +39,11 @@ self.onmessage = async ev => {
           value: n
         });
         break;
+      }
 
-      default:
+      default: {
         console.log('Unknown test case', ev.data.testCase);
+      }
     }
   }
 };

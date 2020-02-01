@@ -15,10 +15,10 @@ describe('Runtime', () => {
 
   it('Detects a Web Worker', async () => {
     // WebWorker code is located in /src/__tests__/WebWorker.ts
-    let worker = new Worker('base/test-worker.js');
-    
+    const worker = new Worker('base/test-worker.js');
+
     let result: [boolean, boolean, boolean];
-    let done = new AsyncManualResetEvent();
+    const done = new AsyncManualResetEvent();
     worker.onmessage = e => {
       if (e.data.command === 'RuntimeUnitTest') {
         result = e.data.value;

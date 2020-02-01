@@ -30,24 +30,24 @@ describe('Disposable', () => {
     let c2: MyClass;
 
     expect(() => {
-      using (new MyClass(), c1 => {
+      using(new MyClass(), c1 => {
         expect(c1.isDisposed).toBeFalsy();
         c2 = c1;
         throw new Error();
       });
     }).toThrow();
-    
+
     expect(c2.isDisposed).toBeTruthy();
   });
 
   it('Nested using() works correctly', () => {
-    let c1 = new MyClass();
-    let c2 = new MyClass();
+    const c1 = new MyClass();
+    const c2 = new MyClass();
     expect(c1.isDisposed).toBeFalsy();
     expect(c2.isDisposed).toBeFalsy();
 
-    using (c1, c1x => {
-      using (c2, c2x => {
+    using(c1, _c1x => {
+      using(c2, _c2x => {
         expect(c1.isDisposed).toBeFalsy();
         expect(c2.isDisposed).toBeFalsy();
       });
@@ -61,10 +61,10 @@ describe('Disposable', () => {
   });
 
   it('usingAsync() calls dispose()', async () => {
-    let c = new MyClass();
+    const c = new MyClass();
     expect(c.isDisposed).toBeFalsy();
 
-    await usingAsync(c, async cx => {
+    await usingAsync(c, async _cx => {
       expect(c.isDisposed).toBeFalsy();
       await Task.delayAsync(100);
       expect(c.isDisposed).toBeFalsy();
@@ -78,11 +78,11 @@ describe('Disposable', () => {
       public close(): void {
         this.isClosed = true;
       }
-    
+
       public isClosed = false;
     }
 
-    let c = makeDisposable(new MyNonDisposableClass(), obj => obj.close());
+    const c = makeDisposable(new MyNonDisposableClass(), obj => obj.close());
     expect(c.isClosed).toBeFalsy();
     c.dispose();
     expect(c.isClosed).toBeTruthy();
@@ -96,9 +96,9 @@ describe('Disposable', () => {
     });
   });
 
-  it('Async ignores null and undefined', async() => {
+  it('Async ignores null and undefined', async () => {
     await usingAsync(null, async () => {
-      await usingAsync (undefined, async () => {
+      await usingAsync(undefined, async () => {
         expect(true).toBeTruthy();
       });
     });

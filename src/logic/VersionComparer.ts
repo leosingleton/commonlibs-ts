@@ -25,7 +25,7 @@ export class VersionComparer {
     }
 
     // The actual implementation uses a recursive method
-    let result: number[] = [];
+    const result: number[] = [];
     this.lowerRecursiveInternal(version1, version2, 0, result);
     return result;
   }

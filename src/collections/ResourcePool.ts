@@ -32,7 +32,7 @@ interface IPooledDisposable extends IDisposable {
 
 function makePooledDisposable<T extends IDisposable>(obj: T, dispose: (obj: T & IPooledDisposable) => void):
     T & IPooledDisposable {
-  let newObj = obj as T & IPooledDisposable;
+  const newObj = obj as T & IPooledDisposable;
   newObj.realDispose = obj.dispose;
   newObj.dispose = () => dispose(newObj);
   return newObj;
@@ -59,9 +59,9 @@ class Pool<T extends IDisposable> implements IDisposable {
     // Force all outstanding objects to be disposed when they are returned to returnObject()
     this.isDisposed = true;
 
-    let objs = this.objects;
+    const objs = this.objects;
     while (objs.length > 0) {
-      let obj = objs.pop();
+      const obj = objs.pop();
       obj.realDispose();
     }
   }
@@ -76,26 +76,26 @@ class Pool<T extends IDisposable> implements IDisposable {
   }
 
   public getObject(): T {
-    let objs = this.objects;
+    const objs = this.objects;
     if (objs.length > 0) {
       // Track the number of objects in use, along with the maximum number of objects used this period
-      let current = ++this.inUseCurrent;
+      const current = ++this.inUseCurrent;
       this.inUseMaximum = Math.max(this.inUseMaximum, current);
 
       return objs.pop();
     }
   }
 
-  public onObjectCreated(obj: T): void {
+  public onObjectCreated(_obj: T): void {
     // Track the number of objects in use, along with the maximum number of objects used this period
-    let current = ++this.inUseCurrent;
+    const current = ++this.inUseCurrent;
     this.inUseMaximum = Math.max(this.inUseMaximum, current);
   }
 
   public returnObject(obj: T): void {
-    let o = obj as T & IPooledDisposable;
-    let objs = this.objects;
-    let target = this.getTargetObjectCount();
+    const o = obj as T & IPooledDisposable;
+    const objs = this.objects;
+    const target = this.getTargetObjectCount();
 
     if (this.isDisposed || this.inUseCurrent + objs.length > target) {
       o.realDispose();
@@ -110,10 +110,10 @@ class Pool<T extends IDisposable> implements IDisposable {
     this.inUseHistorical.pushValue(this.inUseMaximum);
     this.inUseMaximum = this.inUseCurrent;
 
-    let objs = this.objects;
-    let target = this.getTargetObjectCount();    
+    const objs = this.objects;
+    const target = this.getTargetObjectCount();
     while (objs.length > 0 && this.inUseCurrent + objs.length > target) {
-      let obj = objs.pop();
+      const obj = objs.pop();
       obj.realDispose();
     }
   }
@@ -161,7 +161,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
   protected readonly groomingPeriods: number;
 
   public dispose(): void {
-    let ids = Object.keys(this.pools);
+    const ids = Object.keys(this.pools);
     ids.forEach(id => {
       this.pools[id].dispose();
     });
@@ -218,7 +218,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * invoke it to have full control over when grooming runs.
    */
   protected groom(): void {
-    let ids = Object.keys(this.pools);
+    const ids = Object.keys(this.pools);
     ids.forEach(id => {
       this.pools[id].groom();
     });
@@ -234,7 +234,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * @param obj Object that will be added to a pool
    * @returns True if the object is good to store in the pool. False to immediately dispose() the object instead.
    */
-  protected freeze(obj: T): boolean {
+  protected freeze(_obj: T): boolean {
     return true;
   }
 
@@ -245,7 +245,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * @returns True if the object is good to use. False to immediately dispose() the object and get another from the
    *    pool.
    */
-  protected defrost(obj: T): boolean {
+  protected defrost(_obj: T): boolean {
     return true;
   }
 

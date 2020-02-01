@@ -73,8 +73,7 @@ export class UnhandledError {
     handlers.push(handler);
 
     if (sendQueued) {
-      for (let n = 0; n < errors.length; n++) {
-        let ue = errors[n];
+      for (const ue of errors) {
         handler(ue);
       }
     }
@@ -82,13 +81,13 @@ export class UnhandledError {
 }
 
 /** List of errors already reported. These are sent to handlers and soon as they register. */
-let errors: UnhandledError[] = [];
+const errors: UnhandledError[] = [];
 
 /** Reigstered callbacks */
-let handlers: ErrorHandler[] = [];
+const handlers: ErrorHandler[] = [];
 
 function reportError(error: any, type: ErrorType): void {
-  let ue = new UnhandledError();
+  const ue = new UnhandledError();
   ue.type = type;
 
   if (error instanceof Error) {
@@ -100,8 +99,7 @@ function reportError(error: any, type: ErrorType): void {
 
   errors.push(ue);
 
-  for (let n = 0; n < handlers.length; n++) {
-    let handler = handlers[n];
+  for (const handler of handlers) {
     try {
       handler(ue);
     } catch (err) {
@@ -118,15 +116,15 @@ function initialize(): void {
     if (error instanceof Error) {
       reportError(error, ErrorType.UnhandledError);
     } else {
-      let eventStr = JSON.stringify(event, null, 4);
-      let errorStr = `${eventStr}\n  at ${source}:${lineno}:${colno}`;
+      const eventStr = JSON.stringify(event, null, 4);
+      const errorStr = `${eventStr}\n  at ${source}:${lineno}:${colno}`;
       reportError(errorStr, ErrorType.UnhandledError);
     }
   };
 
   // With promises, this one normally fires instead
   window.addEventListener('unhandledrejection', event => {
-    let reason = event.reason;
+    const reason = event.reason;
     reportError(reason, ErrorType.UnhandledPromiseRejection);
   });
 
