@@ -6,7 +6,7 @@ import { Task } from '../dotnet/Task';
 import { Runtime } from '../js/Runtime';
 import { TaskScheduler } from '../js/TaskScheduler';
 
-self.onmessage = async ev => {
+self.onmessage = async (ev: MessageEvent) => {
   if (ev.data.command === 'UnitTest') {
     switch (ev.data.testCase) {
       case 'Runtime':
