@@ -33,7 +33,7 @@ export class DisposableSet implements IDisposable {
    */
   public disposeObject(obj: IDisposable): void {
     if (obj) {
-      let index = this.members.indexOf(obj);
+      const index = this.members.indexOf(obj);
       if (index > -1) {
         this.members.splice(index, 1);
       }

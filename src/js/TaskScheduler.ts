@@ -89,7 +89,7 @@ function executeTasks(): void {
   executeTasksEvents--;
 
   try {
-    let lambda = readyTasks.dequeue();
+    const lambda = readyTasks.dequeue();
     lambda();
   } finally {
     // If more tasks remain in the queue, execute them. We could do so with a while loop, however, this would give

@@ -6,7 +6,7 @@ import { Runtime } from './Runtime';
 import { AsyncManualResetEvent } from '../coordination/AsyncManualResetEvent';
 
 /** Set when the DOM is ready */
-let documentReadyEvent = new AsyncManualResetEvent();
+const documentReadyEvent = new AsyncManualResetEvent();
 
 export class DocumentReady {
   /** Returns whether the DOM is ready */

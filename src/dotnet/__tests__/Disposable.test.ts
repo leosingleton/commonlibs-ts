@@ -36,13 +36,13 @@ describe('Disposable', () => {
         throw new Error();
       });
     }).toThrow();
-    
+
     expect(c2.isDisposed).toBeTruthy();
   });
 
   it('Nested using() works correctly', () => {
-    let c1 = new MyClass();
-    let c2 = new MyClass();
+    const c1 = new MyClass();
+    const c2 = new MyClass();
     expect(c1.isDisposed).toBeFalsy();
     expect(c2.isDisposed).toBeFalsy();
 
@@ -61,7 +61,7 @@ describe('Disposable', () => {
   });
 
   it('usingAsync() calls dispose()', async () => {
-    let c = new MyClass();
+    const c = new MyClass();
     expect(c.isDisposed).toBeFalsy();
 
     await usingAsync(c, async cx => {
@@ -78,11 +78,11 @@ describe('Disposable', () => {
       public close(): void {
         this.isClosed = true;
       }
-    
+
       public isClosed = false;
     }
 
-    let c = makeDisposable(new MyNonDisposableClass(), obj => obj.close());
+    const c = makeDisposable(new MyNonDisposableClass(), obj => obj.close());
     expect(c.isClosed).toBeFalsy();
     c.dispose();
     expect(c.isClosed).toBeTruthy();

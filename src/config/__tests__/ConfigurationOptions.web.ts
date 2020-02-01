@@ -13,42 +13,42 @@ describe('ConfigurationOptions', () => {
   });
 
   it('Populates with defaults', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     expect(config.localString).toBe('Hello');
     expect(config.sessionNumber).toBe(42);
     expect(config.noneBoolean).toBeTruthy();
   });
 
   it('Persists local storage', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     config.writeToStorage({ localString: 'New String' });
     expect(config.localString).toBe('New String');
 
-    let config2 = new SampleConfig();
+    const config2 = new SampleConfig();
     expect(config2.localString).toBe('New String');
   });
 
   it('Persists session storage', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     config.writeToStorage({ sessionNumber: 12 });
     expect(config.sessionNumber).toBe(12);
 
-    let config2 = new SampleConfig();
+    const config2 = new SampleConfig();
     expect(config2.sessionNumber).toBe(12);
   });
 
   it('Throws an exception if writing to non-persistent value', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     expect(() => config.writeToStorage({ noneBoolean: false })).toThrowError();
   });
 
   it('Throws an exception if writing to a non-existent value', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     expect(() => config.writeToStorage({ foo: true })).toThrowError();
   });
 
   it('Pre-populates session storage defaults', () => {
-    let config = new SampleConfig();
+    const config = new SampleConfig();
     expect(sessionStorage.getItem('test_num')).toBe('42'); // Stored as a string in session storage
   });
 

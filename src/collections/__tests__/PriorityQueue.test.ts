@@ -7,25 +7,25 @@ import { PriorityQueue } from '../PriorityQueue';
 describe('PriorityQueue', () => {
 
   it('Ensures the PriorityQueue returns messages in priority order', () => {
-    let queue = new PriorityQueue<number>();
+    const queue = new PriorityQueue<number>();
     queue.enqueue(1, 4);
     queue.enqueue(2, 2); // 2 is higher-priority than 4
 
     // 2 should be returned first, as it is higher priority
-    let result1 = queue.dequeue();
+    const result1 = queue.dequeue();
     expect(result1).toEqual(2);
 
     // 1 should be returned next
-    let result2 = queue.dequeue();
+    const result2 = queue.dequeue();
     expect(result2).toEqual(1);
 
     // undefined should be returned, as there are no more messages
-    let result3 = queue.dequeue();
+    const result3 = queue.dequeue();
     expect(result3).toBeUndefined();
   });
 
   it('Detects the number of elements in the queue', () => {
-    let queue = new PriorityQueue<number>();
+    const queue = new PriorityQueue<number>();
     expect(queue.getCount()).toEqual(0);
     expect(queue.isEmpty()).toBeTruthy();
 

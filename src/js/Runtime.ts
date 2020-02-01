@@ -2,13 +2,13 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-let _isInNode = (typeof self === 'undefined');
+const _isInNode = (typeof self === 'undefined');
 
-let _globalObject = (_isInNode ? this : self) as any;
+const _globalObject = (_isInNode ? this : self) as any;
 
-// This check comes from emscripten:	
-// https://github.com/kripken/emscripten/blob/54b0f19d9e8130de16053b0915d114c346c99f17/src/shell.js	
-let _isInWebWorker = (typeof _globalObject.importScripts === 'function');
+// This check comes from emscripten:
+// https://github.com/kripken/emscripten/blob/54b0f19d9e8130de16053b0915d114c346c99f17/src/shell.js
+const _isInWebWorker = (typeof _globalObject.importScripts === 'function');
 
 export namespace Runtime {
   /** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */

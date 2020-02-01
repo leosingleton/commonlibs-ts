@@ -7,7 +7,7 @@ import { MovingAverage } from '../MovingAverage';
 describe('MovingAverage', () => {
 
   it('MovingAverage helper class works', () => {
-    let ma = new MovingAverage(100, 3);
+    const ma = new MovingAverage(100, 3);
     expect(ma.getValue()).toEqual(100);
 
     ma.record(50);
@@ -19,5 +19,5 @@ describe('MovingAverage', () => {
     ma.record(250);
     expect(ma.getValue()).toEqual(150);
   });
-  
+
 });

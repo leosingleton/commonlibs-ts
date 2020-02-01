@@ -25,8 +25,8 @@ describe('DisposableSet', () => {
     DisposableSet.using(set => {
       set.addDisposable(new MyClass());
       set.addDisposable(new MyClass());
-      set.addNonDisposable(new MyClass2(), obj => obj.close());      
-      let obj = set.addDisposable(new MyClass());
+      set.addNonDisposable(new MyClass2(), obj => obj.close());
+      const obj = set.addDisposable(new MyClass());
 
       // Nothing has been disposed yet
       expect(disposeCount).toEqual(0);

@@ -7,10 +7,10 @@ import { SeededRandom } from '../SeededRandom';
 describe('SeededRandom', () => {
 
   it('Generates random ints', () => {
-    let rand = new SeededRandom(0);
-    let int1 = rand.nextInt();
-    let int2 = rand.nextInt();
-    let int3 = rand.nextInt();
+    const rand = new SeededRandom(0);
+    const int1 = rand.nextInt();
+    const int2 = rand.nextInt();
+    const int3 = rand.nextInt();
 
     // Values are > 0
     expect(int1).toBeGreaterThanOrEqual(0);
@@ -22,12 +22,12 @@ describe('SeededRandom', () => {
     expect(int2).toEqual(Math.floor(int2));
     expect(int3).toEqual(Math.floor(int3));
   });
-  
+
   it('Generates random floats', () => {
-    let rand = new SeededRandom(0);
-    let float1 = rand.nextFloat();
-    let float2 = rand.nextFloat();
-    let float3 = rand.nextFloat();
+    const rand = new SeededRandom(0);
+    const float1 = rand.nextFloat();
+    const float2 = rand.nextFloat();
+    const float3 = rand.nextFloat();
 
     // Values are in the range [0, 1)
     expect(float1).toBeGreaterThanOrEqual(0);

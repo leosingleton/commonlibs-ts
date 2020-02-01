@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
-var glob = require('glob');
+const glob = require('glob');
 
-var tests = {
+const tests = {
   entry: glob.sync('./src/**/__tests__/**/*.@(test|web).ts'),
   devtool: 'source-map',
   module: {
@@ -24,7 +24,7 @@ var tests = {
   }
 };
 
-var webworker = {
+const webworker = {
   entry: './src/__tests__/WebWorker.ts',
   devtool: 'source-map',
   module: {

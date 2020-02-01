@@ -2,22 +2,22 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-export type ParsedQueryString = { [key: string]: string };
+export interface ParsedQueryString { [key: string]: string }
 
 /**
  * Parses the current page's query string
  */
 export function parseQueryString(): ParsedQueryString {
-  let pl =/\+/g; // Regex for replacing addition symbol with a space
-  let search = /([^&=]+)=?([^&]*)/g;
-  let query = window.location.search.substring(1);
+  const pl =/\+/g; // Regex for replacing addition symbol with a space
+  const search = /([^&=]+)=?([^&]*)/g;
+  const query = window.location.search.substring(1);
 
-  let decode = (s: string) => {
+  const decode = (s: string) => {
     return decodeURIComponent(s.replace(pl, ' '));
   };
 
   let match: RegExpExecArray;
-  let result: ParsedQueryString = {};
+  const result: ParsedQueryString = {};
   while (match = search.exec(query)) {
     result[decode(match[1])] = decode(match[2]);
   }

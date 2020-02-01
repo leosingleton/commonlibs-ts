@@ -10,8 +10,8 @@ describe('AsyncMutex', () => {
 
   it('Performs mutual exclusion', async () => {
     let sharedValue = 0;
-    let mutex = new AsyncMutex();
-    let hundredEvent = new AsyncManualResetEvent();
+    const mutex = new AsyncMutex();
+    const hundredEvent = new AsyncManualResetEvent();
 
     // Create 10 "threads" that increment a value 10 times each
     for (let n = 0; n < 10; n++) {

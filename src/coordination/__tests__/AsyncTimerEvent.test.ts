@@ -8,7 +8,7 @@ import { Task } from '../../dotnet/Task';
 describe('AsyncTimerEvent', () => {
 
   it('Tests the timer without repeat enabled', async () => {
-    let timer = new AsyncTimerEvent(1000);
+    const timer = new AsyncTimerEvent(1000);
     let hasFired = false;
     setTimeout(async () => {
       await timer.waitAsync();
@@ -23,7 +23,7 @@ describe('AsyncTimerEvent', () => {
   });
 
   it('Tests the timer with repeat enabled', async () => {
-    let timer = new AsyncTimerEvent(100, true);
+    const timer = new AsyncTimerEvent(100, true);
     let fireCount = 0;
     setTimeout(async () => {
       while (fireCount < 12) {

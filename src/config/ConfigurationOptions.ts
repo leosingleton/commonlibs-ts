@@ -61,7 +61,7 @@ export const enum ConfigurationFlags {
   /**
    * By default, no local storage values are written unless explicitly invoked by the writeToStorage() method. This
    * flag changes the behavior to automatically write default values to local storage if they do not exist.
-   * 
+   *
    * _WARNING:_ This flag should be used with caution, as it can create upgrade challenges if the default value ever
    * changes.
    */
@@ -79,15 +79,15 @@ export const enum ConfigurationFlags {
 export abstract class ConfigurationOptions {
   /**
    * Constructor
-   * 
+   *
    * _IMPORTANT_: The constructor does not fully initialize the object. Derived classes create a constructor which does
    * the following:
    *  1. Calls super() to invoke the parent constructor with the desired prefix and flags
    *  2. Calls initializeValues() to complete the initialization
-   * 
+   *
    * This is due to the order of initialization described here: https://github.com/microsoft/TypeScript/issues/1617
    * The initializeValues() method first requires the derived class's defaults property to be initialized.
-   * 
+   *
    * @param prefix Optional prefix to apply to each option's name
    * @param flags See ConfigurationFlags
    * @param refreshInterval How often local and/or session storage is refreshed, in milliseconds. Default is 5000 ms.
@@ -110,8 +110,8 @@ export abstract class ConfigurationOptions {
       }
 
       // Populate with default values
-      let me = this as any;
-      let properties = Object.keys(this.defaults);
+      const me = this as any;
+      const properties = Object.keys(this.defaults);
       properties.forEach(property => {
         me[property] = this.defaults[property][2];
       });
@@ -125,13 +125,13 @@ export abstract class ConfigurationOptions {
       ConfigurationOptions.qs = parseQueryString();
     }
 
-    let flags = this.configurationFlags;
-    let me = this as any;
-    let properties = Object.keys(this.defaults);
+    const flags = this.configurationFlags;
+    const me = this as any;
+    const properties = Object.keys(this.defaults);
     properties.forEach(property => {
-      let name = this.propertyPrefix + this.defaults[property][0];
-      let type = this.defaults[property][1];
-      let defaultValue = this.defaults[property][2];
+      const name = this.propertyPrefix + this.defaults[property][0];
+      const type = this.defaults[property][1];
+      const defaultValue = this.defaults[property][2];
       let val: string;
       let fromQueryString = false;
 
@@ -155,7 +155,7 @@ export abstract class ConfigurationOptions {
       // Parse the value
       let value: string | number | boolean;
       if (val) {
-        let type = typeof defaultValue;
+        const type = typeof defaultValue;
         if (type === 'string') {
           value = val;
         } else if (type === 'number') {
@@ -194,7 +194,7 @@ export abstract class ConfigurationOptions {
     setTimeout(() => this.readFromStorage(false), this.refreshInterval);
   }
 
-  /** 
+  /**
    * Saves configuration to browser storage
    * @param values An object containing the properties to write. The property names should match those of the derived
    *    class.
@@ -204,23 +204,23 @@ export abstract class ConfigurationOptions {
       throw new Error('Cannot write from web worker');
     }
 
-    let me = this as any;
-    let properties = Object.keys(values);
+    const me = this as any;
+    const properties = Object.keys(values);
     properties.forEach(property => {
       if (!this.defaults[property]) {
         throw new Error(`Unknown property ${property}`);
       }
 
-      let name = this.propertyPrefix + this.defaults[property][0];
-      let type = this.defaults[property][1];
-      let value = values[property];
-      me[property] = value; 
+      const name = this.propertyPrefix + this.defaults[property][0];
+      const type = this.defaults[property][1];
+      const value = values[property];
+      me[property] = value;
       this.writeToStorageInternal(name, type, value);
     });
   }
 
   private writeToStorageInternal(name: string, type: StorageType, value: string | number | boolean): void {
-    let val = value.toString();
+    const val = value.toString();
     switch (type) {
       case StorageType.Local:
       case StorageType.LocalOnly:

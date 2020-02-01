@@ -48,11 +48,11 @@ export async function usingAsync<T extends IDisposable>(obj: T, lambda: (obj: T)
  * @param dispose Lambda to execute to dispose the object
  */
 export function makeDisposable<T>(obj: T, dispose: (obj: T) => void): T & IDisposable {
-  let result = <T & IDisposable>obj;
+  const result = <T & IDisposable>obj;
   result.dispose = function(): void {
     if (obj) {
       dispose(obj);
     }
-  }
+  };
   return result;
 }

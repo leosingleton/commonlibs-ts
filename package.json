@@ -13,6 +13,14 @@
   "devDependencies": {
     "@types/jasmine": "^3.5.2",
     "@types/jest": "^24.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/experimental-utils": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "eslint-formatter-autolinkable-stylish": "^1.1.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsdoc": "^21.0.0",
+    "glob": "^7.1.6",
     "jasmine-core": "^3.5.0",
     "jest": "^24.9.0",
     "jest-junit": "^6.4.0",
@@ -28,6 +36,7 @@
   },
   "scripts": {
     "build": "npx webpack --mode=none",
+    "lint": "npx eslint \"**/*.ts\" \"**/*.js\"",
     "test": "npm run test:node && npm run test:web",
     "test:node": "npx jest --config=jest.node.config.js --maxWorkers=2 --coverage",
     "test:web": "npx webpack --mode=development --config=webpack.test.js && npx karma start",
