@@ -30,7 +30,7 @@ describe('Disposable', () => {
     let c2: MyClass;
 
     expect(() => {
-      using (new MyClass(), c1 => {
+      using(new MyClass(), c1 => {
         expect(c1.isDisposed).toBeFalsy();
         c2 = c1;
         throw new Error();
@@ -96,9 +96,9 @@ describe('Disposable', () => {
     });
   });
 
-  it('Async ignores null and undefined', async() => {
+  it('Async ignores null and undefined', async () => {
     await usingAsync(null, async () => {
-      await usingAsync (undefined, async () => {
+      await usingAsync(undefined, async () => {
         expect(true).toBeTruthy();
       });
     });

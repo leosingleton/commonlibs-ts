@@ -47,7 +47,9 @@
     "curly": ["error", "multi-line"],
     "dot-notation": "error",
     "eqeqeq": "error",
-    "linebreak-style": ["error"],
+    "func-call-spacing": "error",
+    "keyword-spacing": "error",
+    "linebreak-style": "error",
     "new-parens": "error",
     "no-caller": "error",
     "no-duplicate-imports": "error",
@@ -70,6 +72,12 @@
     "prefer-const": "error",
     "prefer-object-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
+    "space-before-blocks": "error",
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
     "space-in-parens": "error",
     "unicode-bom": ["error", "never"]
   }
