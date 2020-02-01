@@ -6,7 +6,7 @@
  * Holds a circular buffer of numbers
  */
 export class CircularBuffer {
-  constructor(size: number) {
+  public constructor(size: number) {
     this.resizeBuffer(size);
   }
 
