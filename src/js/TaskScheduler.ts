@@ -3,6 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { Runtime } from './Runtime';
+import { ErrorType, reportError } from './UnhandledError';
 import { PriorityQueue } from '../collections/PriorityQueue';
 
 type Lambda = () => void;
@@ -19,6 +20,25 @@ export class TaskScheduler {
    */
   public static schedule(lambda: () => void, priority = 0): void {
     readyTasks.enqueue(lambda, priority);
+    if (readyTasks.getCount() === 1) {
+      executeTasksOnEventLoop();
+    }
+  }
+
+  /**
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * function in JavaScript.
+   *
+   * This variation of schedule() supports async functions which return a Promise and returns exceptions via the
+   * UnhandledError class.
+   *
+   * @param lambda Lambda function to execute
+   * @param priority Priority, expressed as an integer where 0 is highest
+   */
+  public static scheduleAsyncVoid(lambda: () => Promise<void>, priority = 0): void {
+    readyTasks.enqueue(() => {
+      lambda().then(() => {}, err => reportError(err, ErrorType.ScheduledPromiseRejection));
+    }, priority);
     if (readyTasks.getCount() === 1) {
       executeTasksOnEventLoop();
     }

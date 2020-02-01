@@ -10,6 +10,9 @@ export const enum ErrorType {
   /** Unhandled promise rejection caught by the global error handler */
   UnhandledPromiseRejection,
 
+  /** Unhandled promise rejection in an async lambda executed via the TaskScheduler class */
+  ScheduledPromiseRejection,
+
   /** Error reported explicitly by a call to reportError() */
   ReportedError
 }
@@ -86,7 +89,8 @@ const errors: UnhandledError[] = [];
 /** Reigstered callbacks */
 const handlers: ErrorHandler[] = [];
 
-function reportError(error: any, type: ErrorType): void {
+/** Exported only within commonlibs. Allows the internal library to report errors with a specific type. */
+export function reportError(error: any, type: ErrorType): void {
   const ue = new UnhandledError();
   ue.type = type;
 

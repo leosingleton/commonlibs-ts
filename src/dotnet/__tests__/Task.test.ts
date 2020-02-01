@@ -30,4 +30,17 @@ describe('Task', () => {
     expect(n).toEqual(100);
   });
 
+  it('Task.runAsyncVoid() executes asynchronously', async () => {
+    let executed = false;
+
+    Task.runAsyncVoid(async () => {
+      await Task.delayAsync(100);
+      executed = true;
+    });
+
+    expect(executed).toBeFalsy();
+    await Task.delayAsync(200);
+    expect(executed).toBeTruthy();
+  });
+
 });
