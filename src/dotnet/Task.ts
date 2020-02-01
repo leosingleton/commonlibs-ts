@@ -15,7 +15,7 @@ export class Task {
   public static delayAsync(millisecondsDelay: number): Promise<void> {
     if (millisecondsDelay > 0) {
       // Create a Promise and use setTimeout() to call resolve after the right delay
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>((resolve, _reject) => {
         setTimeout(() => resolve(), millisecondsDelay);
       });
     } else {

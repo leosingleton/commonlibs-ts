@@ -9,14 +9,15 @@ import { TaskScheduler } from '../js/TaskScheduler';
 self.onmessage = async (ev: MessageEvent) => {
   if (ev.data.command === 'UnitTest') {
     switch (ev.data.testCase) {
-      case 'Runtime':
+      case 'Runtime': {
         (self as any).postMessage({
           command: 'RuntimeUnitTest',
           value: [ Runtime.isInNode, Runtime.isInWebWorker, Runtime.isInWindow ]
         });
         break;
+      }
 
-      case 'TaskScheduler':
+      case 'TaskScheduler': {
         // Based on the "Execute tasks in priority order" unit test in /src/js/__tests__/TaskScheduler.test.ts
         let n = 100;
 
@@ -38,9 +39,11 @@ self.onmessage = async (ev: MessageEvent) => {
           value: n
         });
         break;
+      }
 
-      default:
+      default: {
         console.log('Unknown test case', ev.data.testCase);
+      }
     }
   }
 };

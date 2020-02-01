@@ -37,7 +37,7 @@ export class PriorityQueue<T> {
       const queue = this._queues[priority];
       if (queue) {
         let item: T;
-        if (item = queue.dequeue()) {
+        if ((item = queue.dequeue())) {
           this._count--;
           return item;
         } else {

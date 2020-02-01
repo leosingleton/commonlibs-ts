@@ -48,7 +48,8 @@ describe('ConfigurationOptions', () => {
   });
 
   it('Pre-populates session storage defaults', () => {
-    const config = new SampleConfig();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const config = new SampleConfig(); // Although config is unused, the constructor has side effects
     expect(sessionStorage.getItem('test_num')).toBe('42'); // Stored as a string in session storage
   });
 

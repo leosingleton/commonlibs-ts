@@ -14,11 +14,16 @@
     "@typescript-eslint", "jsdoc", "import"
   ],
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended"
   ],
   "rules": {
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/prefer-function-type": "error",
 
@@ -45,12 +50,9 @@
     "linebreak-style": ["error"],
     "new-parens": "error",
     "no-caller": "error",
-    "no-duplicate-case": "error",
     "no-duplicate-imports": "error",
-    "no-empty": "error",
     "no-eval": "error",
     "no-extra-bind": "error",
-    "no-fallthrough": "error",
     "no-new-func": "error",
     "no-new-wrappers": "error",
     "no-return-await": "error",
@@ -58,21 +60,17 @@
       { "name": "setImmediate" },
       { "name": "clearImmediate" }
     ],
-    "no-sparse-arrays": "error",
     "no-template-curly-in-string": "error",
     "no-throw-literal": "error",
     "no-trailing-spaces": "error",
     "no-undef-init": "error",
-    "no-unsafe-finally": "error",
     "no-unused-expressions": ["error", { "allowTernary": true }],
-    "no-unused-labels": "error",
     "no-var": "error",
     "object-shorthand": "error",
     "prefer-const": "error",
     "prefer-object-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
     "space-in-parens": "error",
-    "unicode-bom": ["error", "never"],
-    "use-isnan": "error"
+    "unicode-bom": ["error", "never"]
   }
 }

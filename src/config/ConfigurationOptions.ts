@@ -95,7 +95,7 @@ export abstract class ConfigurationOptions {
   public constructor(prefix = '', flags = ConfigurationFlags.None, refreshInterval = 5000) {
     this.propertyPrefix = prefix;
     this.configurationFlags = flags;
-    this.refreshInterval = this.refreshInterval;
+    this.refreshInterval = refreshInterval;
   }
 
   /** Must be called by derived classes after they initialize the defaults property */

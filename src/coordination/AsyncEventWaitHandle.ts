@@ -21,7 +21,7 @@ export abstract class AsyncEventWaitHandle {
 
   public setEvent(): void {
     let waiter: Waiter;
-    while (waiter = this._waiters.dequeue()) {
+    while ((waiter = this._waiters.dequeue())) {
       // For auto-reset, abort after the first Task is released. For manual-reset, release all Tasks.
       if (waiter.trySetComplete() && this._autoReset) {
         return;

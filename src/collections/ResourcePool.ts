@@ -86,7 +86,7 @@ class Pool<T extends IDisposable> implements IDisposable {
     }
   }
 
-  public onObjectCreated(obj: T): void {
+  public onObjectCreated(_obj: T): void {
     // Track the number of objects in use, along with the maximum number of objects used this period
     const current = ++this.inUseCurrent;
     this.inUseMaximum = Math.max(this.inUseMaximum, current);
@@ -234,7 +234,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * @param obj Object that will be added to a pool
    * @returns True if the object is good to store in the pool. False to immediately dispose() the object instead.
    */
-  protected freeze(obj: T): boolean {
+  protected freeze(_obj: T): boolean {
     return true;
   }
 
@@ -245,7 +245,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * @returns True if the object is good to use. False to immediately dispose() the object and get another from the
    *    pool.
    */
-  protected defrost(obj: T): boolean {
+  protected defrost(_obj: T): boolean {
     return true;
   }
 

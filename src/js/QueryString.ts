@@ -18,7 +18,7 @@ export function parseQueryString(): ParsedQueryString {
 
   let match: RegExpExecArray;
   const result: ParsedQueryString = {};
-  while (match = search.exec(query)) {
+  while ((match = search.exec(query))) {
     result[decode(match[1])] = decode(match[2]);
   }
 

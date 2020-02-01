@@ -30,7 +30,7 @@ export class TaskScheduler {
    *    have completed.
    */
   public static yieldAsync(priority = 0): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, _reject) => {
       this.schedule(() => resolve(), priority);
     });
   }

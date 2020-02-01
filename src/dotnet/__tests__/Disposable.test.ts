@@ -46,8 +46,8 @@ describe('Disposable', () => {
     expect(c1.isDisposed).toBeFalsy();
     expect(c2.isDisposed).toBeFalsy();
 
-    using (c1, c1x => {
-      using (c2, c2x => {
+    using(c1, _c1x => {
+      using(c2, _c2x => {
         expect(c1.isDisposed).toBeFalsy();
         expect(c2.isDisposed).toBeFalsy();
       });
@@ -64,7 +64,7 @@ describe('Disposable', () => {
     const c = new MyClass();
     expect(c.isDisposed).toBeFalsy();
 
-    await usingAsync(c, async cx => {
+    await usingAsync(c, async _cx => {
       expect(c.isDisposed).toBeFalsy();
       await Task.delayAsync(100);
       expect(c.isDisposed).toBeFalsy();
