@@ -53,6 +53,10 @@
     "keyword-spacing": "error",
     "linebreak-style": "error",
     "new-parens": "error",
+    "max-len": ["error", {
+      "code": 120,
+      "tabWidth": 2
+    }],
     "no-caller": "error",
     "no-constant-condition": ["error", { "checkLoops": false }],
     "no-duplicate-imports": "error",
