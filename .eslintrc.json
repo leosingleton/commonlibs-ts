@@ -3,6 +3,7 @@
   "parserOptions": {
     "warnOnUnsupportedTypeScriptVersion": false,
     "ecmaVersion": 6,
+    "project": ["./tsconfig.json", "./tsconfig.eslint.json"],
     "sourceType": "module"
   },
   "env": {
@@ -20,6 +21,7 @@
   "rules": {
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    "@typescript-eslint/no-floating-promises": "error",
 
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
@@ -52,6 +54,7 @@
     "linebreak-style": "error",
     "new-parens": "error",
     "no-caller": "error",
+    "no-constant-condition": ["error", { "checkLoops": false }],
     "no-duplicate-imports": "error",
     "no-eval": "error",
     "no-extra-bind": "error",
