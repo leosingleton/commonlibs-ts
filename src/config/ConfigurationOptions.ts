@@ -112,9 +112,9 @@ export abstract class ConfigurationOptions {
       // Populate with default values
       const me = this as any;
       const properties = Object.keys(this.defaults);
-      properties.forEach(property => {
+      for (const property of properties) {
         me[property] = this.defaults[property][2];
-      });
+      }
     }
   }
 
@@ -128,7 +128,7 @@ export abstract class ConfigurationOptions {
     const flags = this.configurationFlags;
     const me = this as any;
     const properties = Object.keys(this.defaults);
-    properties.forEach(property => {
+    for (const property of properties) {
       const name = this.propertyPrefix + this.defaults[property][0];
       const type = this.defaults[property][1];
       const defaultValue = this.defaults[property][2];
@@ -187,7 +187,7 @@ export abstract class ConfigurationOptions {
           }
         }
       }
-    });
+    }
 
     // Reload the configuration every few seconds. This allows you to modify browser storage using Chrome's dev tools,
     // and see the changes take effect in realtime, without refreshing the page.
@@ -206,7 +206,7 @@ export abstract class ConfigurationOptions {
 
     const me = this as any;
     const properties = Object.keys(values);
-    properties.forEach(property => {
+    for (const property of properties) {
       if (!this.defaults[property]) {
         throw new Error(`Unknown property ${property}`);
       }
@@ -216,7 +216,7 @@ export abstract class ConfigurationOptions {
       const value = values[property];
       me[property] = value;
       this.writeToStorageInternal(name, type, value);
-    });
+    }
   }
 
   private writeToStorageInternal(name: string, type: StorageType, value: string | number | boolean): void {

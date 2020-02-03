@@ -162,9 +162,9 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
 
   public dispose(): void {
     const ids = Object.keys(this.pools);
-    ids.forEach(id => {
+    for (const id of ids) {
       this.pools[id].dispose();
-    });
+    }
     this.pools = {};
 
     // Stop the grooming thread
@@ -219,9 +219,9 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    */
   protected groom(): void {
     const ids = Object.keys(this.pools);
-    ids.forEach(id => {
+    for (const id of ids) {
       this.pools[id].groom();
-    });
+    }
 
     if (!this.isDisposed && this.groomingInterval > 0) {
       setTimeout(() => this.groom(), this.groomingInterval);
