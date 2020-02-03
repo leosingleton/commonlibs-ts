@@ -11,7 +11,9 @@ export class DisposableSet implements IDisposable {
   private members: IDisposable[] = [];
 
   public dispose(): void {
-    this.members.forEach(obj => obj.dispose());
+    for (const obj of this.members) {
+      obj.dispose();
+    }
     this.members = [];
   }
 
