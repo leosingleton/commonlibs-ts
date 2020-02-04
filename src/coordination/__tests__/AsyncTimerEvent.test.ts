@@ -35,6 +35,7 @@ describe('AsyncTimerEvent', () => {
     await Task.delayAsync(1000);
     expect(fireCount).toBeGreaterThanOrEqual(8);
     expect(fireCount).toBeLessThanOrEqual(12);
-    await Task.delayAsync(500);
+    timer.dispose();
   });
+
 });
