@@ -11,20 +11,10 @@ export class AsyncTimerEvent extends AsyncEventWaitHandle {
   public constructor(millisecondsDelay: number, repeat = false) {
     super(repeat, false);
 
-    this._millisecondsDelay = millisecondsDelay;
-    this._repeat = repeat;
-
-    setTimeout(() => this._timerLoop(), millisecondsDelay);
-  }
-
-  private _timerLoop(): void {
-    this.setEvent();
-
-    if (this._repeat) {
-      setTimeout(() => this._timerLoop(), this._millisecondsDelay);
+    if (repeat) {
+      setInterval(() => this.setEvent(), millisecondsDelay);
+    } else {
+      setTimeout(() => this.setEvent(), millisecondsDelay);
     }
   }
-
-  private _millisecondsDelay: number;
-  private _repeat: boolean;
 }
