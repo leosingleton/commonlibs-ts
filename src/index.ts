@@ -25,6 +25,6 @@ export { Runtime } from './js/Runtime';
 export { TaskScheduler } from './js/TaskScheduler';
 export { ErrorType, UnhandledError } from './js/UnhandledError';
 export { BinaryConverter } from './logic/BinaryConverter';
-export { deepCopy } from './logic/DeepCopy';
+export { deepCopy, deepEquals } from './logic/DeepCopy';
 export { VersionComparer } from './logic/VersionComparer';
 export { SeededRandom } from './math/SeededRandom';
