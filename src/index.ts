@@ -6,6 +6,7 @@
 
 export { CircularBuffer } from './collections/CircularBuffer';
 export { DisposableSet } from './collections/DisposableSet';
+export { LruQueue } from './collections/LruQueue';
 export { MovingAverage } from './collections/MovingAverage';
 export { PriorityQueue } from './collections/PriorityQueue';
 export { ResourcePool, RetentionStrategy } from './collections/ResourcePool';
