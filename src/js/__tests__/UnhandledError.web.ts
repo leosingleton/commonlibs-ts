@@ -23,9 +23,9 @@ describe('UnhandledError', () => {
     // Wait for the callback
     await received.waitAsync();
 
-    expect(err.message).toBe('Test');
-    expect(err.type).toBe(ErrorType.ReportedError);
-    expect(err.stack).toBeDefined();
+    expect(err.errorMessage).toBe('Test');
+    expect(err.errorType).toBe(ErrorType.ReportedError);
+    expect(err.errorStack).toBeDefined();
   });
 
 });
