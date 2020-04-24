@@ -5,27 +5,39 @@
 import { Runtime } from './Runtime';
 import { AsyncManualResetEvent } from '../coordination/AsyncManualResetEvent';
 
-/** Set when the DOM is ready */
-const documentReadyEvent = new AsyncManualResetEvent();
-
+/**
+ * Similar to jQuery's `$(document).ready()`, but doesn't require jQuery. This event doesn't support some older web
+ * browsers, but that's not a big concern given our heavy dependency on new web technologies.
+ */
 export class DocumentReady {
   /** Returns whether the DOM is ready */
   public static isReady(): boolean {
-    return documentReadyEvent.getIsSet();
+    DocumentReady.initializeEvent();
+    return DocumentReady.documentReadyEvent.getIsSet();
   }
 
   /** Blocks until the DOM is ready */
   public static async waitUntilReady(): Promise<void> {
-    await documentReadyEvent.waitAsync();
+    DocumentReady.initializeEvent();
+    await DocumentReady.documentReadyEvent.waitAsync();
   }
-}
 
-if (Runtime.isInWindow) {
-  // Similar to jQuery's $(document).ready(), but doesn't require jQuery. This event doesn't support older web
-  // browsers, but that's not a big concern given our heavy dependency on new web technologies.
-  document.addEventListener('DOMContentLoaded', () => {
-    documentReadyEvent.setEvent();
-  });
-} else {
-  documentReadyEvent.setEvent();
+  /** Set when the DOM is ready */
+  private static documentReadyEvent: AsyncManualResetEvent;
+
+  /** Ensures `documentReadyEvent` is initialized and listeners are registered */
+  private static initializeEvent(): void {
+    if (!DocumentReady.documentReadyEvent) {
+      DocumentReady.documentReadyEvent = new AsyncManualResetEvent();
+      if (Runtime.isInWindow) {
+        if (document.readyState === 'complete') {
+          DocumentReady.documentReadyEvent.setEvent();
+        } else {
+          document.addEventListener('DOMContentLoaded', () => DocumentReady.documentReadyEvent.setEvent());
+        }
+      } else {
+        DocumentReady.documentReadyEvent.setEvent();
+      }
+    }
+  }
 }

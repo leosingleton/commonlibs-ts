@@ -4,9 +4,7 @@
 
 import { AsyncAutoResetEvent } from './AsyncAutoResetEvent';
 
-/**
- * Async version of .NET's System.Threading.ManualResetEvent
- */
+/** Async version of .NET's `System.Threading.ManualResetEvent` */
 export class AsyncMutex {
   /** Boolean set to true when the mutex is locked */
   private isLocked = false;

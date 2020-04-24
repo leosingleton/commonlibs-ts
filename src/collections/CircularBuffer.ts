@@ -2,9 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-/**
- * Holds a circular buffer of numbers
- */
+/** Holds a circular buffer of numbers */
 export class CircularBuffer {
   public constructor(size: number) {
     this.resizeBuffer(size);

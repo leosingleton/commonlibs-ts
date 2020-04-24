@@ -26,15 +26,13 @@ export class LruQueue<T> {
 
   /**
    * Removes and returns the value at the head of the queue
-   * @returns First value in the queue, or undefined if the queue is empty
+   * @returns First value in the queue, or `undefined` if the queue is empty
    */
   public dequeue(): T | undefined {
     return this.queueValues.shift();
   }
 
-  /**
-   * Returns the number of values in the queue
-   */
+  /** Returns the number of values in the queue */
   public getCount(): number {
     return this.queueValues.length;
   }

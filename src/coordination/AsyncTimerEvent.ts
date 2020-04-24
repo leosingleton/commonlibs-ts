@@ -5,9 +5,7 @@
 import { AsyncEventWaitHandle } from './AsyncEventWaitHandle';
 import { IDisposable } from '../dotnet/Disposable';
 
-/**
- * Timer that behaves line an EventWaitHandle. Useful for the AsyncEventWaitHandle.WhenAny() method.
- */
+/** Timer that behaves line an `EventWaitHandle`. Useful for the `AsyncEventWaitHandle.WhenAny()` method. */
 export class AsyncTimerEvent extends AsyncEventWaitHandle implements IDisposable {
   public constructor(millisecondsDelay: number, repeat = false) {
     super(repeat, false);

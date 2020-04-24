@@ -4,6 +4,7 @@
  * Released under the MIT license
  */
 
+export { CallbackCollection } from './collections/CallbackCollection';
 export { CircularBuffer } from './collections/CircularBuffer';
 export { DisposableSet } from './collections/DisposableSet';
 export { LruQueue } from './collections/LruQueue';

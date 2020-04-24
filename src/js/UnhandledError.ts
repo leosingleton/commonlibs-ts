@@ -10,10 +10,10 @@ export const enum ErrorType {
   /** Unhandled promise rejection caught by the global error handler */
   UnhandledPromiseRejection,
 
-  /** Unhandled promise rejection in an async lambda executed via the TaskScheduler class */
+  /** Unhandled promise rejection in an async lambda executed via the `TaskScheduler` class */
   ScheduledPromiseRejection,
 
-  /** Error reported explicitly by a call to reportError() */
+  /** Error reported explicitly by a call to `reportError()` */
   ReportedError
 }
 
@@ -22,17 +22,17 @@ type ErrorHandler = (ue: UnhandledError) => void;
 /** Unhandled exceptions details */
 export class UnhandledError {
   /** Error message */
-  public message: string;
+  public errorMessage: string;
 
   /** Type */
-  public type: ErrorType;
+  public errorType: ErrorType;
 
   /** Stack trace (optional) */
-  public stack?: string;
+  public errorStack?: string;
 
   public toString(): string {
     let typeString: string;
-    switch (this.type) {
+    switch (this.errorType) {
       case ErrorType.UnhandledError:
         typeString = 'Unhandled Error';
         break;
@@ -46,9 +46,9 @@ export class UnhandledError {
         break;
     }
 
-    let result = `${typeString}: ${this.message}`;
-    if (this.stack) {
-      result += `\n${this.stack}`;
+    let result = `${typeString}: ${this.errorMessage}`;
+    if (this.errorStack) {
+      result += `\n${this.errorStack}`;
     }
 
     return result;
@@ -92,13 +92,13 @@ const handlers: ErrorHandler[] = [];
 /** Exported only within commonlibs. Allows the internal library to report errors with a specific type. */
 export function reportError(error: any, type: ErrorType): void {
   const ue = new UnhandledError();
-  ue.type = type;
+  ue.errorType = type;
 
   if (error instanceof Error) {
-    ue.message = error.message;
-    ue.stack = error.stack;
+    ue.errorMessage = error.message;
+    ue.errorStack = error.stack;
   } else {
-    ue.message = error.toString();
+    ue.errorMessage = error.toString();
   }
 
   errors.push(ue);

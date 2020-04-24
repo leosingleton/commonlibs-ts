@@ -4,9 +4,7 @@
 
 import { Queue } from '../dotnet/Queue';
 
-/**
- * Calculates a moving average of a set of numbers
- */
+/** Calculates a moving average of a set of numbers */
 export class MovingAverage {
   public constructor(initialValue: number, maxValues: number) {
     this._maxValues = maxValues;

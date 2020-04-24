@@ -14,7 +14,7 @@ export namespace Runtime {
   /** Boolean used to special case behavior for NodeJS versus web browsers (the latter also includes web workers) */
   export const isInNode = _isInNode;
 
-  /** globalThis isn't widely supported yet and breaks the Jest tests. Use this instead... */
+  /** `globalThis` isn't widely supported yet and breaks the Jest tests. Use this instead... */
   export const globalObject = _globalObject;
 
   /** Boolean used to special case behavior when running inside a WebWorker */

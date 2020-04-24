@@ -5,9 +5,7 @@
 import { Queue } from '../dotnet/Queue';
 import { Task } from '../dotnet/Task';
 
-/**
- * Async version of .NET's System.Threading.EventWaitHandle
- */
+/** Async version of .NET's `System.Threading.EventWaitHandle` */
 export abstract class AsyncEventWaitHandle {
   protected constructor(autoReset: boolean, initialState: boolean) {
     this._autoReset = autoReset;
@@ -93,9 +91,7 @@ export abstract class AsyncEventWaitHandle {
   private _waiters: Queue<Waiter>;
 }
 
-/**
- * Wraps a Promise waiting on an AsyncEventWaitHandle
- */
+/** Wraps a `Promise` waiting on an `AsyncEventWaitHandle` */
 class Waiter {
   public constructor() {
     this._isComplete = false;

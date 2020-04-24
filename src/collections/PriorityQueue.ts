@@ -4,9 +4,7 @@
 
 import { Queue } from '../dotnet/Queue';
 
-/**
- * Priority Queue
- */
+/** Priority Queue */
 export class PriorityQueue<T> {
   /**
    * Enqueues an item in the priority queue
@@ -28,7 +26,7 @@ export class PriorityQueue<T> {
 
   /**
    * Gets the next item from the queue
-   * @returns Next item in the queue or undefined if none remain
+   * @returns Next item in the queue or `undefined` if none remain
    */
   public dequeue(): T | undefined {
     let priority = this._highestPriority;
@@ -54,16 +52,12 @@ export class PriorityQueue<T> {
     return undefined;
   }
 
-  /**
-   * Returns the number of elements in the queue
-   */
+  /** Returns the number of elements in the queue */
   public getCount(): number {
     return this._count;
   }
 
-  /**
-   * Returns true if the queue is empty
-   */
+  /** Returns `true` if the queue is empty */
   public isEmpty(): boolean {
     return this._count === 0;
   }
@@ -74,13 +68,9 @@ export class PriorityQueue<T> {
    */
   private _queues: Queue<T>[] = [];
 
-  /**
-   * Highest priority level that currently has a message queued
-   */
+  /** Highest priority level that currently has a message queued */
   private _highestPriority = 0;
 
-  /**
-   * Number of elements in the queue
-   */
+  /** Number of elements in the queue */
   private _count = 0;
 }
