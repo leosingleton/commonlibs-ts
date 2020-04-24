@@ -1,6 +1,6 @@
 {
   "name": "@leosingleton/commonlibs",
-  "version": "1.6.0-alpha",
+  "version": "1.7.0",
   "author": "Leo C. Singleton IV <leo@leosingleton.com>",
   "description": "Common Libraries for TypeScript and .NET Core",
   "homepage": "https://github.com/leosingleton/commonlibs-ts",
@@ -9,6 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/leosingleton/commonlibs-ts.git"
+  },
+  "dependencies": {
+    "tslib": "^1.11.1"
   },
   "devDependencies": {
     "@types/jasmine": "latest",
@@ -35,7 +38,8 @@
   },
   "scripts": {
     "build": "npx webpack --mode=none",
-    "lint": "npx eslint \"**/*.ts\" \"**/*.js\"",
+    "lint": "npx eslint . --ext js,ts",
+    "npm-upgrade": "rm -rf ./package-lock.json ./node_modules && npm install",
     "test": "npm run test:node && npm run test:web",
     "test:node": "npx jest --config=jest.node.config.js --maxWorkers=2 --coverage",
     "test:web": "npx webpack --mode=development --config=webpack.test.js && npx karma start",
