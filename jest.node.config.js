@@ -1,3 +1,7 @@
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
+
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
@@ -10,7 +14,12 @@ module.exports = {
       outputName: './results-node.xml',
     }]
   ],
-  collectCoverage: false, // The CLI has no way to disable. Instead, we must explicitly enable on the command line.
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!**/__tests__/**',
+    '!**/build/**'
+  ],
   coverageDirectory: 'build/coverage/node/',
   coverageReporters: ['html', 'text', 'cobertura']
 };
