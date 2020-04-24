@@ -83,6 +83,8 @@ class Pool<T extends IDisposable> implements IDisposable {
       this.inUseMaximum = Math.max(this.inUseMaximum, current);
 
       return objs.pop();
+    } else {
+      return undefined;
     }
   }
 

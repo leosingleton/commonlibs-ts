@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "lib": ["es2017", "dom"],
+    "importHelpers": true,
+
     "declaration": true,
-    "outDir": "./build/dist",
-    "noImplicitAny": true,
     "sourceMap": true,
-//    "strict": true
+
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+
+    "rootDir": "src",
+    "outDir": "build/dist"
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
