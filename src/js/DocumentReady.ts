@@ -12,13 +12,13 @@ import { AsyncManualResetEvent } from '../coordination/AsyncManualResetEvent';
 export class DocumentReady {
   /** Returns whether the DOM is ready */
   public static isReady(): boolean {
-    DocumentReady.initialize();
+    DocumentReady.initializeEvent();
     return DocumentReady.documentReadyEvent.getIsSet();
   }
 
   /** Blocks until the DOM is ready */
   public static async waitUntilReady(): Promise<void> {
-    DocumentReady.initialize();
+    DocumentReady.initializeEvent();
     await DocumentReady.documentReadyEvent.waitAsync();
   }
 
@@ -26,7 +26,7 @@ export class DocumentReady {
   private static documentReadyEvent: AsyncManualResetEvent;
 
   /** Ensures `documentReadyEvent` is initialized and listeners are registered */
-  private static initialize(): void {
+  private static initializeEvent(): void {
     if (!DocumentReady.documentReadyEvent) {
       DocumentReady.documentReadyEvent = new AsyncManualResetEvent();
       if (Runtime.isInWindow) {
