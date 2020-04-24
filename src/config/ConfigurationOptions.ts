@@ -2,6 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
+import { CallbackCollection } from '../collections/CallbackCollection';
 import { ParsedQueryString, parseQueryString } from '../js/QueryString';
 import { Runtime } from '../js/Runtime';
 
@@ -128,6 +129,7 @@ export abstract class ConfigurationOptions {
 
     const flags = this.configurationFlags;
     const me = this as any;
+    const oldValues = JSON.stringify(me);
     const properties = Object.keys(this.defaults);
     for (const property of properties) {
       const name = this.propertyPrefix + this.defaults[property][0];
@@ -190,6 +192,12 @@ export abstract class ConfigurationOptions {
       }
     }
 
+    // Determine if any values were changed, and if so, notify any listeners
+    const newValues = JSON.stringify(me);
+    if (oldValues !== newValues) {
+      this.changeListeners.invokeCallbacks();
+    }
+
     // Reload the configuration every few seconds. This allows you to modify browser storage using Chrome's dev tools,
     // and see the changes take effect in realtime, without refreshing the page.
     setTimeout(() => this.readFromStorage(false), this.refreshInterval);
@@ -240,6 +248,14 @@ export abstract class ConfigurationOptions {
   }
 
   /**
+   * Registers a callback to be invoked whenever a value changes
+   * @param callback Callback to invoke
+   */
+  public addChangeListener(callback: () => void): void {
+    this.changeListeners.registerCallback(callback);
+  }
+
+  /**
    * Default values if not present in browser storage. Also decribes the behavior of each configuration option.
    * @param id Name of the member variable in the derived class to read/write the value from. This is separate from
    *    tuple[0] as it may get mangled by terser or other JavaScript minifiers.
@@ -258,6 +274,9 @@ export abstract class ConfigurationOptions {
 
   /** How often local and/or session storage is refreshed, in milliseconds */
   private refreshInterval: number;
+
+  /** Callbacks to invoke on a value change */
+  private changeListeners = new CallbackCollection();
 
   /** The browser's query string, parsed once at initialization */
   private static qs: ParsedQueryString;
