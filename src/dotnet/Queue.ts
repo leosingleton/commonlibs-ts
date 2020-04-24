@@ -2,9 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-/**
- * First-In First-Out Queue. Mirror's the class in .NET for code portability.
- */
+/** First-In First-Out Queue. Mirror's the class in .NET for code portability. */
 export class Queue<T> {
   /**
    * Enqueues a value
@@ -30,23 +28,17 @@ export class Queue<T> {
     return this._values[0];
   }
 
-  /**
-   * Returns the number of values in the queue
-   */
+  /** Returns the number of values in the queue */
   public getCount(): number {
     return this._values.length;
   }
 
-  /**
-   * Returns the queue as an array
-   */
+  /** Returns the queue as an array */
   public toValueArray(): T[] {
     return this._values;
   }
 
-  /**
-   * Returns true if the queue is empty; false otherwise
-   */
+  /** Returns `true` if the queue is empty; `false` otherwise */
   public isEmpty(): boolean {
     return (this._values.length === 0);
   }

@@ -10,10 +10,10 @@ export const enum ErrorType {
   /** Unhandled promise rejection caught by the global error handler */
   UnhandledPromiseRejection,
 
-  /** Unhandled promise rejection in an async lambda executed via the TaskScheduler class */
+  /** Unhandled promise rejection in an async lambda executed via the `TaskScheduler` class */
   ScheduledPromiseRejection,
 
-  /** Error reported explicitly by a call to reportError() */
+  /** Error reported explicitly by a call to `reportError()` */
   ReportedError
 }
 

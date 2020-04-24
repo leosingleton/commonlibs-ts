@@ -8,7 +8,7 @@ import { PriorityQueue } from '../collections/PriorityQueue';
 
 export class TaskScheduler {
   /**
-   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented `setImmediate()`
    * function in JavaScript.
    * @param lambda Lambda function to execute
    * @param priority Priority, expressed as an integer where 0 is highest
@@ -19,11 +19,11 @@ export class TaskScheduler {
   }
 
   /**
-   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented `setImmediate()`
    * function in JavaScript.
    *
-   * This variation of schedule() supports async functions which return a Promise and returns exceptions via the
-   * UnhandledError class.
+   * This variation of `schedule()` supports async functions which return a `Promise` and returns exceptions via the
+   * `UnhandledError` class.
    *
    * @param lambda Lambda function to execute
    * @param priority Priority, expressed as an integer where 0 is highest
@@ -58,7 +58,7 @@ export class TaskScheduler {
   private static impl: TaskSchedulerImpl;
 }
 
-/** Any unique string. Abbreviated version of "@leosingleton/commonlibs-ts/TaskScheduler" */
+/** Any unique string. Abbreviated version of `"@leosingleton/commonlibs-ts/TaskScheduler"` */
 const eventData = '@ls/cl/TS';
 
 type Lambda = () => void;
@@ -81,10 +81,10 @@ class TaskSchedulerImpl {
   /** The global task queue. Initialized in the constructor below. */
   private readyTasks: PriorityQueue<Lambda>;
 
-  /** Number of executeTasks() events queued on the event loop */
+  /** Number of `executeTasks()` events queued on the event loop */
   private executeTasksEvents = 0;
 
-  /** Queues a task on the event loop to call executeTasks() */
+  /** Queues a task on the event loop to call `executeTasks()` */
   private executeTasksOnEventLoop(): void {
     this.executeTasksEvents++;
 
@@ -128,7 +128,7 @@ class TaskSchedulerImpl {
     }
   }
 
-  /** Handler invoked on the event loop to execute tasks in the readyTasks queue */
+  /** Handler invoked on the event loop to execute tasks in the `readyTasks` queue */
   private executeTasks(): void {
     this.executeTasksEvents--;
 

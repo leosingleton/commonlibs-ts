@@ -4,9 +4,7 @@
 
 export interface ParsedQueryString { [key: string]: string }
 
-/**
- * Parses the current page's query string
- */
+/** Parses the current page's query string */
 export function parseQueryString(): ParsedQueryString {
   const pl =/\+/g; // Regex for replacing addition symbol with a space
   const search = /([^&=]+)=?([^&]*)/g;

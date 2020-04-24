@@ -2,9 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-/**
- * TypeScript port of C#'s Stopwatch class
- */
+/** TypeScript port of C#'s `Stopwatch` class */
 export class Stopwatch {
   /** Elapsed time in milliseconds, not counting the current elapsed time if running */
   private _elapsedMilliseconds = 0;
@@ -71,12 +69,12 @@ export class Stopwatch {
 }
 
 /**
- * performance.now() wrapper. May point to a polyfill on NodeJS or older browsers without support for the Performance
+ * `performance.now()` wrapper. May point to a polyfill on NodeJS or older browsers without support for the Performance
  * Timing API.
  */
 let now: () => number;
 
-/** Last value of the now() function. Used to prevent the counter from going backwards if the system clock changes. */
+/** Last value of the `now()` function. Used to prevent the counter from going backwards if the system clock changes. */
 let _lastNow = 0;
 
 if (typeof performance === 'undefined') {

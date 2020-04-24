@@ -4,12 +4,10 @@
 
 import { TaskScheduler } from '../js/TaskScheduler';
 
-/**
- * Useful functions for Promises that mirror C#'s Task class
- */
+/** Useful functions for `Promises` that mirror C#'s `Task` class */
 export class Task {
   /**
-   * Blocks the current execution for the specified number of milliseconds. Equivalent to Task.Delay() in C#.
+   * Blocks the current execution for the specified number of milliseconds. Equivalent to `Task.Delay()` in C#.
    * @param millisecondsDelay Number of milliseconds to delay
    */
   public static delayAsync(millisecondsDelay: number): Promise<void> {
@@ -25,7 +23,7 @@ export class Task {
   }
 
   /**
-   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented `setImmediate()`
    * function in JavaScript.
    * @param lambda Lambda function to execute
    */
@@ -36,11 +34,11 @@ export class Task {
   }
 
   /**
-   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented setImmediate()
+   * Executes a lambda function asynchronously. Equivalent to the proposed but never implemented `setImmediate()`
    * function in JavaScript.
    *
-   * This variation of run() supports async functions which return a Promise and returns exceptions via the
-   * UnhandledError class.
+   * This variation of `run()` supports async functions which return a `Promise` and returns exceptions via the
+   * `UnhandledError` class.
    *
    * @param lambda Lambda function to execute
    */

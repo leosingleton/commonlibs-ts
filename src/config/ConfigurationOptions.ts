@@ -59,7 +59,7 @@ export const enum ConfigurationFlags {
   DoNotWriteDefaultValuesToSessionStorage = (1 << 1),
 
   /**
-   * By default, no local storage values are written unless explicitly invoked by the writeToStorage() method. This
+   * By default, no local storage values are written unless explicitly invoked by the `writeToStorage()` method. This
    * flag changes the behavior to automatically write default values to local storage if they do not exist.
    *
    * _WARNING:_ This flag should be used with caution, as it can create upgrade challenges if the default value ever
@@ -80,19 +80,20 @@ export abstract class ConfigurationOptions {
   /**
    * Constructor
    *
-   * _IMPORTANT_: The constructor does not fully initialize the object. Derived classes create a constructor which does
-   * the following:
-   *  1. Calls super() to invoke the parent constructor with the desired prefix and flags
-   *  2. Calls initializeValues() to complete the initialization
+   * The constructor does not fully initialize the object. Derived classes create a constructor which does the
+   * following:
+   *  1. Calls `super()` to invoke the parent constructor with the desired prefix and flags
+   *  2. Initializes the `defaults` property
+   *  3. Calls `initializeValues()` to complete the initialization
    *
    * This is due to the order of initialization described here: https://github.com/microsoft/TypeScript/issues/1617
-   * The initializeValues() method first requires the derived class's defaults property to be initialized.
+   * The `initializeValues()` method first requires the derived class's defaults property to be initialized.
    *
    * @param prefix Optional prefix to apply to each option's name
-   * @param flags See ConfigurationFlags
+   * @param flags See `ConfigurationFlags`
    * @param refreshInterval How often local and/or session storage is refreshed, in milliseconds. Default is 5000 ms.
    */
-  public constructor(prefix = '', flags = ConfigurationFlags.None, refreshInterval = 5000) {
+  protected constructor(prefix = '', flags = ConfigurationFlags.None, refreshInterval = 5000) {
     this.propertyPrefix = prefix;
     this.configurationFlags = flags;
     this.refreshInterval = refreshInterval;
@@ -241,11 +242,11 @@ export abstract class ConfigurationOptions {
   /**
    * Default values if not present in browser storage. Also decribes the behavior of each configuration option.
    * @param id Name of the member variable in the derived class to read/write the value from. This is separate from
-   *    tuple[0] as it may get mangled by uglify-js or other JavaScript minifiers.
+   *    tuple[0] as it may get mangled by terser or other JavaScript minifiers.
    * @param tuple Tuple to describe the value:
-   *   1. (string): ID of the value as stored in browser storage
-   *   2. (StorageType): Determines whether to use local storage, session storage, and/or the query string
-   *   3. (string | number | boolean): Default value for the configuration option
+   *   1. (`string`): ID of the value as stored in browser storage
+   *   2. (`StorageType`): Determines whether to use local storage, session storage, and/or the query string
+   *   3. (`string | number | boolean`): Default value for the configuration option
    */
   protected abstract defaults: {[id: string]: [string, StorageType, string | number | boolean]};
 

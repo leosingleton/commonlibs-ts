@@ -5,7 +5,7 @@
 import { CircularBuffer } from './CircularBuffer';
 import { IDisposable } from '../dotnet/Disposable';
 
-/** Retention strategies for ResourcePool */
+/** Retention strategies for `ResourcePool` */
 export const enum RetentionStrategy {
   /** Disables resource pooling. Always disposes objects and never saves them for reuse. */
   AlwaysDispose,
@@ -128,12 +128,12 @@ class Pool<T extends IDisposable> implements IDisposable {
 export abstract class ResourcePool<T extends IDisposable> implements IDisposable {
   /**
    * Constructor
-   * @param strategy Retention strategy. See the details on the values of the RetentionStrategy enum.
+   * @param strategy Retention strategy. See the details on the values of the `RetentionStrategy` enum.
    * @param groomingInterval Grooming interval, in milliseconds. Note that objects are always disposed as soon as the
    *    upper limit is hit--this interval simply controls how often the limit is recalculated, which if lower, will
-   *    result in objects being groomed. This value only applies to the KeepMinimum and KeepMaximum strategies.
+   *    result in objects being groomed. This value only applies to the `KeepMinimum` and `KeepMaximum` strategies.
    * @param groomingPeriods The number of grooming periods to track for historical purposes. This value only applies to
-   *    the KeepMinimum and KeepMaximum strategies.
+   *    the `KeepMinimum` and `KeepMaximum` strategies.
    */
   protected constructor(strategy = RetentionStrategy.KeepMinimum, groomingInterval = 5000, groomingPeriods = 6) {
     this.strategy = strategy;
@@ -152,13 +152,13 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
   /**
    * Grooming interval, in milliseconds. Note that objects are always disposed as soon as the upper limit is hit--this
    * interval simply controls how often the limit is recalculated, which if lower, will result in objects being
-   * groomed. This value only applies to the KeepMinimum and KeepMaximum strategies.
+   * groomed. This value only applies to the `KeepMinimum` and `KeepMaximum` strategies.
    */
   protected readonly groomingInterval: number;
 
   /**
-   * The number of grooming periods to track for historical purposes. This value only applies to the KeepMinimum and
-   * KeepMaximum strategies.
+   * The number of grooming periods to track for historical purposes. This value only applies to the `KeepMinimum` and
+   * `KeepMaximum` strategies.
    */
   protected readonly groomingPeriods: number;
 
@@ -234,7 +234,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * Method invoked before an object is added to the pool. Derived classes can override this method and perform any
    * actions on the object to prepare it for long-term storage in the pool.
    * @param obj Object that will be added to a pool
-   * @returns True if the object is good to store in the pool. False to immediately dispose() the object instead.
+   * @returns True if the object is good to store in the pool. False to immediately `dispose()` the object instead.
    */
   protected freeze(_obj: T): boolean {
     return true;
@@ -244,7 +244,7 @@ export abstract class ResourcePool<T extends IDisposable> implements IDisposable
    * Method invoked immediately after an object is removed from the pool. Derived classes can override this method and
    * perform any actions on the object to get it ready to be reused.
    * @param obj Object that has been removed from a pool
-   * @returns True if the object is good to use. False to immediately dispose() the object and get another from the
+   * @returns True if the object is good to use. False to immediately `dispose()` the object and get another from the
    *    pool.
    */
   protected defrost(_obj: T): boolean {
