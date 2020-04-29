@@ -89,7 +89,7 @@ export class Unmangler {
   }
 
   /** Map of mangled property names to unmangled property names */
-  private propertyMap: MangledPropertyMap;
+  private propertyMap: MangledPropertyMap = {};
 
   /**
    * Map of unmangled property names to mangled property names. Created from `propertyMap` and cached to speed up future
