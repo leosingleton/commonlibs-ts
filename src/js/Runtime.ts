@@ -22,4 +22,48 @@ export namespace Runtime {
 
   /** Boolean indicating whether we are executing on a standard browser page with DOM */
   export const isInWindow = !isInNode && !isInWebWorker;
+
+  /**
+   * Exports a function or object to the global namespace without mangling
+   * @param name Unmangled name of the export
+   * @param value Function or object to export
+   * @param namespace Optional namespace, consisting of one or more namespaces separated by dots
+   */
+  export function exportGlobal(name: string, value: any, namespace?: string): void {
+    const rootObject = getGlobalObject<any>(namespace);
+    rootObject[name] = value;
+  }
+
+  /**
+   * Exports multiple functions and/or objects to the global namespace without mangling
+   * @param exports Array of name/value tuples containing the unmangled name and values to export
+   * @param namespace Optional namespace, consisting of one or more namespaces separated by dots
+   */
+  export function exportGlobals(exports: [string, any][], namespace?: string): void {
+    const rootObject = getGlobalObject<any>(namespace);
+    for (const e of exports) {
+      rootObject[e[0]] = e[1];
+    }
+  }
+
+  /**
+   * Gets the global object (i.e. `globalThis`) or a namespace under this object
+   * @param namespace Optional namespace, consisting of one or more namespaces separated by dots
+   */
+  export function getGlobalObject<T>(namespace?: string): T {
+    let object = Runtime.globalObject;
+
+    // Find the namespace where the function should be exported, creating namespaces as needed
+    if (namespace) {
+      const namespaceParts = namespace.split('.');
+      for (const part of namespaceParts) {
+        if (!object[part]) {
+          object[part] = {};
+        }
+        object = object[part];
+      }
+    }
+
+    return object;
+  }
 }
