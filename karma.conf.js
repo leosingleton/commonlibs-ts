@@ -1,5 +1,6 @@
-// Karma configuration
-// Generated on Thu Jun 22 2017 15:55:45 GMT-0400 (EDT)
+// @leosingleton/commonlibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
 module.exports = function(config) {
   config.set({

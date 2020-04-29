@@ -11,7 +11,7 @@ export class AsyncTimerEvent extends AsyncEventWaitHandle implements IDisposable
     super(repeat, false);
 
     const f = repeat ? setInterval : setTimeout;
-    this.intervalID = f(() => this.setEvent(), millisecondsDelay);
+    this.intervalID = f(() => this.setEvent(), millisecondsDelay) as any;
   }
 
   public dispose(): void {
