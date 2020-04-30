@@ -26,7 +26,7 @@ export { ParsedQueryString, parseQueryString } from './js/QueryString';
 export { Runtime } from './js/Runtime';
 export { TaskScheduler } from './js/TaskScheduler';
 export { ErrorType, UnhandledError } from './js/UnhandledError';
-export { MangledPropertyMap, Unmangler, UnmanglerFlags, SharedUnmangler } from './js/Unmangler';
+export { GlobalUnmangler, MangledPropertyMap, Unmangler, UnmanglerFlags } from './js/Unmangler';
 export { BinaryConverter } from './logic/BinaryConverter';
 export { deepCopy, deepEquals } from './logic/DeepCopy';
 export { VersionComparer } from './logic/VersionComparer';

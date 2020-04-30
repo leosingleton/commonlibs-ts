@@ -2,7 +2,7 @@
 // Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
 // See LICENSE in the project root for license information.
 
-import { Unmangler, UnmanglerFlags } from '../Unmangler';
+import { GlobalUnmangler, Unmangler, UnmanglerFlags } from '../Unmangler';
 
 describe('Unmangler', () => {
 
@@ -51,6 +51,19 @@ describe('Unmangler', () => {
       child: {
         unmangledProp: 7
       }
+    } as any);
+  });
+
+  it('Has a global instance', () => {
+    GlobalUnmangler.addProperties({
+      mangledProp: 'unmangledProp'
+    });
+
+    const result = GlobalUnmangler.unmangleObject({
+      mangledProp: 5
+    });
+    expect(result).toEqual({
+      unmangledProp: 5
     } as any);
   });
 
