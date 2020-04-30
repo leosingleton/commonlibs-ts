@@ -3,6 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { deepCopy } from '../logic/DeepCopy';
+import { Runtime } from './Runtime';
 
 /** Flags for the `Unmangler` class */
 export const enum UnmanglerFlags {
@@ -208,4 +209,18 @@ export class Unmangler {
  * An instance of `Unmangler` held in a global variable so that multiple pieces of code can call `addProperties()` and
  * create a global mangle/unmangle map.
  */
-export const SharedUnmangler = new Unmangler();
+export const GlobalUnmangler = getGlobalUnmangler();
+
+function getGlobalUnmangler(): Unmangler {
+  /** A globally unique string. Abbreviated version of `"@leosingleton/commonlibs-ts/Unmangler"` */
+  const property = '@ls/cl/U';
+
+  let unmangler = Unmangler.getUnmangledProperty<Unmangler>(Runtime.globalObject, property);
+  if (!unmangler) {
+    // Create on first use
+    unmangler = new Unmangler();
+    Unmangler.setUnmangledProperty(Runtime.globalObject, property, unmangler);
+  }
+
+  return unmangler;
+}
