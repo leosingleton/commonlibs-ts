@@ -186,6 +186,7 @@ export class Unmangler {
       __awaiter: '__awaiter',
       __classPrivateFieldGet: '__classPrivateFieldGet',
       __classPrivateFieldSet: '__classPrivateFieldSet',
+      __createBinding: '__createBinding', // Added in v2.0.0
       __decorate: '__decorate',
       __exportStar: '__exportStar',
       __extends: '__extends',
