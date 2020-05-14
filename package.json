@@ -50,7 +50,8 @@
     "test:node": "npx jest --config=jest.node.config.js --maxWorkers=2 --coverage"
   },
   "files": [
-    "build/dist/"
+    "build/dist/",
+    "src/"
   ],
   "main": "build/dist/index.js",
   "types": "build/dist/index.d.ts"
