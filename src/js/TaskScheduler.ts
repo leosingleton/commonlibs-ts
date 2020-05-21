@@ -59,7 +59,7 @@ export class TaskScheduler {
 }
 
 /** Any unique string. Abbreviated version of `"@leosingleton/commonlibs-ts/TaskScheduler"` */
-const eventData = '@ls/cl/TS';
+const eventDataPrefix = '@ls/cl/TS';
 
 type Lambda = () => void;
 
@@ -81,6 +81,9 @@ class TaskSchedulerImpl {
   /** The global task queue. Initialized in the constructor below. */
   private readyTasks: PriorityQueue<Lambda>;
 
+  /** Unique string assigned to this instance of `TaskScheduler` */
+  private eventData: string;
+
   /** Number of `executeTasks()` events queued on the event loop */
   private executeTasksEvents = 0;
 
@@ -98,33 +101,38 @@ class TaskSchedulerImpl {
     } else {
       // Implementation for web pages...
       // window.postMessage() is the fastest method according to http://ajaxian.com/archives/settimeout-delay
-      window.postMessage(eventData, '*');
+      window.postMessage(this.eventData, '*');
     }
   }
 
   public constructor() {
-    // Initialize the task queue and message handlers
-    if (typeof Runtime.globalObject[eventData] === 'undefined') {
-      // We are the first instance of TaskScheduler to be initialized
-      this.readyTasks = Runtime.globalObject[eventData] = new PriorityQueue<Lambda>();
-
-      // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register
-      // the event handler from one (the first) instance of TaskScheduler.
-      if (!Runtime.isInNode && !Runtime.isInWebWorker) {
-        self.addEventListener('message', event => {
-          if (event.data === eventData) {
-            event.stopPropagation();
-            this.executeTasks();
-          }
-        }, true);
-      }
-    } else {
+    // Use a global variable to keep a counter of the number of instances
+    let instanceCount = Runtime.globalObject[eventDataPrefix];
+    if (typeof instanceCount === 'number') {
       // If we get here, there are two separate instances of TaskScheduler running in the same environment. This is not
-      // a serious problem, as we will handle this case by ensuring the task queue is global. However, it generally
-      // indicates a bundler like Webpack embedded the TaskScheduler multiple times, which is inefficient. Check for
-      // mismatched versions of @leosingleton/commonlibs or other build configuration errors.
+      // a serious problem, as we will add a unique suffix to the eventData to ensure the messages are received by the
+      // correct instance . However, it generally indicates a bundler like Webpack embedded the TaskScheduler multiple
+      // times, which means the priorities won't be honored cross-instance. Check for mismatched versions of
+      // @leosingleton/commonlibs or other build configuration errors.
       console.log('Warning: Multiple TaskScheduler instances');
-      this.readyTasks = Runtime.globalObject[eventData];
+      Runtime.globalObject[eventDataPrefix] = ++instanceCount;
+    } else {
+      Runtime.globalObject[eventDataPrefix] = instanceCount = 1;
+    }
+    const eventData = this.eventData = `${eventDataPrefix}/${instanceCount}`;
+
+    // Initialize the task queue and message handlers
+    this.readyTasks = new PriorityQueue<Lambda>();
+
+    // Web browsers use a postMessage() call to themselves to work around the lack of setImmediate(). Only register
+    // the event handler from one (the first) instance of TaskScheduler.
+    if (!Runtime.isInNode && !Runtime.isInWebWorker) {
+      self.addEventListener('message', event => {
+        if (event.data === eventData) {
+          event.stopPropagation();
+          this.executeTasks();
+        }
+      }, true);
     }
   }
 
