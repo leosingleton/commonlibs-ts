@@ -3,6 +3,7 @@
 // See LICENSE in the project root for license information.
 
 import { CallbackCollection } from '../collections/CallbackCollection';
+import { IDisposable } from '../dotnet/Disposable';
 import { ParsedQueryString, parseQueryString } from '../js/QueryString';
 import { Runtime } from '../js/Runtime';
 
@@ -77,7 +78,7 @@ export const enum ConfigurationFlags {
 }
 
 /** Base class for configuration options stored in session storage, local storage, and/or the page query string */
-export abstract class ConfigurationOptions {
+export abstract class ConfigurationOptions implements IDisposable {
   /**
    * Constructor
    *
@@ -105,6 +106,10 @@ export abstract class ConfigurationOptions {
     if (Runtime.isInWindow) {
       // Web Browser: Begin syncing from local/session storage
       this.readFromStorage(true);
+
+      // Start a timer to reload the configuration every few seconds. This allows you to modify browser storage using
+      // Chrome's dev tools, and see the changes take effect in realtime, without refreshing the page.
+      this.refreshIntervalHandle = window.setInterval(() => this.readFromStorage(false), this.refreshInterval);
     } else {
       // In NodeJS or Web Worker
       if ((this.configurationFlags & ConfigurationFlags.AllowNonBrowsers) === 0) {
@@ -117,6 +122,13 @@ export abstract class ConfigurationOptions {
       for (const property of properties) {
         me[property] = this.defaults[property][2];
       }
+    }
+  }
+
+  public dispose(): void {
+    if (this.refreshIntervalHandle) {
+      window.clearInterval(this.refreshIntervalHandle);
+      this.refreshIntervalHandle = 0;
     }
   }
 
@@ -197,10 +209,6 @@ export abstract class ConfigurationOptions {
     if (oldValues !== newValues) {
       this.changeListeners.invokeCallbacks();
     }
-
-    // Reload the configuration every few seconds. This allows you to modify browser storage using Chrome's dev tools,
-    // and see the changes take effect in realtime, without refreshing the page.
-    setTimeout(() => this.readFromStorage(false), this.refreshInterval);
   }
 
   /**
@@ -274,6 +282,9 @@ export abstract class ConfigurationOptions {
 
   /** How often local and/or session storage is refreshed, in milliseconds */
   private refreshInterval: number;
+
+  /** Handle returned by `setInterval()` to implement the refresh timer */
+  private refreshIntervalHandle = 0;
 
   /** Callbacks to invoke on a value change */
   private changeListeners = new CallbackCollection();
