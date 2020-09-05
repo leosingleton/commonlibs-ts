@@ -1,6 +1,6 @@
 # Common Libraries for TypeScript and .NET Core
 
-[![Build Status](https://dev.azure.com/leosingleton/commonlibs-ts/_apis/build/status/leosingleton.commonlibs-ts?branchName=master)](https://dev.azure.com/leosingleton/commonlibs-ts/_build/latest?definitionId=4&branchName=master)
+![CI](https://github.com/leosingleton/commonlibs-js/workflows/CI/badge.svg)
 [![npm version](https://badge.fury.io/js/%40leosingleton%2Fcommonlibs.svg)](https://badge.fury.io/js/%40leosingleton%2Fcommonlibs)
 
 ## License
