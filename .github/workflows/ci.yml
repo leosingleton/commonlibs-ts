@@ -46,7 +46,7 @@ jobs:
           !**/node_modules/**
 
     - name: Publish NPM Package
-      if: github.ref == 'refs/head/master'
+      if: github.ref == 'refs/heads/master'
       run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
