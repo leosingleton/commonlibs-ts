@@ -11,6 +11,9 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
 
+    /* ts-jest caused problems in other repos. Explicitly listing types to attempt to fix the build. */
+    "types": [ "jasmine", "node" ],
+
     "rootDir": "src",
     "outDir": "build/dist"
   },
