@@ -11,6 +11,9 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
 
+    /* ts-jest includes @types/jest which creates TS6200 errors between jest and jasmine */
+    "types": [ "jasmine", "node" ],
+
     "rootDir": "src",
     "outDir": "build/dist"
   },
