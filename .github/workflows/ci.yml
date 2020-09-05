@@ -40,13 +40,13 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: commonlibs-js-${{github.run_number}}
+        name: commonlibs-js-${{ github.run_number }}
         path: |
           **
           !**/node_modules/**
 
     - name: Publish NPM Package
-      if: github.ref == 'refs/head/master'
+      if: ${{ github.ref == 'refs/head/master' }}
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
