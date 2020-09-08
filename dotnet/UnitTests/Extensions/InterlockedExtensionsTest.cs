@@ -1,7 +1,10 @@
-﻿using Xunit;
-using WhiteboardServer.Common.Extensions;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
-namespace WhiteboardServer.UnitTests.Common.Extensions
+using Xunit;
+
+namespace LeoSingleton.CommonLibs.Extensions.UnitTests
 {
     public class InterlockedExtensionsTest
     {

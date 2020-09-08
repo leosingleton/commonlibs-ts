@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WhiteboardServer.Common.Coordination
+namespace LeoSingleton.CommonLibs.Coordination
 {
     /// <summary>
     /// Async version of <see cref="System.Threading.EventWaitHandle"/>. Based on Stephen Cleary's AsyncEx library,

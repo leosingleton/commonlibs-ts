@@ -1,7 +1,10 @@
-﻿using WhiteboardServer.Common;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
+
 using Xunit;
 
-namespace WhiteboardServer.UnitTests.Common
+namespace LeoSingleton.CommonLibs.UnitTests
 {
     /// <summary>
     /// Tests the <see cref="BinaryConverter"/> class

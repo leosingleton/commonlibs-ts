@@ -1,6 +1,10 @@
-﻿using System;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
-namespace WhiteboardServer.Common.Extensions
+using System;
+
+namespace LeoSingleton.CommonLibs.Extensions
 {
     /// <summary>
     /// Extensions to the <see cref="DateTime"/> class

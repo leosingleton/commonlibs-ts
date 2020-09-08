@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
-namespace WhiteboardServer.Common.Coordination
+using System.Threading.Tasks;
+
+namespace LeoSingleton.CommonLibs.Coordination
 {
     /// <summary>
     /// Timer that behaves like an EventWaitHandle. Useful for the

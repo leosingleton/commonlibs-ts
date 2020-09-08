@@ -1,7 +1,11 @@
-﻿using System.Threading;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
+
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace WhiteboardServer.Common.Coordination
+namespace LeoSingleton.CommonLibs.Coordination
 {
     /// <summary>
     /// Mutex built for .NET's async pattern

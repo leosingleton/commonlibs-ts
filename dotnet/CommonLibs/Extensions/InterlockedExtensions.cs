@@ -1,6 +1,10 @@
-﻿using System.Threading;
+﻿// LeoSingleton.CommonLibs - Common Libraries for TypeScript and .NET Core
+// Copyright (c) Leo C. Singleton IV <leo@leosingleton.com>
+// See LICENSE in the project root for license information.
 
-namespace WhiteboardServer.Common.Extensions
+using System.Threading;
+
+namespace LeoSingleton.CommonLibs.Extensions
 {
     /// <summary>
     /// Extensions to the <see cref="Interlocked"/> class
