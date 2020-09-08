@@ -65,13 +65,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_AUTH_TOKEN }}
 
     - name: Compile
       run: |
         cd dotnet/
         dotnet restore
-        dotnet build
-        dotnet publish -c Release
+        dotnet build -c Release
 
     - name: Run Unit Tests
       run: |
@@ -85,4 +86,7 @@ jobs:
   
     - name: Publish NuGet Package
       if: github.ref == 'refs/heads/master'
-      run: cd dotnet/ && echo TODO
+      run: |
+        cd dotnet/
+        dotnet pack -c Release
+        dotnet nuget push CommonLibs/bin/Release/*.nupkg
