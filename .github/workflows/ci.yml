@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    name: Build
+    name: Build JavaScript
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -19,35 +19,35 @@ jobs:
         registry-url: https://registry.npmjs.org
     
     - name: Install NPM Packages
-      run: npm install
+      run: cd js && npm install
 
     - name: Lint
-      run: npm run lint
+      run: cd js && npm run lint
 
     - name: Compile
-      run: npm run build
+      run: cd js && npm run build
 
     - name: Execute Jest unit tests for Node support
-      run: npm run test:node
+      run: cd js && npm run test:node
 
     - name: Execute Karma unit tests for browser support
-      run: npm run test:browser
+      run: cd js && npm run test:browser
 
     - name: Publish Code Coverage
       uses: codecov/codecov-action@v1
       with:
-        file: build/coverage/node/cobertura-coverage.xml
+        file: js/build/coverage/node/cobertura-coverage.xml
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: commonlibs-js-${{ github.run_number }}
         path: |
-          **
+          js/**
           !**/node_modules/**
 
     - name: Publish NPM Package
       if: github.ref == 'refs/heads/master'
-      run: npm publish --access public
+      run: cd js && npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
