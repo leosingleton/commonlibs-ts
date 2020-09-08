@@ -3,8 +3,8 @@ name: CI
 on: push
 
 jobs:
-  build:
-    name: Build
+  js:
+    name: Build JavaScript NPM Package
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -19,35 +19,74 @@ jobs:
         registry-url: https://registry.npmjs.org
     
     - name: Install NPM Packages
-      run: npm install
+      run: cd js && npm install
 
     - name: Lint
-      run: npm run lint
+      run: cd js && npm run lint
 
     - name: Compile
-      run: npm run build
+      run: cd js && npm run build
 
     - name: Execute Jest unit tests for Node support
-      run: npm run test:node
+      run: cd js && npm run test:node
 
     - name: Execute Karma unit tests for browser support
-      run: npm run test:browser
+      run: cd js && npm run test:browser
 
     - name: Publish Code Coverage
       uses: codecov/codecov-action@v1
       with:
-        file: build/coverage/node/cobertura-coverage.xml
+        file: js/build/coverage/node/cobertura-coverage.xml
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2
       with:
         name: commonlibs-js-${{ github.run_number }}
         path: |
-          **
+          js/**
           !**/node_modules/**
 
     - name: Publish NPM Package
       if: github.ref == 'refs/heads/master'
-      run: npm publish --access public
+      run: cd js && npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  dotnet:
+    name: Build .NET Core NuGet Package
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_AUTH_TOKEN }}
+
+    - name: Compile
+      run: |
+        cd dotnet/
+        dotnet restore
+        dotnet build -c Release
+
+    - name: Run Unit Tests
+      run: |
+        cd dotnet/
+        dotnet test UnitTests/LeoSingleton.CommonLibs.UnitTests.csproj --collect:"XPlat Code Coverage"
+
+    - name: Publish Code Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: dotnet/UnitTests/TestResults/*/coverage.cobertura.xml
+  
+    - name: Publish NuGet Package
+      if: github.ref == 'refs/heads/master'
+      run: |
+        cd dotnet/
+        dotnet pack -c Release
+        dotnet nuget push CommonLibs/bin/Release/*.nupkg

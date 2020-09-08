@@ -1,6 +1,6 @@
 # Common Libraries for TypeScript and .NET Core
 
-![CI](https://github.com/leosingleton/commonlibs-js/workflows/CI/badge.svg)
+![CI](https://github.com/leosingleton/commonlibs/workflows/CI/badge.svg)
 [![npm version](https://badge.fury.io/js/%40leosingleton%2Fcommonlibs.svg)](https://badge.fury.io/js/%40leosingleton%2Fcommonlibs)
 
 ## License
