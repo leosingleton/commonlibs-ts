@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeoSingleton.CommonLibs", "CommonLibs\LeoSingleton.CommonLibs.csproj", "{E6FC7D70-E37D-45B7-B4BC-3E8BC419A2EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeoSingleton.CommonLibs.UnitTests", "UnitTests\LeoSingleton.CommonLibs.UnitTests.csproj", "{09D7E80E-4E64-444D-945A-846B710774DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6FC7D70-E37D-45B7-B4BC-3E8BC419A2EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FC7D70-E37D-45B7-B4BC-3E8BC419A2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FC7D70-E37D-45B7-B4BC-3E8BC419A2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FC7D70-E37D-45B7-B4BC-3E8BC419A2EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D7E80E-4E64-444D-945A-846B710774DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D7E80E-4E64-444D-945A-846B710774DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D7E80E-4E64-444D-945A-846B710774DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D7E80E-4E64-444D-945A-846B710774DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
