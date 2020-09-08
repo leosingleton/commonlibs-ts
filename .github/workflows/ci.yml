@@ -76,8 +76,13 @@ jobs:
     - name: Run Unit Tests
       run: |
         cd dotnet/
-        dotnet test UnitTests/LeoSingleton.CommonLibs.UnitTests.csproj
+        dotnet test UnitTests/LeoSingleton.CommonLibs.UnitTests.csproj --collect:"XPlat Code Coverage"
 
+    - name: Publish Code Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: dotnet/UnitTests/TestResults/*/coverage.cobertura.xml
+  
     - name: Publish NuGet Package
       if: github.ref == 'refs/heads/master'
       run: cd dotnet/ && echo TODO
