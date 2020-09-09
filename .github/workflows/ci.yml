@@ -48,9 +48,10 @@ jobs:
 
     - name: Publish NPM Package
       if: github.ref == 'refs/heads/master'
-      run: cd js && npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        package: js/package.json
+        token: ${{ secrets.NPM_TOKEN }}
 
   dotnet:
     name: Build .NET Core NuGet Package
@@ -83,10 +84,20 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: dotnet/UnitTests/TestResults/*/coverage.cobertura.xml
-  
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: commonlibs-dotnet-${{ github.run_number }}
+        path: |
+          dotnet/**
+
     - name: Publish NuGet Package
       if: github.ref == 'refs/heads/master'
-      run: |
-        cd dotnet/
-        dotnet pack -c Release
-        dotnet nuget push CommonLibs/bin/Release/*.nupkg
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: dotnet/CommonLibs/LeoSingleton.CommonLibs.csproj
+        VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+        TAG_FORMAT: dotnet-v*
+        NUGET_KEY: ${{ secrets.NUGET_AUTH_TOKEN }}
+        INCLUDE_SYMBOLS: true
