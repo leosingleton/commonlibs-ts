@@ -32,7 +32,7 @@ namespace LeoSingleton.CommonLibs.Coordination
         {
             while (Interlocked.CompareExchange(ref _IsLocked, 1, 0) != 0)
             {
-                await _UnlockedEvent.WaitAsync();
+                await _UnlockedEvent.WaitAsync().ConfigureAwait(false);
             }
         }
 

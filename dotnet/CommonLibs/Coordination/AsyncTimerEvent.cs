@@ -23,7 +23,7 @@ namespace LeoSingleton.CommonLibs.Coordination
             {
                 do
                 {
-                    await Task.Delay(millisecondsDelay);
+                    await Task.Delay(millisecondsDelay).ConfigureAwait(false);
                     Set();
                 } while (repeat);
             });
